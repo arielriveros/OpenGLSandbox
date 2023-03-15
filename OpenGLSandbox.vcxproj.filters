@@ -20,18 +20,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\glad.c">
-      <Filter>Source\External</Filter>
+    <ClCompile Include="Source\Window.cpp">
+      <Filter>Source\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="Source\Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source\Private</Filter>
+    <ClCompile Include="Source\External\glad.c">
+      <Filter>Source\External</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Window.h">
+    <ClInclude Include="Source\Window.h">
       <Filter>Source\Public</Filter>
     </ClInclude>
   </ItemGroup>

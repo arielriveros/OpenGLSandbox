@@ -49,6 +49,7 @@ bool Window::Init()
 	glfwMakeContextCurrent(m_Window); // Makes the created window the openGL context to work with
 	glfwSetFramebufferSizeCallback(m_Window, OnResize_callback);
 
+	// Initializes openGL functions with glad
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;

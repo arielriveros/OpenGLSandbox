@@ -2,14 +2,14 @@
 #include <iostream>
 #include "./Window.h"
 
-const unsigned int _WIDTH = 800;
-const unsigned int _HEIGHT = 600;
+const unsigned int _WIDTH = 640;
+const unsigned int _HEIGHT = 480;
 
-void framebufferResize_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 
 int main()
 {
+	// Window context setup
     Window window = Window(_WIDTH, _HEIGHT, "Sandbox");
     if (!window.Init())
         return -1;
@@ -27,16 +27,9 @@ int main()
         window.SwapBuffersAndPollEvents();
     }
 	
-	// Cleanup after stopping glfw
-    //glfwTerminate();
+	// Cleanup after stopping loop
     window.Destroy();
     return 0;
-}
-
-//Callback for windows resize.
-void framebufferResize_callback(GLFWwindow* window, int width, int height)
-{
-    glViewport(0, 0, width, height);
 }
 
 // Process Input from keyboard
