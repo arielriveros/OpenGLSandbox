@@ -3,11 +3,13 @@
 #include "Shader/Shader.h"
 #include "Buffers/VertexBuffer.h"
 #include "Buffers/IndexBuffer.h"
+#include "VertexArray/VertexArray.h"
 
 class Renderer
 {
 private:
 	Shader m_Program;
+	VertexArray* VAO = nullptr;
 	VertexBuffer* VBO = nullptr;
 	IndexBuffer* IBO = nullptr;
 	

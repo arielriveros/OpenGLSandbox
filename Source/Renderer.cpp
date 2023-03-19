@@ -1,5 +1,6 @@
 #include "Renderer.h"
 
+
 #define BREAK __debugbreak();
 
 Renderer::Renderer()
@@ -16,6 +17,7 @@ Renderer::Renderer()
 Renderer::~Renderer()
 {
 	Shutdown();
+	delete VAO;
 	delete VBO;
 	delete IBO;
 }
@@ -34,21 +36,16 @@ void Renderer::Init()
 
 	unsigned int indices[] = {0, 1, 2, 1, 3, 0};
 
-	unsigned int VAO;
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
+	VAO = new VertexArray();
 	
 	VBO = new VertexBuffer();
 	VBO->Bind();
 	VBO->UploadData(vertices, sizeof(vertices));
 
-	// Position Attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	// Color Attribute
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
+	VertexBufferLayout layout;
+	layout.Push<float>(3); // Position attribute
+	layout.Push<float>(3); // Color Attribute
+	VAO->AttachVertexBuffer(*VBO, layout);
 
 	IBO = new IndexBuffer();
 	IBO->UploadData(indices, 6);
@@ -73,6 +70,7 @@ void Renderer::Render()
 	m_Program.SetFloats("yPos", std::vector<float>{yVal});
 	m_Program.SetFloats("ColorModifier", mod);
 	
+	VAO->Bind();
 	IBO->Bind();
 	//glDrawArrays(GL_TRIANGLES, 0, 3);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);

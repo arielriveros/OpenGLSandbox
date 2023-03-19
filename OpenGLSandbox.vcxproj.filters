@@ -27,6 +27,9 @@
     <Filter Include="Source\Buffers">
       <UniqueIdentifier>{93caab92-6c65-4f2b-a912-bc1f5dfcdafb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\VertexArray">
+      <UniqueIdentifier>{5da3d7f6-e461-4072-a0b2-77a8d0c86edf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Window.cpp">
@@ -50,6 +53,12 @@
     <ClCompile Include="Source\Buffers\IndexBuffer.cpp">
       <Filter>Source\Buffers</Filter>
     </ClCompile>
+    <ClCompile Include="Source\VertexArray\VertexArray.cpp">
+      <Filter>Source\VertexArray</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffers\VertexBufferLayout.cpp">
+      <Filter>Source\Buffers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h">
@@ -65,6 +74,12 @@
       <Filter>Source\Buffers</Filter>
     </ClInclude>
     <ClInclude Include="Source\Buffers\IndexBuffer.h">
+      <Filter>Source\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\VertexArray\VertexArray.h">
+      <Filter>Source\VertexArray</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Buffers\VertexBufferLayout.h">
       <Filter>Source\Buffers</Filter>
     </ClInclude>
   </ItemGroup>

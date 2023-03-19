@@ -13,17 +13,21 @@
   <ItemGroup>
     <ClCompile Include="Source\Buffers\IndexBuffer.cpp" />
     <ClCompile Include="Source\Buffers\VertexBuffer.cpp" />
+    <ClCompile Include="Source\Buffers\VertexBufferLayout.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
     <ClCompile Include="Source\External\glad.c" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Shader\Shader.cpp" />
+    <ClCompile Include="Source\VertexArray\VertexArray.cpp" />
     <ClCompile Include="Source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Buffers\IndexBuffer.h" />
     <ClInclude Include="Source\Buffers\VertexBuffer.h" />
+    <ClInclude Include="Source\Buffers\VertexBufferLayout.h" />
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\Shader\Shader.h" />
+    <ClInclude Include="Source\VertexArray\VertexArray.h" />
     <ClInclude Include="Source\Window.h" />
   </ItemGroup>
   <ItemGroup>
