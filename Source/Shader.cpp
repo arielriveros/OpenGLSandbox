@@ -85,7 +85,7 @@ void Shader::SetFloats(const std::string& uniformName, std::vector<float> values
 {
 	int uniformLocation = glGetUniformLocation(m_shaderProgramID, uniformName.c_str());
 	Bind();
-	int length = values.size();
+	size_t length = values.size();
 	switch (length)
 	{
 		case 0:
