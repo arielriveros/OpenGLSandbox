@@ -8,17 +8,14 @@
 class Renderer
 {
 private:
-	Shader m_Program;
-	VertexArray* VAO = nullptr;
-	VertexBuffer* VBO = nullptr;
-	IndexBuffer* IBO = nullptr;
 	
 public:
 	Renderer();
 	~Renderer();
 
 	void Init();
-	void Render();
+	void Clear() const;
+	void Draw(const VertexArray& vao, const IndexBuffer& ibo, const Shader& shader) const;
 	void Shutdown();
 
 };

@@ -1,14 +1,9 @@
 #include "Renderer.h"
-
-
 #define BREAK __debugbreak();
 
 Renderer::Renderer()
 {
 	std::cout << glGetString(GL_VERSION) << std::endl;
-	
-	m_Program = Shader("Resources/Shaders/basic.vs", "Resources/Shaders/basic.fs");
-
 	// Enable debug output
 	glEnable(GL_DEBUG_OUTPUT);
 	glDebugMessageCallback(GLErrorMessageCallback, 0);
@@ -17,46 +12,21 @@ Renderer::Renderer()
 Renderer::~Renderer()
 {
 	Shutdown();
-	delete VAO;
-	delete VBO;
-	delete IBO;
 }
 
 void Renderer::Init()
 {
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-
-	float vertices[] = {
-	//	 px	   py	pz   r	  g	   b
-		-0.5, -0.5, 0.0, 1.0, 0.0, 0.0,
-		 0.5,  0.5, 0.0, 0.0, 1.0, 0.0,
-		 0.5, -0.5, 0.0, 0.0, 0.0, 1.0,
-		-0.5,  0.5, 0.0, 1.0, 0.0, 1.0
-	};
-
-	unsigned int indices[] = {0, 1, 2, 1, 3, 0};
-
-	VAO = new VertexArray();
-	
-	VBO = new VertexBuffer();
-	VBO->Bind();
-	VBO->UploadData(vertices, sizeof(vertices));
-
-	VertexBufferLayout layout;
-	layout.Push<float>(3); // Position attribute
-	layout.Push<float>(3); // Color Attribute
-	VAO->AttachVertexBuffer(*VBO, layout);
-
-	IBO = new IndexBuffer();
-	IBO->UploadData(indices, 6);
-	IBO->Bind();
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	
 }
 
-void Renderer::Render()
+void Renderer::Clear() const
 {
 	glClear(GL_COLOR_BUFFER_BIT);
+}
 
-	m_Program.Bind();
+void Renderer::Draw(const VertexArray& vao, const IndexBuffer& ibo, const Shader& shader) const
+{
+	shader.Bind();
 	
 	float time = glfwGetTime();
 	float yVal = sin(time)/3;
@@ -67,21 +37,18 @@ void Renderer::Render()
 		sin(time) / 2.0f + 0.5f,
 	};
 	
-	m_Program.SetFloats("yPos", std::vector<float>{yVal});
-	m_Program.SetFloats("ColorModifier", mod);
+	shader.SetFloats("yPos", std::vector<float>{yVal});
+	shader.SetFloats("ColorModifier", mod);
 	
-	VAO->Bind();
-	IBO->Bind();
+	vao.Bind();
+	ibo.Bind();
 	//glDrawArrays(GL_TRIANGLES, 0, 3);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
 
 void Renderer::Shutdown()
 {
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	m_Program.Delete();
+	
 }
 
 void APIENTRY GLErrorMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
