@@ -84,6 +84,12 @@ void Shader::Delete() const
 void Shader::SetFloats(const std::string& uniformName, std::vector<float> values) const
 {
 	int uniformLocation = glGetUniformLocation(m_shaderProgramID, uniformName.c_str());
+	if (uniformLocation == -1)
+	{
+		std::cout << "Error: Uniform '" << uniformName << "' not found." << std::endl;
+		return;
+	}
+
 	Bind();
 	size_t length = values.size();
 	switch (length)

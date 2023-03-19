@@ -48,6 +48,7 @@ bool Window::Init()
 	}
 
 	glfwMakeContextCurrent(m_Window); // Makes the created window the openGL context to work with
+	glfwSwapInterval(1);
 	glfwSetFramebufferSizeCallback(m_Window, OnResize_callback);
 
 	// Initializes openGL functions with glad
