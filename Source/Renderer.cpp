@@ -5,14 +5,23 @@ Renderer::Renderer()
 	m_Program = Shader("Resources/Shaders/basic.vs", "Resources/Shaders/basic.fs");
 }
 
+Renderer::~Renderer()
+{
+	Shutdown();
+}
+
 void Renderer::Init()
 {
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
-	float vertices[18] = {
+	float vertices[] = {
 		-0.5, -0.5, 0.0, 1.0, 0.0, 0.0,
-		 0.0,  0.5, 0.0, 0.0, 1.0, 0.0,
-		 0.5, -0.5, 0.0, 0.0, 0.0, 1.0
+		 0.5,  0.5, 0.0, 0.0, 1.0, 0.0,
+		 0.5, -0.5, 0.0, 0.0, 0.0, 1.0,
+		
+		-0.5, -0.5, 0.0, 1.0, 0.0, 0.0,
+		 0.5,  0.5, 0.0, 0.0, 1.0, 0.0,
+		-0.5,  0.5, 0.0, 1.0, 0.0, 1.0
 	};
 
 	unsigned int VBO, VAO;
@@ -41,5 +50,10 @@ void Renderer::Render()
 
 	m_Program.Bind();
 	
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
+void Renderer::Shutdown()
+{
+	m_Program.Delete();
 }

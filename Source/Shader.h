@@ -17,6 +17,7 @@ public:
 
 	void Bind() const;
 	void Unbind() const;
+	void Delete() const;
 
 private:
 	std::string LoadSource(const char* shaderPath);

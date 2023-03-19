@@ -75,6 +75,11 @@ void Shader::Unbind() const
 	glUseProgram(0);
 }
 
+void Shader::Delete() const
+{
+	glDeleteProgram(m_shaderProgramID);
+}
+
 std::string Shader::LoadSource(const char* shaderPath)
 {
 	std::string shaderCode;

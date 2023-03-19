@@ -9,9 +9,11 @@ private:
 	
 public:
 	Renderer();
+	~Renderer();
 
 	void Init();
 	void Render();
+	void Shutdown();
 
 };
 
