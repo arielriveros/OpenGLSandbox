@@ -21,6 +21,12 @@
     <Filter Include="Resources\Shaders">
       <UniqueIdentifier>{5bb817a5-767e-47f3-aeea-d57de0296807}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Shader">
+      <UniqueIdentifier>{fc8bfdd0-b171-448f-b32e-54dd22c9716d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Buffers">
+      <UniqueIdentifier>{93caab92-6c65-4f2b-a912-bc1f5dfcdafb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Window.cpp">
@@ -35,8 +41,14 @@
     <ClCompile Include="Source\Renderer.cpp">
       <Filter>Source\Private</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Shader.cpp">
-      <Filter>Source\Private</Filter>
+    <ClCompile Include="Source\Shader\Shader.cpp">
+      <Filter>Source\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffers\VertexBuffer.cpp">
+      <Filter>Source\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffers\IndexBuffer.cpp">
+      <Filter>Source\Buffers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -46,8 +58,14 @@
     <ClInclude Include="Source\Renderer.h">
       <Filter>Source\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Shader.h">
-      <Filter>Source\Public</Filter>
+    <ClInclude Include="Source\Shader\Shader.h">
+      <Filter>Source\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Buffers\VertexBuffer.h">
+      <Filter>Source\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Buffers\IndexBuffer.h">
+      <Filter>Source\Buffers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,11 +1,15 @@
 #pragma once
 #include "Window.h"
-#include "Shader.h"
+#include "Shader/Shader.h"
+#include "Buffers/VertexBuffer.h"
+#include "Buffers/IndexBuffer.h"
 
 class Renderer
 {
 private:
 	Shader m_Program;
+	VertexBuffer* VBO = nullptr;
+	IndexBuffer* IBO = nullptr;
 	
 public:
 	Renderer();

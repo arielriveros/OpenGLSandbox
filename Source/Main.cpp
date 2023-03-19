@@ -15,8 +15,8 @@ int main()
     if (!window.Init())
         return -1;
 
-    Renderer renderer = Renderer();
-    renderer.Init();
+    Renderer* renderer = new Renderer();
+    renderer->Init();
 	
 	// Main window loop
     while (!window.ShouldClose())
@@ -25,12 +25,14 @@ int main()
         processInput(window.GetWindow());
 		
 		// Rendering commands
-        renderer.Render();
+        renderer->Render();
         
         window.SwapBuffersAndPollEvents();
     }
 	
 	// Cleanup after stopping loop
+    renderer->Shutdown();
+    delete renderer;
     window.Destroy();
     return 0;
 }

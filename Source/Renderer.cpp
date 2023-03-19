@@ -16,6 +16,8 @@ Renderer::Renderer()
 Renderer::~Renderer()
 {
 	Shutdown();
+	delete VBO;
+	delete IBO;
 }
 
 void Renderer::Init()
@@ -32,15 +34,13 @@ void Renderer::Init()
 
 	unsigned int indices[] = {0, 1, 2, 1, 3, 0};
 
-	unsigned int VBO, VAO, IBO;
+	unsigned int VAO;
 	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &IBO);
-
 	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	
+	VBO = new VertexBuffer();
+	VBO->Bind();
+	VBO->UploadData(vertices, sizeof(vertices));
 
 	// Position Attribute
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
@@ -50,9 +50,9 @@ void Renderer::Init()
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
+	IBO = new IndexBuffer();
+	IBO->UploadData(indices, 6);
+	IBO->Bind();
 }
 
 void Renderer::Render()
@@ -73,6 +73,7 @@ void Renderer::Render()
 	m_Program.SetFloats("yPos", std::vector<float>{yVal});
 	m_Program.SetFloats("ColorModifier", mod);
 	
+	IBO->Bind();
 	//glDrawArrays(GL_TRIANGLES, 0, 3);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
