@@ -1,6 +1,7 @@
 #include <imgui/imgui.h>
 #include <iostream>
-#include "./Window.h"
+#include "Window.h"
+#include "Renderer.h"
 
 const unsigned int _WIDTH = 640;
 const unsigned int _HEIGHT = 480;
@@ -14,6 +15,9 @@ int main()
     if (!window.Init())
         return -1;
 
+    Renderer renderer = Renderer();
+    renderer.Init();
+	
 	// Main window loop
     while (!window.ShouldClose())
     {
@@ -21,9 +25,8 @@ int main()
         processInput(window.GetWindow());
 		
 		// Rendering commands
-		
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        renderer.Render();
+        
         window.SwapBuffersAndPollEvents();
     }
 	

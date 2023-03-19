@@ -29,9 +29,15 @@
     <ClCompile Include="Source\External\glad.c">
       <Filter>Source\External</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Renderer.cpp">
+      <Filter>Source\Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h">
+      <Filter>Source\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer.h">
       <Filter>Source\Public</Filter>
     </ClInclude>
   </ItemGroup>
