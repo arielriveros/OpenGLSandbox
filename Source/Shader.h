@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <vector>
 
 class Shader
 {
@@ -18,6 +19,8 @@ public:
 	void Bind() const;
 	void Unbind() const;
 	void Delete() const;
+
+	void SetFloats(const std::string& uniformName, std::vector<float> values) const;
 
 private:
 	std::string LoadSource(const char* shaderPath);

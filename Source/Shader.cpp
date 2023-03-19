@@ -80,6 +80,34 @@ void Shader::Delete() const
 	glDeleteProgram(m_shaderProgramID);
 }
 
+
+void Shader::SetFloats(const std::string& uniformName, std::vector<float> values) const
+{
+	int uniformLocation = glGetUniformLocation(m_shaderProgramID, uniformName.c_str());
+	Bind();
+	int length = values.size();
+	switch (length)
+	{
+		case 0:
+			std::cout << "Error: No value passed to uniform" << std::endl;
+			break;
+		case 1:
+			glUniform1f(uniformLocation, values[0]);
+			break;
+		case 2:
+			glUniform2f(uniformLocation, values[0], values[1]);
+			break;
+		case 3:
+			glUniform3f(uniformLocation, values[0], values[1], values[2]);
+			break;
+		case 4:
+			glUniform4f(uniformLocation, values[0], values[1], values[2], values[3]);
+			break;
+		default:
+			std::cout << "Error: Invalid value passed to uniform" << std::endl;
+	}
+}
+
 std::string Shader::LoadSource(const char* shaderPath)
 {
 	std::string shaderCode;

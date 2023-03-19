@@ -53,6 +53,18 @@ void Renderer::Render()
 
 	m_Program.Bind();
 	
+	float time = glfwGetTime();
+	float yVal = sin(time)/3;
+	
+	std::vector<float> mod = {
+		cos(time) / 2.0f + 0.5f, 
+		cos(time) / 2.0f + 0.5f,
+		sin(time) / 2.0f + 0.5f,
+	};
+	
+	m_Program.SetFloats("yPos", std::vector<float>{yVal});
+	m_Program.SetFloats("ColorModifier", mod);
+	
 	//glDrawArrays(GL_TRIANGLES, 0, 3);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
