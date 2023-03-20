@@ -9,12 +9,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source\Private">
-      <UniqueIdentifier>{6aeed731-2980-409b-9eaa-8ee11f515090}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Public">
-      <UniqueIdentifier>{7f86ced8-0368-4f89-9fe0-d5511c40ba66}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\External">
       <UniqueIdentifier>{bca95886-9671-4966-b2b3-6da35b1ad87d}</UniqueIdentifier>
     </Filter>
@@ -30,19 +24,25 @@
     <Filter Include="Source\VertexArray">
       <UniqueIdentifier>{5da3d7f6-e461-4072-a0b2-77a8d0c86edf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Texture">
+      <UniqueIdentifier>{6bf6730b-2096-4ce6-8d07-6ffde5c58f6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Renderer">
+      <UniqueIdentifier>{b2dc7271-7b73-4a60-bfc2-a68760c82880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Window">
+      <UniqueIdentifier>{8da9b230-235c-4ca1-9a4f-742f4d276223}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Images">
+      <UniqueIdentifier>{3438ce37-5370-40aa-b04f-1b6e77841745}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Window.cpp">
-      <Filter>Source\Private</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\External\glad.c">
       <Filter>Source\External</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Renderer.cpp">
-      <Filter>Source\Private</Filter>
     </ClCompile>
     <ClCompile Include="Source\Shader\Shader.cpp">
       <Filter>Source\Shader</Filter>
@@ -56,17 +56,20 @@
     <ClCompile Include="Source\VertexArray\VertexArray.cpp">
       <Filter>Source\VertexArray</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Buffers\VertexBufferLayout.cpp">
-      <Filter>Source\Buffers</Filter>
+    <ClCompile Include="Source\External\stb_image.cpp">
+      <Filter>Source\External</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Texture\Texture.cpp">
+      <Filter>Source\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Window.cpp">
+      <Filter>Source\Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Window.h">
-      <Filter>Source\Public</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Renderer.h">
-      <Filter>Source\Public</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Shader\Shader.h">
       <Filter>Source\Shader</Filter>
     </ClInclude>
@@ -82,6 +85,15 @@
     <ClInclude Include="Source\Buffers\VertexBufferLayout.h">
       <Filter>Source\Buffers</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Texture\Texture.h">
+      <Filter>Source\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Window.h">
+      <Filter>Source\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\basic.fs">
@@ -90,5 +102,12 @@
     <None Include="Resources\Shaders\basic.vs">
       <Filter>Resources\Shaders</Filter>
     </None>
+    <None Include="Resources\Shaders\textured.fs" />
+    <None Include="Resources\Shaders\textured.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Images\wall.jpg">
+      <Filter>Resources\Images</Filter>
+    </Image>
   </ItemGroup>
 </Project>

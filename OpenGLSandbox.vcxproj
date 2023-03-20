@@ -13,11 +13,12 @@
   <ItemGroup>
     <ClCompile Include="Source\Buffers\IndexBuffer.cpp" />
     <ClCompile Include="Source\Buffers\VertexBuffer.cpp" />
-    <ClCompile Include="Source\Buffers\VertexBufferLayout.cpp" />
+    <ClCompile Include="Source\External\stb_image.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
     <ClCompile Include="Source\External\glad.c" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Shader\Shader.cpp" />
+    <ClCompile Include="Source\Texture\Texture.cpp" />
     <ClCompile Include="Source\VertexArray\VertexArray.cpp" />
     <ClCompile Include="Source\Window.cpp" />
   </ItemGroup>
@@ -27,12 +28,18 @@
     <ClInclude Include="Source\Buffers\VertexBufferLayout.h" />
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\Shader\Shader.h" />
+    <ClInclude Include="Source\Texture\Texture.h" />
     <ClInclude Include="Source\VertexArray\VertexArray.h" />
     <ClInclude Include="Source\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\basic.fs" />
     <None Include="Resources\Shaders\basic.vs" />
+    <None Include="Resources\Shaders\textured.fs" />
+    <None Include="Resources\Shaders\textured.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Images\wall.jpg" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

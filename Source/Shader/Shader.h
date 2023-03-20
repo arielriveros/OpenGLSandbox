@@ -12,7 +12,6 @@ private:
 	std::string		m_fragmentSource;
 	
 public:
-	Shader();
 	Shader(const char* vsPath, const char* fsPath);
 	~Shader();
 
@@ -20,6 +19,7 @@ public:
 	void Unbind() const;
 	void Delete() const;
 
+	void SetInts(const std::string& uniformName, std::vector<int> values) const;
 	void SetFloats(const std::string& uniformName, std::vector<float> values) const;
 
 private:

@@ -26,20 +26,7 @@ void Renderer::Clear() const
 
 void Renderer::Draw(const VertexArray& vao, const IndexBuffer& ibo, const Shader& shader) const
 {
-	shader.Bind();
-	
-	float time = glfwGetTime();
-	float yVal = sin(time)/3;
-	
-	std::vector<float> mod = {
-		cos(time) / 2.0f + 0.5f, 
-		cos(time) / 2.0f + 0.5f,
-		sin(time) / 2.0f + 0.5f,
-	};
-	
-	shader.SetFloats("yPos", std::vector<float>{yVal});
-	shader.SetFloats("ColorModifier", mod);
-	
+	shader.Bind();	
 	vao.Bind();
 	ibo.Bind();
 	//glDrawArrays(GL_TRIANGLES, 0, 3);

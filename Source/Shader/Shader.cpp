@@ -4,11 +4,6 @@
 #include <sstream>
 #include <glad/glad.h>
 
-Shader::Shader()
-{
-	
-}
-
 Shader::Shader(const char* vsPath, const char* fsPath)
 {
 	m_vertexSource = LoadSource(vsPath);
@@ -80,6 +75,39 @@ void Shader::Delete() const
 	glDeleteProgram(m_shaderProgramID);
 }
 
+
+void Shader::SetInts(const std::string& uniformName, std::vector<int> values) const
+{
+	int uniformLocation = glGetUniformLocation(m_shaderProgramID, uniformName.c_str());
+	if (uniformLocation == -1)
+	{
+		std::cout << "Error: Uniform '" << uniformName << "' not found." << std::endl;
+		return;
+	}
+
+	Bind();
+	size_t length = values.size();
+	switch (length)
+	{
+	case 0:
+		std::cout << "Error: No value passed to uniform" << std::endl;
+		break;
+	case 1:
+		glUniform1i(uniformLocation, values[0]);
+		break;
+	case 2:
+		glUniform2i(uniformLocation, values[0], values[1]);
+		break;
+	case 3:
+		glUniform3i(uniformLocation, values[0], values[1], values[2]);
+		break;
+	case 4:
+		glUniform4i(uniformLocation, values[0], values[1], values[2], values[3]);
+		break;
+	default:
+		std::cout << "Error: Invalid value passed to uniform" << std::endl;
+	}
+}
 
 void Shader::SetFloats(const std::string& uniformName, std::vector<float> values) const
 {
