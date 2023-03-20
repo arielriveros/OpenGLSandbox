@@ -28,11 +28,21 @@ int main()
 			 0.5, -0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0,
 			-0.5,  0.5, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0
 	};
+
+	std::vector<float> vector_vertices2 = {
+		//	 px	   py	pz   r	  g	   b	  u	  v
+			-0.9, -0.9, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0,
+			 0.1,  0.1, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
+			 0.1, -0.9, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0,
+			-0.9,  0.1, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0
+	};
 	
 	std::vector<unsigned int> vector_indices = { 0, 1, 2, 1, 3, 0 };
-	Shader shaderProgram = Shader("Resources/Shaders/textured.vs", "Resources/Shaders/textured.fs");
+	Shader basicProgram = Shader("Resources/Shaders/basic.vs", "Resources/Shaders/basic.fs");
+	Shader texturedProgram = Shader("Resources/Shaders/textured.vs", "Resources/Shaders/textured.fs");
 	Texture texture = Texture("Resources/Images/wall.jpg");
-	Mesh mesh = Mesh(vector_vertices, vector_indices, texture, shaderProgram);
+	Mesh mesh = Mesh(vector_vertices, vector_indices, texture, basicProgram);
+	Mesh mesh2 = Mesh(vector_vertices2, vector_indices, texture, texturedProgram);
 	
 	// Main window loop
     while (!window.ShouldClose())
@@ -50,11 +60,11 @@ int main()
 			sin(time) / 2.0f + 0.5f,
 		};
 
-		shaderProgram.SetFloats("yPos", {yVal});
-		shaderProgram.SetFloats("u_ColorModifier", mod);
+		basicProgram.SetFloats("yPos", {yVal});
+		texturedProgram.SetFloats("u_ColorModifier", mod);
 		renderer.Clear();
-		//renderer.Draw(VAO, IBO, shaderProgram);
-        renderer.Draw(mesh);
+		renderer.Draw(mesh);
+        renderer.Draw(mesh2);
         
         window.SwapBuffersAndPollEvents();
     }
