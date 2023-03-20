@@ -68,6 +68,9 @@
     <ClCompile Include="Source\Window.cpp">
       <Filter>Source\Window</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Mesh\Mesh.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Shader\Shader.h">
@@ -94,6 +97,7 @@
     <ClInclude Include="Source\Renderer.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Mesh\Mesh.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\basic.fs">

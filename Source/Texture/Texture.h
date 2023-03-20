@@ -11,6 +11,7 @@ private:
 	std::string m_ImagePath;
 
 public:
+	Texture() {};
 	Texture(const std::string& imagePath);
 	~Texture();
 

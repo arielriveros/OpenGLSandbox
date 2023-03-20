@@ -13,5 +13,6 @@ public:
 	
 	void Bind() const;
 	void Unbind() const;
+	void Delete() const;
 	void AttachVertexBuffer(const VertexBuffer& vbo, const VertexBufferLayout& layout);
 };

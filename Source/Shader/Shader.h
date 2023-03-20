@@ -12,6 +12,7 @@ private:
 	std::string		m_fragmentSource;
 	
 public:
+	Shader() {};
 	Shader(const char* vsPath, const char* fsPath);
 	~Shader();
 

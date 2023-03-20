@@ -2,9 +2,10 @@
 #include <iostream>
 #include "Window.h"
 #include "Renderer.h"
+#include "Mesh/Mesh.h"
 
-const unsigned int _WIDTH = 640;
-const unsigned int _HEIGHT = 480;
+const unsigned int _WIDTH = 600;
+const unsigned int _HEIGHT = 600;
 
 void processInput(GLFWwindow* window);
 
@@ -18,39 +19,20 @@ int main()
     Renderer renderer = Renderer();
     renderer.Init();
 
-	float vertices[] = {
+
+	 
+	std::vector<float> vector_vertices = {
 		//	 px	   py	pz   r	  g	   b	  u	  v
 			-0.5, -0.5, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0,
 			 0.5,  0.5, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
 			 0.5, -0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0,
 			-0.5,  0.5, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0
 	};
-
-	unsigned int indices[] = { 0, 1, 2, 1, 3, 0 };
-
-	VertexArray VAO = VertexArray();
-
-	VertexBuffer VBO = VertexBuffer();
-	VBO.UploadData(vertices, sizeof(vertices));
-
-	VertexBufferLayout layout;
-	layout.Push<float>(3); // Position attribute
-	layout.Push<float>(3); // Color Attribute
-	layout.Push<float>(2); // UV Attribute
-	VAO.AttachVertexBuffer(VBO, layout);
-
-	IndexBuffer IBO = IndexBuffer();
-	IBO.UploadData(indices, 6);
-
-	Shader shaderProgram = Shader("Resources/Shaders/textured.vs", "Resources/Shaders/textured.fs");
-
-	Texture texture = Texture("Resources/Images/wall.jpg");
-	texture.Bind();
-	shaderProgram.SetInts("u_Texture", {0});
 	
-	shaderProgram.Unbind();
-	VBO.Unbind();
-	IBO.Unbind();
+	std::vector<unsigned int> vector_indices = { 0, 1, 2, 1, 3, 0 };
+	Shader shaderProgram = Shader("Resources/Shaders/textured.vs", "Resources/Shaders/textured.fs");
+	Texture texture = Texture("Resources/Images/wall.jpg");
+	Mesh mesh = Mesh(vector_vertices, vector_indices, texture, shaderProgram);
 	
 	// Main window loop
     while (!window.ShouldClose())
@@ -71,7 +53,8 @@ int main()
 		shaderProgram.SetFloats("yPos", {yVal});
 		shaderProgram.SetFloats("u_ColorModifier", mod);
 		renderer.Clear();
-        renderer.Draw(VAO, IBO, shaderProgram);
+		//renderer.Draw(VAO, IBO, shaderProgram);
+        renderer.Draw(mesh);
         
         window.SwapBuffersAndPollEvents();
     }

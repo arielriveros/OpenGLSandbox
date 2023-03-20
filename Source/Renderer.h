@@ -5,6 +5,7 @@
 #include "Buffers/IndexBuffer.h"
 #include "VertexArray/VertexArray.h"
 #include "Texture/Texture.h"
+#include "Mesh/Mesh.h"
 
 class Renderer
 {
@@ -16,7 +17,7 @@ public:
 
 	void Init();
 	void Clear() const;
-	void Draw(const VertexArray& vao, const IndexBuffer& ibo, const Shader& shader) const;
+	void Draw(const Mesh& mesh) const;
 	void Shutdown();
 
 };

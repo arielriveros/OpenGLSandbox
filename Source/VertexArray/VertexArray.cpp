@@ -7,7 +7,7 @@ VertexArray::VertexArray()
 
 VertexArray::~VertexArray()
 {
-	glDeleteVertexArrays(1, &m_VertexArrayID);
+	
 }
 
 void VertexArray::Bind() const
@@ -18,6 +18,11 @@ void VertexArray::Bind() const
 void VertexArray::Unbind() const
 {
 	glBindVertexArray(0);
+}
+
+void VertexArray::Delete() const
+{
+	glDeleteVertexArrays(1, &m_VertexArrayID);
 }
 
 void VertexArray::AttachVertexBuffer(const VertexBuffer& vbo, const VertexBufferLayout& layout)

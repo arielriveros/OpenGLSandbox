@@ -12,4 +12,5 @@ public:
 	void UploadData(const void* data, unsigned int size);
 	void Bind() const;
 	void Unbind() const;
+	void Delete() const;
 };

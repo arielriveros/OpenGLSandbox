@@ -14,6 +14,7 @@
     <ClCompile Include="Source\Buffers\IndexBuffer.cpp" />
     <ClCompile Include="Source\Buffers\VertexBuffer.cpp" />
     <ClCompile Include="Source\External\stb_image.cpp" />
+    <ClCompile Include="Source\Mesh\Mesh.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
     <ClCompile Include="Source\External\glad.c" />
     <ClCompile Include="Source\Main.cpp" />
@@ -26,6 +27,7 @@
     <ClInclude Include="Source\Buffers\IndexBuffer.h" />
     <ClInclude Include="Source\Buffers\VertexBuffer.h" />
     <ClInclude Include="Source\Buffers\VertexBufferLayout.h" />
+    <ClInclude Include="Source\Mesh\Mesh.h" />
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\Shader\Shader.h" />
     <ClInclude Include="Source\Texture\Texture.h" />

@@ -10,7 +10,7 @@ IndexBuffer::IndexBuffer()
 
 IndexBuffer::~IndexBuffer()
 {
-	glDeleteBuffers(1, &m_IndexBufferID);
+	
 }
 
 void IndexBuffer::UploadData(const unsigned int* data, unsigned int count)
@@ -28,4 +28,9 @@ void IndexBuffer::Bind() const
 void IndexBuffer::Unbind() const
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+void IndexBuffer::Delete() const
+{
+	glDeleteBuffers(1, &m_IndexBufferID);
 }

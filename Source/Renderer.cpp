@@ -24,13 +24,9 @@ void Renderer::Clear() const
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Renderer::Draw(const VertexArray& vao, const IndexBuffer& ibo, const Shader& shader) const
+void Renderer::Draw(const Mesh& mesh) const
 {
-	shader.Bind();	
-	vao.Bind();
-	ibo.Bind();
-	//glDrawArrays(GL_TRIANGLES, 0, 3);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	mesh.Draw();
 }
 
 void Renderer::Shutdown()

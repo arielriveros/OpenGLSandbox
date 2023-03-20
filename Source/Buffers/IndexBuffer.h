@@ -13,6 +13,7 @@ public:
 	void UploadData(const unsigned int* data, unsigned int count);
 	void Bind() const;
 	void Unbind() const;
+	void Delete() const;
 
 	inline unsigned int GetCount() const { return m_indicesCount; }
 };
