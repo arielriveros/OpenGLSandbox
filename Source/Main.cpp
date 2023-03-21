@@ -36,14 +36,14 @@ int main()
 			 0.5, -0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0,
 			-0.5,  0.5, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0
 	};
-	
-	std::vector<unsigned int> indices = { 0, 1, 2, 1, 3, 0 };
+	std::vector<unsigned int> square_indices = { 0, 1, 2, 1, 3, 0 };
+
 	Shader basicProgram = Shader("Resources/Shaders/basic.vs", "Resources/Shaders/basic.fs");
 	Shader texturedProgram = Shader("Resources/Shaders/textured.vs", "Resources/Shaders/textured.fs");
-	Texture wallTexture = Texture("Resources/Images/wall.jpg");
-	Mesh mesh1 = Mesh(square_vertices, indices, basicProgram);
-	Mesh mesh2 = Mesh(square_uv_vertices, indices, wallTexture, texturedProgram);
-	Mesh mesh3 = Mesh(square_uv_vertices, indices, wallTexture, texturedProgram);
+
+	Mesh mesh1 = Mesh(square_vertices, square_indices, basicProgram);
+	Mesh mesh2 = Mesh(square_uv_vertices, square_indices, "Resources/Images/brick.png", texturedProgram);
+	Mesh mesh3 = Mesh(square_uv_vertices, square_indices, "Resources/Images/wall.jpg", texturedProgram);
 	
 	// Main window loop
     while (!window.ShouldClose())
@@ -63,17 +63,22 @@ int main()
 		mesh1.SetTransform(transform1);
 		renderer.Draw(mesh1);
 		
-		transform2 = glm::translate(transform2, glm::vec3(0.5f, 0.5f, 0.0f));
-		transform2 = glm::rotate(transform2, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
-		mesh2.SetTransform(transform2);
-		renderer.Draw(mesh2);
+		transform2 = glm::translate(transform2, glm::vec3(-0.5f, 0.5f, 0.0f));
+		transform2 = glm::scale(transform2, glm::vec3(0.5f));
+		mesh3.SetTransform(transform2);
+        renderer.Draw(mesh2);
 		
-		transform3 = glm::translate(transform3, glm::vec3(-0.5f, 0.5f, 0.0f));
-		transform3 = glm::scale(transform3, glm::vec3(0.5f));
-		mesh3.SetTransform(transform3);
-        renderer.Draw(mesh3);
-
-		
+		transform3 = glm::translate(
+			transform3, 
+			glm::vec3(
+				0.5f, 
+				0.5f, 
+				cos(glfwGetTime()
+			)
+		));
+		transform3 = glm::rotate(transform3, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
+		//mesh3.SetTransform(transform3);
+		renderer.Draw(mesh3);
         
         window.SwapBuffersAndPollEvents();
     }

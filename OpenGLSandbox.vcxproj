@@ -41,6 +41,7 @@
     <None Include="Resources\Shaders\textured.vs" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Resources\Images\brick.png" />
     <Image Include="Resources\Images\wall.jpg" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

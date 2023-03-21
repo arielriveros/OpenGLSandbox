@@ -14,11 +14,12 @@ private:
 	VertexArray m_VAO;
 	VertexBuffer m_VBO;
 	IndexBuffer m_IBO;
+	Texture m_Texture;
 	Shader m_Shader;
 	glm::mat4 m_Transform;
 	
 public:
-	Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const Texture &texture, const Shader &shader);
+	Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const std::string& texturePath, const Shader &shader);
 	Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const Shader& shader);
 	~Mesh();
 	

@@ -113,5 +113,8 @@
     <Image Include="Resources\Images\wall.jpg">
       <Filter>Resources\Images</Filter>
     </Image>
+    <Image Include="Resources\Images\brick.png">
+      <Filter>Resources\Images</Filter>
+    </Image>
   </ItemGroup>
 </Project>

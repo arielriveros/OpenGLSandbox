@@ -2,7 +2,7 @@
 
 
 
-Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const Texture& texture, const Shader& shader)
+Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const std::string& texturePath, const Shader& shader)
 {
 	m_Vertices = vertices;
 	m_Indices = indices;
@@ -22,7 +22,8 @@ Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const
 	m_IBO = IndexBuffer();
 	m_IBO.UploadData(&indices[0], 6);
 
-	texture.Bind();
+	m_Texture = Texture(texturePath);
+	m_Texture.Bind();
 	m_Shader.SetInts("u_Texture", { 0 });
 	
 	m_Transform = glm::mat4(1.0);
@@ -59,14 +60,16 @@ Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const
 
 Mesh::~Mesh()
 {
-	m_VAO.Unbind();
 	m_Shader.Unbind();
+	m_VAO.Unbind();
 	m_VBO.Unbind();
 	m_IBO.Unbind();
+	m_Texture.Unbind();
 
 	m_VAO.Delete();
 	m_VBO.Delete();
 	m_IBO.Delete();
+	m_Texture.Delete();
 }
 
 void Mesh::Draw() const
@@ -74,6 +77,7 @@ void Mesh::Draw() const
 	m_VAO.Bind();
 	m_IBO.Bind();
 	m_Shader.Bind();
+	m_Texture.Bind();
 	m_Shader.SetMat4("u_transform", m_Transform);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
