@@ -4,6 +4,7 @@
 #include "../Shader/Shader.h"
 #include "../Texture/Texture.h"
 #include <vector>
+#include <glm/glm.hpp>
 
 class Mesh
 {
@@ -14,6 +15,7 @@ private:
 	VertexBuffer m_VBO;
 	IndexBuffer m_IBO;
 	Shader m_Shader;
+	glm::mat4 m_Transform;
 	
 public:
 	Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const Texture &texture, const Shader &shader);
@@ -21,4 +23,7 @@ public:
 	~Mesh();
 	
 	void Draw() const;
+
+	inline glm::mat4 GetTransform() const { return m_Transform; }
+	void SetTransform(const glm::mat4& transform);
 };

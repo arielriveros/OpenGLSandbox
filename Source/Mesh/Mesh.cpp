@@ -25,6 +25,9 @@ Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const
 	texture.Bind();
 	m_Shader.SetInts("u_Texture", { 0 });
 	
+	m_Transform = glm::mat4(1.0);
+	m_Shader.SetMat4("u_transform", m_Transform);
+	
 	m_Shader.Unbind();
 	m_VBO.Unbind();
 	m_IBO.Unbind();
@@ -71,6 +74,12 @@ void Mesh::Draw() const
 	m_VAO.Bind();
 	m_IBO.Bind();
 	m_Shader.Bind();
+	m_Shader.SetMat4("u_transform", m_Transform);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+}
+
+void Mesh::SetTransform(const glm::mat4& transform)
+{
+	m_Transform = transform;
 }
 

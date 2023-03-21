@@ -21,7 +21,7 @@ int main()
 
 
 	 
-	std::vector<float> vector_vertices = {
+	std::vector<float> square_vertices = {
 		//	 px	   py	pz   r	  g	   b
 			-0.5, -0.5, 0.0, 1.0, 0.0, 0.0,
 			 0.5,  0.5, 0.0, 0.0, 1.0, 0.0,
@@ -29,21 +29,21 @@ int main()
 			-0.5,  0.5, 0.0, 1.0, 0.0, 1.0
 	};
 
-	std::vector<float> vector_vertices2 = {
+	std::vector<float> square_uv_vertices = {
 		//	 px	   py	pz   r	  g	   b	  u	  v
-			-0.9, -0.9, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0,
-			 0.1,  0.1, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
-			 0.1, -0.9, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0,
-			-0.9,  0.1, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0
+			-0.5, -0.5, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0,
+			 0.5,  0.5, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
+			 0.5, -0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0,
+			-0.5,  0.5, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0
 	};
 	
-	std::vector<unsigned int> vector_indices = { 0, 1, 2, 1, 3, 0 };
+	std::vector<unsigned int> indices = { 0, 1, 2, 1, 3, 0 };
 	Shader basicProgram = Shader("Resources/Shaders/basic.vs", "Resources/Shaders/basic.fs");
 	Shader texturedProgram = Shader("Resources/Shaders/textured.vs", "Resources/Shaders/textured.fs");
-	Texture texture = Texture("Resources/Images/wall.jpg");
-	Mesh mesh = Mesh(vector_vertices, vector_indices, basicProgram);
-	Mesh mesh2 = Mesh(vector_vertices2, vector_indices, texture, texturedProgram);
-	Mesh mesh3 = Mesh(vector_vertices2, vector_indices, texture, texturedProgram);
+	Texture wallTexture = Texture("Resources/Images/wall.jpg");
+	Mesh mesh1 = Mesh(square_vertices, indices, basicProgram);
+	Mesh mesh2 = Mesh(square_uv_vertices, indices, wallTexture, texturedProgram);
+	Mesh mesh3 = Mesh(square_uv_vertices, indices, wallTexture, texturedProgram);
 	
 	// Main window loop
     while (!window.ShouldClose())
@@ -52,25 +52,26 @@ int main()
         processInput(window.GetWindow());
 		
 		// Rendering commands
-		glm::mat4 transform = glm::mat4(1.0f);
+		glm::mat4 transform1 = glm::mat4(1.0f);
+		glm::mat4 transform2 = glm::mat4(1.0f);
+		glm::mat4 transform3 = glm::mat4(1.0f);
 		
 		renderer.Clear();
 
-		transform = glm::rotate(transform, -(float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-		transform = glm::translate(transform, glm::vec3(0.5f, -0.5f, 0.0f));
-		texturedProgram.SetMat4("u_transform", transform);
-		renderer.Draw(mesh3);
+		transform1 = glm::rotate(transform1, -(float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+		transform1 = glm::translate(transform1, glm::vec3(0.5f, -0.5f, 0.0f));
+		mesh1.SetTransform(transform1);
+		renderer.Draw(mesh1);
 		
-		transform = glm::mat4(1.0f);
-		transform = glm::translate(transform, glm::vec3(0.5f, 0.5f, 0.0f));
-		transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-		basicProgram.SetMat4("u_transform", transform);
-		renderer.Draw(mesh);
+		transform2 = glm::translate(transform2, glm::vec3(0.5f, 0.5f, 0.0f));
+		transform2 = glm::rotate(transform2, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
+		mesh2.SetTransform(transform2);
+		renderer.Draw(mesh2);
 		
-		transform = glm::mat4(1.0f);
-		transform = glm::translate(transform, glm::vec3(-0.5f, 0.5f, 0.0f));
-		texturedProgram.SetMat4("u_transform", transform);
-        renderer.Draw(mesh2);
+		transform3 = glm::translate(transform3, glm::vec3(-0.5f, 0.5f, 0.0f));
+		transform3 = glm::scale(transform3, glm::vec3(0.5f));
+		mesh3.SetTransform(transform3);
+        renderer.Draw(mesh3);
 
 		
         
