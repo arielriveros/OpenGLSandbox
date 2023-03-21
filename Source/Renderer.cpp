@@ -17,11 +17,13 @@ Renderer::~Renderer()
 void Renderer::Init()
 {
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	
+	// Enable Depth testing
+	glEnable(GL_DEPTH_TEST);
 }
 
 void Renderer::Clear() const
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Renderer::Draw(const Mesh& mesh) const

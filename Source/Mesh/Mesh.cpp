@@ -11,7 +11,9 @@ Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const
 	m_VAO = VertexArray();
 	
 	m_VBO = VertexBuffer();
-	m_VBO.UploadData(&vertices[0], sizeof(vertices) * sizeof(vertices[0]));
+
+	unsigned int size = vertices.size() * sizeof(vertices[0]);
+	m_VBO.UploadData(&vertices[0], size);
 	
 	VertexBufferLayout layout;
 	layout.Push<float>(3); // Position attribute
@@ -20,14 +22,14 @@ Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const
 	m_VAO.AttachVertexBuffer(m_VBO, layout);
 
 	m_IBO = IndexBuffer();
-	m_IBO.UploadData(&indices[0], 6);
+	m_IBO.UploadData(&indices[0], indices.size());
 
 	m_Texture = Texture(texturePath);
 	m_Texture.Bind();
 	m_Shader.SetInts("u_Texture", { 0 });
 	
 	m_Transform = glm::mat4(1.0);
-	m_Shader.SetMat4("u_transform", m_Transform);
+	m_Shader.SetMat4("u_model", m_Transform);
 	
 	m_Shader.Unbind();
 	m_VBO.Unbind();
@@ -43,7 +45,8 @@ Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const
 	m_VAO = VertexArray();
 
 	m_VBO = VertexBuffer();
-	m_VBO.UploadData(&vertices[0], sizeof(vertices) * sizeof(vertices[0]));
+	unsigned int size = vertices.size() * sizeof(vertices[0]);
+	m_VBO.UploadData(&vertices[0], size);
 
 	VertexBufferLayout layout;
 	layout.Push<float>(3); // Position attribute
@@ -51,7 +54,7 @@ Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const
 	m_VAO.AttachVertexBuffer(m_VBO, layout);
 
 	m_IBO = IndexBuffer();
-	m_IBO.UploadData(&indices[0], 6);
+	m_IBO.UploadData(&indices[0], indices.size());
 
 	m_Shader.Unbind();
 	m_VBO.Unbind();
@@ -78,8 +81,10 @@ void Mesh::Draw() const
 	m_IBO.Bind();
 	m_Shader.Bind();
 	m_Texture.Bind();
-	m_Shader.SetMat4("u_transform", m_Transform);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	m_Shader.SetMat4("u_model", m_Transform);
+	
+	unsigned int count = m_IBO.GetCount();
+	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
 }
 
 void Mesh::SetTransform(const glm::mat4& transform)

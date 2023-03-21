@@ -36,6 +36,9 @@
     <Filter Include="Resources\Images">
       <UniqueIdentifier>{3438ce37-5370-40aa-b04f-1b6e77841745}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Mesh">
+      <UniqueIdentifier>{3e4aa41f-c0ee-4da1-add5-e17de75b8f9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -69,7 +72,7 @@
       <Filter>Source\Window</Filter>
     </ClCompile>
     <ClCompile Include="Source\Mesh\Mesh.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,7 +100,9 @@
     <ClInclude Include="Source\Renderer.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Mesh\Mesh.h" />
+    <ClInclude Include="Source\Mesh\Mesh.h">
+      <Filter>Source\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\basic.fs">
@@ -106,8 +111,12 @@
     <None Include="Resources\Shaders\basic.vs">
       <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="Resources\Shaders\textured.fs" />
-    <None Include="Resources\Shaders\textured.vs" />
+    <None Include="Resources\Shaders\textured.fs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\textured.vs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Images\wall.jpg">
