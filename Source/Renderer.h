@@ -6,6 +6,7 @@
 #include "VertexArray/VertexArray.h"
 #include "Texture/Texture.h"
 #include "Mesh/Mesh.h"
+#include "Camera/Camera.h"
 
 class Renderer
 {
@@ -17,7 +18,7 @@ public:
 
 	void Init();
 	void Clear() const;
-	void Draw(const Mesh& mesh) const;
+	void Draw(const Mesh& mesh, const Camera& camera) const;
 	void Shutdown();
 
 };

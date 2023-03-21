@@ -3,6 +3,7 @@
 #include "../Buffers/IndexBuffer.h"
 #include "../Shader/Shader.h"
 #include "../Texture/Texture.h"
+#include "../Camera/Camera.h"
 #include <vector>
 #include <glm/glm.hpp>
 
@@ -23,7 +24,7 @@ public:
 	Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const Shader& shader);
 	~Mesh();
 	
-	void Draw() const;
+	void Draw(const Camera& camera) const;
 
 	inline glm::mat4 GetTransform() const { return m_Transform; }
 	void SetTransform(const glm::mat4& transform);

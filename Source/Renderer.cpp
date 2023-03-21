@@ -1,4 +1,5 @@
 #include "Renderer.h"
+
 #define BREAK __debugbreak();
 
 Renderer::Renderer()
@@ -26,9 +27,9 @@ void Renderer::Clear() const
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::Draw(const Mesh& mesh) const
+void Renderer::Draw(const Mesh& mesh, const Camera& camera) const
 {
-	mesh.Draw();
+	mesh.Draw(camera);
 }
 
 void Renderer::Shutdown()

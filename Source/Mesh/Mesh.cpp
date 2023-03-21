@@ -75,13 +75,14 @@ Mesh::~Mesh()
 	m_Texture.Delete();
 }
 
-void Mesh::Draw() const
+void Mesh::Draw(const Camera& camera) const
 {
 	m_VAO.Bind();
 	m_IBO.Bind();
 	m_Shader.Bind();
 	m_Texture.Bind();
 	m_Shader.SetMat4("u_model", m_Transform);
+	m_Shader.SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
 	
 	unsigned int count = m_IBO.GetCount();
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);

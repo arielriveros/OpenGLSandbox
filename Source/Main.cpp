@@ -3,11 +3,16 @@
 #include "Window.h"
 #include "Renderer.h"
 #include "Mesh/Mesh.h"
+#include <glm/gtx/rotate_vector.hpp>
+#include <glm/gtx/vector_angle.hpp>
 
-const unsigned int _WIDTH = 600;
+const unsigned int _WIDTH = 800;
 const unsigned int _HEIGHT = 600;
 
-void processInput(GLFWwindow* window);
+void processInput(GLFWwindow* window, Camera& camera);
+bool firstMouse = true;
+float lastX = _WIDTH / 2.0;
+float lastY = _HEIGHT / 2.0;
 
 int main()
 {
@@ -63,46 +68,34 @@ int main()
 	Mesh pyramid = Mesh(pyramid_vertices, pyramid_indices, "Resources/Images/brick.png", texturedProgram);
 	Mesh square = Mesh(square_vertices, square_indices, "Resources/Images/wall.jpg", texturedProgram);
 	
+	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 0.0f, 1.0f));
+
 	// Main window loop
     while (!window.ShouldClose())
     {
 		// Input polling and processing
-        processInput(window.GetWindow());
+        processInput(window.GetWindow(), camera);
 		
 		// Rendering commands
-		renderer.Clear();
-
-		// Model View Projection
-		glm::mat4 view(1.0f);
-		glm::mat4 proj(1.0f);
-
-		view = glm::translate(view, glm::vec3(0.0f,0.0f, -2.0f));
-		proj = glm::perspective(glm::radians(45.0f), (float)(_WIDTH / _HEIGHT), 0.1f, 100.0f);
-
-		basicProgram.SetMat4("u_proj", proj);
-		basicProgram.SetMat4("u_view", view);
-
-		texturedProgram.SetMat4("u_proj", proj);
-		texturedProgram.SetMat4("u_view", view);
-		
+		renderer.Clear();		
 
 		glm::mat4 transform1 = glm::mat4(1.0f);
 		transform1 = glm::translate(transform1, glm::vec3(0.5f, -0.5f, 0.0f));
 		transform1 = glm::rotate(transform1, -(float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
 		triangle.SetTransform(transform1);
-		renderer.Draw(triangle);
+		renderer.Draw(triangle, camera);
 		
 		glm::mat4 transform2 = glm::mat4(1.0f);
 		transform2 = glm::translate(transform2, glm::vec3(0.0f, 0.25f, 0.0f));
 		transform2 = glm::scale(transform2, glm::vec3(0.75f));
 		square.SetTransform(transform2);
-        renderer.Draw(square);
+        renderer.Draw(square, camera);
 		
 		glm::mat4 transform3 = glm::mat4(1.0f);
 		transform3 = glm::translate( transform3, glm::vec3( 0.0f, cos(glfwGetTime())/3.0f - 0.33f, 0.0f) );
 		transform3 = glm::rotate(transform3, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
 		pyramid.SetTransform(transform3);
-		renderer.Draw(pyramid);
+		renderer.Draw(pyramid, camera);
         
         window.SwapBuffersAndPollEvents();
     }
@@ -114,8 +107,60 @@ int main()
 }
 
 // Process Input from keyboard
-void processInput(GLFWwindow* window)
+void processInput(GLFWwindow* window, Camera& camera)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+	{
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
+		double mouseX, mouseY;
+
+		glfwGetCursorPos(window, &mouseX, &mouseY);
+
+		float xpos = static_cast<float>(mouseX);
+		float ypos = static_cast<float>(mouseY);
+
+		if (firstMouse)
+		{
+			lastX = xpos;
+			lastY = ypos;
+			firstMouse = false;
+		}
+
+		float xoffset = xpos - lastX;
+		float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+		camera.Rotate(xoffset, yoffset);
+		
+		lastX = xpos;
+		lastY = ypos;
+	}
+
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
+	{
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		firstMouse = true;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		camera.Position += camera.speed * camera.Forward;
+
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		camera.Position += camera.speed * (-camera.Forward);
+
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		camera.Position += camera.speed * (-camera.Right);
+
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		camera.Position += camera.speed * camera.Right;
+
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		camera.Position += camera.speed * camera.Up;
+
+	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+		camera.Position += camera.speed * (-camera.Up);
+
+
 }
