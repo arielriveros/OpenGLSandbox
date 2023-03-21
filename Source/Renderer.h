@@ -7,6 +7,7 @@
 #include "Texture/Texture.h"
 #include "Mesh/Mesh.h"
 #include "Camera/Camera.h"
+#include "Lighting/LightSource.h"
 
 class Renderer
 {
@@ -18,7 +19,8 @@ public:
 
 	void Init();
 	void Clear() const;
-	void Draw(const Mesh& mesh, const Camera& camera) const;
+	void Draw(const Mesh& mesh, const Camera& camera, const LightSource& light) const;
+	void Draw(const LightSource& light, const Camera& camera) const;
 	void Shutdown();
 
 };

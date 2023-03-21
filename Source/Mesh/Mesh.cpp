@@ -1,7 +1,6 @@
 #include "Mesh.h"
 
 
-
 Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const std::string& texturePath, const Shader& shader)
 {
 	m_Vertices = vertices;
@@ -75,7 +74,7 @@ Mesh::~Mesh()
 	m_Texture.Delete();
 }
 
-void Mesh::Draw(const Camera& camera) const
+void Mesh::Draw(const Camera& camera, const LightSource& light) const
 {
 	m_VAO.Bind();
 	m_IBO.Bind();
@@ -83,13 +82,8 @@ void Mesh::Draw(const Camera& camera) const
 	m_Texture.Bind();
 	m_Shader.SetMat4("u_model", m_Transform);
 	m_Shader.SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
+	m_Shader.SetVec4("u_lightColor", light.GetColor());
 	
 	unsigned int count = m_IBO.GetCount();
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
 }
-
-void Mesh::SetTransform(const glm::mat4& transform)
-{
-	m_Transform = transform;
-}
-

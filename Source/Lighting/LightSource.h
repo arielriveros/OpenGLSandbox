@@ -1,14 +1,11 @@
 #pragma once
+#include <glm/glm.hpp>
 #include "../VertexArray/VertexArray.h"
 #include "../Buffers/IndexBuffer.h"
 #include "../Shader/Shader.h"
-#include "../Texture/Texture.h"
 #include "../Camera/Camera.h"
-#include "../Lighting/LightSource.h"
-#include <vector>
-#include <glm/glm.hpp>
 
-class Mesh
+class LightSource
 {
 private:
 	std::vector<float> m_Vertices;
@@ -16,16 +13,18 @@ private:
 	VertexArray m_VAO;
 	VertexBuffer m_VBO;
 	IndexBuffer m_IBO;
-	Texture m_Texture;
 	Shader m_Shader;
 	glm::mat4 m_Transform;
-	
+	glm::vec4 m_Color;
+
 public:
-	Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const std::string& texturePath, const Shader &shader);
-	Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const Shader& shader);
-	~Mesh();
-	
-	void Draw(const Camera& camera, const LightSource& light) const;
+	LightSource(std::vector<float> vertices, std::vector<unsigned int> indices, const glm::vec4& color, const Shader& shader);
+	~LightSource();
+
+	void Draw(const Camera& camera) const;
+
+	inline glm::vec4 GetColor() const { return m_Color; }
+	inline void SetColor(const glm::vec4& color) { m_Color = color; }
 
 	inline glm::mat4 GetTransform() const { return m_Transform; }
 	inline void SetTransform(const glm::mat4& transform) { m_Transform = transform; }

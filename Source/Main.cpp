@@ -5,6 +5,7 @@
 #include "Mesh/Mesh.h"
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/vector_angle.hpp>
+#include "Lighting/LightSource.h"
 
 const unsigned int _WIDTH = 800;
 const unsigned int _HEIGHT = 600;
@@ -33,12 +34,20 @@ int main()
 			 0.0,  0.5, 0.0, 1.0, 0.0, 1.0
 	};
 
+	std::vector<float> light_vertices = {
+		//	 px	   py	pz  
+			-0.5, -0.5, 0.0,
+			 0.5,  0.5, 0.0,
+			 0.5, -0.5, 0.0,
+			-0.5,  0.5, 0.0
+	};
+
 	std::vector<float> square_vertices = {
 		//	 px	   py	pz   r	  g	   b	  u	  v
-			-0.5, -0.5, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0,
-			 0.5,  0.5, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
-			 0.5, -0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0,
-			-0.5,  0.5, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0
+			-0.5, -0.5, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0,
+			 0.5,  0.5, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+			 0.5, -0.5, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0,
+			-0.5,  0.5, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0
 	};
 
 	std::vector<unsigned int> square_indices = { 0, 1, 2, 1, 3, 0 };
@@ -63,11 +72,11 @@ int main()
 
 	Shader basicProgram = Shader("Resources/Shaders/basic.vs", "Resources/Shaders/basic.fs");
 	Shader texturedProgram = Shader("Resources/Shaders/textured.vs", "Resources/Shaders/textured.fs");
+	Shader lightingProgram = Shader("Resources/Shaders/light.vs", "Resources/Shaders/light.fs");
 
-	Mesh triangle = Mesh(triangle_vertices, {0, 1, 2}, basicProgram);
 	Mesh pyramid = Mesh(pyramid_vertices, pyramid_indices, "Resources/Images/brick.png", texturedProgram);
 	Mesh square = Mesh(square_vertices, square_indices, "Resources/Images/wall.jpg", texturedProgram);
-	
+	LightSource light = LightSource(light_vertices, square_indices, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), lightingProgram);
 	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 0.0f, 1.0f));
 
 	// Main window loop
@@ -79,24 +88,26 @@ int main()
 		// Rendering commands
 		renderer.Clear();		
 
-		glm::mat4 transform1 = glm::mat4(1.0f);
-		transform1 = glm::translate(transform1, glm::vec3(0.5f, -0.5f, 0.0f));
-		transform1 = glm::rotate(transform1, -(float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-		triangle.SetTransform(transform1);
-		renderer.Draw(triangle, camera);
+		glm::mat4 squareTransform = glm::mat4(1.0f);
+		squareTransform = glm::translate(squareTransform, glm::vec3(0.0f, -1.0f, 0.0f));
+		squareTransform = glm::rotate(squareTransform, (float) 3.14 / 2, glm::vec3(1.0f, 0.0f, 0.0f));
+		squareTransform = glm::scale(squareTransform, glm::vec3(10.0));
+		square.SetTransform(squareTransform);
+		renderer.Draw(square, camera, light);
 		
-		glm::mat4 transform2 = glm::mat4(1.0f);
-		transform2 = glm::translate(transform2, glm::vec3(0.0f, 0.25f, 0.0f));
-		transform2 = glm::scale(transform2, glm::vec3(0.75f));
-		square.SetTransform(transform2);
-        renderer.Draw(square, camera);
-		
-		glm::mat4 transform3 = glm::mat4(1.0f);
-		transform3 = glm::translate( transform3, glm::vec3( 0.0f, cos(glfwGetTime())/3.0f - 0.33f, 0.0f) );
-		transform3 = glm::rotate(transform3, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
-		pyramid.SetTransform(transform3);
-		renderer.Draw(pyramid, camera);
+		glm::mat4 pyramidTransform = glm::mat4(1.0f);
+		pyramidTransform = glm::translate( pyramidTransform, glm::vec3( 0.0f, cos(glfwGetTime())/3.0f - 0.33f, 0.0f) );
+		pyramidTransform = glm::rotate(pyramidTransform, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
+		pyramid.SetTransform(pyramidTransform);
+		renderer.Draw(pyramid, camera, light);
         
+		glm::mat4 lightTransform = glm::mat4(1.0f);
+		lightTransform = glm::translate(lightTransform, glm::vec3(1.0f, 0.5f, -1.0f));
+		light.SetTransform(lightTransform);
+		light.SetColor(glm::vec4(fabs(cos(glfwGetTime())), 1.0f, 1.0f, 1.0f));
+		renderer.Draw(light, camera);
+
+
         window.SwapBuffersAndPollEvents();
     }
 	
