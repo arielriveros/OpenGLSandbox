@@ -1,11 +1,12 @@
 #include "Mesh.h"
 
+
+
 Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const Texture& texture, const Shader& shader)
 {
 	m_Vertices = vertices;
 	m_Indices = indices;
 	m_Shader = shader;
-	m_Texture = texture;
 	
 	m_VAO = VertexArray();
 	
@@ -21,9 +22,33 @@ Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const
 	m_IBO = IndexBuffer();
 	m_IBO.UploadData(&indices[0], 6);
 
-	m_Texture.Bind();
+	texture.Bind();
 	m_Shader.SetInts("u_Texture", { 0 });
 	
+	m_Shader.Unbind();
+	m_VBO.Unbind();
+	m_IBO.Unbind();
+}
+
+Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const Shader& shader)
+{
+	m_Vertices = vertices;
+	m_Indices = indices;
+	m_Shader = shader;
+
+	m_VAO = VertexArray();
+
+	m_VBO = VertexBuffer();
+	m_VBO.UploadData(&vertices[0], sizeof(vertices) * sizeof(vertices[0]));
+
+	VertexBufferLayout layout;
+	layout.Push<float>(3); // Position attribute
+	layout.Push<float>(3); // Color Attribute
+	m_VAO.AttachVertexBuffer(m_VBO, layout);
+
+	m_IBO = IndexBuffer();
+	m_IBO.UploadData(&indices[0], 6);
+
 	m_Shader.Unbind();
 	m_VBO.Unbind();
 	m_IBO.Unbind();

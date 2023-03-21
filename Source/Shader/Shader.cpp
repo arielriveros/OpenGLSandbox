@@ -142,6 +142,19 @@ void Shader::SetFloats(const std::string& uniformName, std::vector<float> values
 	}
 }
 
+void Shader::SetMat4(const std::string& uniformName, glm::mat4 value) const
+{
+	int uniformLocation = glGetUniformLocation(m_shaderProgramID, uniformName.c_str());
+	if (uniformLocation == -1)
+	{
+		std::cout << "Error: Uniform '" << uniformName << "' not found." << std::endl;
+		return;
+	}
+
+	Bind();
+	glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(value));
+}
+
 std::string Shader::LoadSource(const char* shaderPath)
 {
 	std::string shaderCode;

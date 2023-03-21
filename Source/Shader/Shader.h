@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class Shader
 {
@@ -22,6 +24,7 @@ public:
 
 	void SetInts(const std::string& uniformName, std::vector<int> values) const;
 	void SetFloats(const std::string& uniformName, std::vector<float> values) const;
+	void SetMat4(const std::string& uniformName, glm::mat4 value) const;
 
 private:
 	std::string LoadSource(const char* shaderPath);

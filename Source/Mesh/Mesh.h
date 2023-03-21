@@ -13,11 +13,11 @@ private:
 	VertexArray m_VAO;
 	VertexBuffer m_VBO;
 	IndexBuffer m_IBO;
-	Texture m_Texture; 
 	Shader m_Shader;
 	
 public:
 	Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const Texture &texture, const Shader &shader);
+	Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const Shader& shader);
 	~Mesh();
 	
 	void Draw() const;

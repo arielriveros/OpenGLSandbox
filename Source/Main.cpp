@@ -22,11 +22,11 @@ int main()
 
 	 
 	std::vector<float> vector_vertices = {
-		//	 px	   py	pz   r	  g	   b	  u	  v
-			-0.5, -0.5, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0,
-			 0.5,  0.5, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
-			 0.5, -0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0,
-			-0.5,  0.5, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0
+		//	 px	   py	pz   r	  g	   b
+			-0.5, -0.5, 0.0, 1.0, 0.0, 0.0,
+			 0.5,  0.5, 0.0, 0.0, 1.0, 0.0,
+			 0.5, -0.5, 0.0, 0.0, 0.0, 1.0,
+			-0.5,  0.5, 0.0, 1.0, 0.0, 1.0
 	};
 
 	std::vector<float> vector_vertices2 = {
@@ -41,8 +41,9 @@ int main()
 	Shader basicProgram = Shader("Resources/Shaders/basic.vs", "Resources/Shaders/basic.fs");
 	Shader texturedProgram = Shader("Resources/Shaders/textured.vs", "Resources/Shaders/textured.fs");
 	Texture texture = Texture("Resources/Images/wall.jpg");
-	Mesh mesh = Mesh(vector_vertices, vector_indices, texture, basicProgram);
+	Mesh mesh = Mesh(vector_vertices, vector_indices, basicProgram);
 	Mesh mesh2 = Mesh(vector_vertices2, vector_indices, texture, texturedProgram);
+	Mesh mesh3 = Mesh(vector_vertices2, vector_indices, texture, texturedProgram);
 	
 	// Main window loop
     while (!window.ShouldClose())
@@ -51,20 +52,27 @@ int main()
         processInput(window.GetWindow());
 		
 		// Rendering commands
-		float time = glfwGetTime();
-		float yVal = sin(time) / 3;
-
-		std::vector<float> mod = {
-			cos(time) / 2.0f + 0.5f,
-			cos(time) / 2.0f + 0.5f,
-			sin(time) / 2.0f + 0.5f,
-		};
-
-		basicProgram.SetFloats("yPos", {yVal});
-		texturedProgram.SetFloats("u_ColorModifier", mod);
+		glm::mat4 transform = glm::mat4(1.0f);
+		
 		renderer.Clear();
+
+		transform = glm::rotate(transform, -(float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+		transform = glm::translate(transform, glm::vec3(0.5f, -0.5f, 0.0f));
+		texturedProgram.SetMat4("u_transform", transform);
+		renderer.Draw(mesh3);
+		
+		transform = glm::mat4(1.0f);
+		transform = glm::translate(transform, glm::vec3(0.5f, 0.5f, 0.0f));
+		transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+		basicProgram.SetMat4("u_transform", transform);
 		renderer.Draw(mesh);
+		
+		transform = glm::mat4(1.0f);
+		transform = glm::translate(transform, glm::vec3(-0.5f, 0.5f, 0.0f));
+		texturedProgram.SetMat4("u_transform", transform);
         renderer.Draw(mesh2);
+
+		
         
         window.SwapBuffersAndPollEvents();
     }
