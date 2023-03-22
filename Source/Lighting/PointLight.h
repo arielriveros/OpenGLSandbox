@@ -6,7 +6,7 @@
 #include "../Camera/Camera.h"
 #include "../Texture/Texture.h"
 
-class LightSource
+class PointLight
 {
 public:
 	glm::vec3 Position = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -21,8 +21,8 @@ private:
 	Shader m_Shader;
 
 public:
-	LightSource(const glm::vec3& color, const Shader& shader);
-	~LightSource();
+	PointLight(const glm::vec3& color, const Shader& shader);
+	~PointLight();
 
 	void Draw(const Camera& camera) const;
 

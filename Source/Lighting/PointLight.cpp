@@ -1,6 +1,6 @@
-#include "LightSource.h"
+#include "PointLight.h"
 
-LightSource::LightSource(const glm::vec3& color, const Shader& shader)
+PointLight::PointLight(const glm::vec3& color, const Shader& shader)
 {
 	m_Shader = shader;
 	Color = color;
@@ -34,7 +34,7 @@ LightSource::LightSource(const glm::vec3& color, const Shader& shader)
 	m_IBO.Unbind();
 }
 
-LightSource::~LightSource()
+PointLight::~PointLight()
 {
 	m_Shader.Unbind();
 	m_VAO.Unbind();
@@ -48,7 +48,7 @@ LightSource::~LightSource()
 	m_Texture.Delete();
 }
 
-void LightSource::Draw(const Camera& camera) const
+void PointLight::Draw(const Camera& camera) const
 {
 	m_VAO.Bind();
 	m_IBO.Bind();
@@ -65,7 +65,7 @@ void LightSource::Draw(const Camera& camera) const
 	glDisable(GL_BLEND);
 }
 
-glm::mat4 LightSource::GetTransform() const
+glm::mat4 PointLight::GetTransform() const
 {
 	const glm::mat4 transMatrix = glm::translate(glm::mat4(1.0f), Position);
 

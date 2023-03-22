@@ -4,7 +4,7 @@
 #include "../Shader/Shader.h"
 #include "../Texture/Texture.h"
 #include "../Camera/Camera.h"
-#include "../Lighting/LightSource.h"
+#include "../Lighting/PointLight.h"
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>
@@ -31,7 +31,7 @@ public:
 	Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const Shader& shader);
 	~Mesh();
 	
-	void Draw(const Camera& camera, const LightSource& light) const;
+	void Draw(const Camera& camera, const PointLight& light) const;
 
 	glm::mat4 GetTransform() const;
 };

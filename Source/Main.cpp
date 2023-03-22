@@ -5,7 +5,7 @@
 #include "Mesh/Mesh.h"
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/vector_angle.hpp>
-#include "Lighting/LightSource.h"
+#include "Lighting/PointLight.h"
 
 const unsigned int _WIDTH = 800;
 const unsigned int _HEIGHT = 600;
@@ -79,7 +79,7 @@ int main()
 	floor.EulerRotation.x = 3.14 / 2;
 	floor.Position.y = -0.25;
 	floor.Scale = glm::vec3(10.0f);
-	LightSource light = LightSource(glm::vec3(1.0f, 1.0f, 1.0f), iconProgram);
+	PointLight light = PointLight(glm::vec3(1.0f, 1.0f, 1.0f), iconProgram);
 	light.Position = glm::vec3(0.0f, 0.5f, 0.0f);
 	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.0f, 4.0f));
 

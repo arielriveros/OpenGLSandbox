@@ -15,7 +15,7 @@
     <ClCompile Include="Source\Buffers\IndexBuffer.cpp" />
     <ClCompile Include="Source\Buffers\VertexBuffer.cpp" />
     <ClCompile Include="Source\External\stb_image.cpp" />
-    <ClCompile Include="Source\Lighting\LightSource.cpp" />
+    <ClCompile Include="Source\Lighting\PointLight.cpp" />
     <ClCompile Include="Source\Mesh\Mesh.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
     <ClCompile Include="Source\External\glad.c" />
@@ -30,7 +30,7 @@
     <ClInclude Include="Source\Buffers\IndexBuffer.h" />
     <ClInclude Include="Source\Buffers\VertexBuffer.h" />
     <ClInclude Include="Source\Buffers\VertexBufferLayout.h" />
-    <ClInclude Include="Source\Lighting\LightSource.h" />
+    <ClInclude Include="Source\Lighting\PointLight.h" />
     <ClInclude Include="Source\Mesh\Mesh.h" />
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\Shader\Shader.h" />
@@ -39,8 +39,6 @@
     <ClInclude Include="Source\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shaders\basic.fs" />
-    <None Include="Resources\Shaders\basic.vs" />
     <None Include="Resources\Shaders\icon.fs" />
     <None Include="Resources\Shaders\icon.vs" />
     <None Include="Resources\Shaders\default.fs" />

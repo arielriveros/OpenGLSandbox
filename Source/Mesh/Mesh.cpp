@@ -65,7 +65,7 @@ Mesh::~Mesh()
 	m_Texture.Delete();
 }
 
-void Mesh::Draw(const Camera& camera, const LightSource& light) const
+void Mesh::Draw(const Camera& camera, const PointLight& light) const
 {
 	m_VAO.Bind();
 	m_IBO.Bind();

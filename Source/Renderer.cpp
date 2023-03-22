@@ -29,12 +29,12 @@ void Renderer::Clear() const
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::Draw(const Mesh& mesh, const Camera& camera, const LightSource& light) const
+void Renderer::Draw(const Mesh& mesh, const Camera& camera, const PointLight& light) const
 {
 	mesh.Draw(camera, light);
 }
 
-void Renderer::Draw(const LightSource& light, const Camera& camera) const
+void Renderer::Draw(const PointLight& light, const Camera& camera) const
 {
 	light.Draw(camera);
 }
