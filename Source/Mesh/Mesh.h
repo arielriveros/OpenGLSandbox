@@ -24,14 +24,13 @@ private:
 	VertexBuffer m_VBO;
 	IndexBuffer m_IBO;
 	Texture m_Texture;
-	Shader m_Shader;
 	
 public:
-	Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const std::string& texturePath, const Shader &shader);
-	Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const Shader& shader);
+	Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const std::string& texturePath);
+	Mesh(std::vector<float> vertices, std::vector<unsigned int> indices);
 	~Mesh();
 	
-	void Draw(const Camera& camera, const PointLight& light) const;
+	void Draw(const Camera& camera, const PointLight& light, const Shader& shader) const;
 
 	glm::mat4 GetTransform() const;
 };

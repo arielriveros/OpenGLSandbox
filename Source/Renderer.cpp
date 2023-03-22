@@ -22,6 +22,9 @@ void Renderer::Init()
 	glEnable(GL_DEPTH_TEST);
 	//glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	m_defaultProgram = Shader("Resources/Shaders/default.vs", "Resources/Shaders/default.fs");
+	m_iconProgram = Shader("Resources/Shaders/icon.vs", "Resources/Shaders/icon.fs");
 }
 
 void Renderer::Clear() const
@@ -31,12 +34,12 @@ void Renderer::Clear() const
 
 void Renderer::Draw(const Mesh& mesh, const Camera& camera, const PointLight& light) const
 {
-	mesh.Draw(camera, light);
+	mesh.Draw(camera, light, m_defaultProgram);
 }
 
 void Renderer::Draw(const PointLight& light, const Camera& camera) const
 {
-	light.Draw(camera);
+	light.Draw(camera, m_iconProgram);
 }
 
 

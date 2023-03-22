@@ -71,15 +71,13 @@ int main()
 		13, 15, 14 // Facing side
 	};
 
-	Shader defaultProgram = Shader("Resources/Shaders/default.vs", "Resources/Shaders/default.fs");
-	Shader iconProgram = Shader("Resources/Shaders/icon.vs", "Resources/Shaders/icon.fs");
 
-	Mesh pyramid = Mesh(pyramid_vertices, pyramid_indices, "Resources/Images/brick.png", defaultProgram);
-	Mesh floor = Mesh(square_vertices, square_indices, "Resources/Images/wall.jpg", defaultProgram);
+	Mesh pyramid = Mesh(pyramid_vertices, pyramid_indices, "Resources/Images/brick.png");
+	Mesh floor = Mesh(square_vertices, square_indices, "Resources/Images/wall.jpg");
 	floor.EulerRotation.x = 3.14 / 2;
 	floor.Position.y = -0.25;
 	floor.Scale = glm::vec3(10.0f);
-	PointLight light = PointLight(glm::vec3(1.0f, 1.0f, 1.0f), iconProgram);
+	PointLight light = PointLight(glm::vec3(1.0f, 1.0f, 1.0f));
 	light.Position = glm::vec3(0.0f, 0.5f, 0.0f);
 	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.0f, 4.0f));
 

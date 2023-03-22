@@ -1,11 +1,10 @@
 #include "Mesh.h"
 
 
-Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const std::string& texturePath, const Shader& shader)
+Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const std::string& texturePath)
 {
 	m_Vertices = vertices;
 	m_Indices = indices;
-	m_Shader = shader;
 	
 	m_VAO = VertexArray();
 	m_VBO = VertexBuffer();
@@ -23,16 +22,14 @@ Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const
 
 	m_Texture = Texture(texturePath, true);
 	
-	m_Shader.Unbind();
 	m_VBO.Unbind();
 	m_IBO.Unbind();
 }
 
-Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const Shader& shader)
+Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices)
 {
 	m_Vertices = vertices;
 	m_Indices = indices;
-	m_Shader = shader;
 
 	m_VAO = VertexArray();
 	m_VBO = VertexBuffer();
@@ -45,15 +42,13 @@ Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const
 
 	m_IBO = IndexBuffer();
 	m_IBO.UploadData(&indices[0], indices.size());
-	
-	m_Shader.Unbind();
+
 	m_VBO.Unbind();
 	m_IBO.Unbind();
 }
 
 Mesh::~Mesh()
 {
-	m_Shader.Unbind();
 	m_VAO.Unbind();
 	m_VBO.Unbind();
 	m_IBO.Unbind();
@@ -65,21 +60,21 @@ Mesh::~Mesh()
 	m_Texture.Delete();
 }
 
-void Mesh::Draw(const Camera& camera, const PointLight& light) const
+void Mesh::Draw(const Camera& camera, const PointLight& light, const Shader& shader) const
 {
 	m_VAO.Bind();
 	m_IBO.Bind();
-	m_Shader.Bind();
+	shader.Bind();
 	m_Texture.Bind();
-	m_Shader.SetInts("u_Texture", { 0 });
+	shader.SetInts("u_Texture", { 0 });
 
-	m_Shader.SetMat4("u_model", GetTransform());
+	shader.SetMat4("u_model", GetTransform());
 
-	m_Shader.SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
-	m_Shader.SetVec3("u_cameraPos", camera.Position);
+	shader.SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
+	shader.SetVec3("u_cameraPos", camera.Position);
 
-	m_Shader.SetVec3("u_lightPos", light.Position);
-	m_Shader.SetVec3("u_lightColor", light.Color);
+	shader.SetVec3("u_lightPos", light.Position);
+	shader.SetVec3("u_lightColor", light.Color);
 	
 	unsigned int count = m_IBO.GetCount();
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);

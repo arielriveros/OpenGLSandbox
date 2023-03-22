@@ -12,7 +12,8 @@
 class Renderer
 {
 private:
-	
+	Shader m_defaultProgram;
+	Shader m_iconProgram;
 public:
 	Renderer();
 	~Renderer();

@@ -18,13 +18,12 @@ private:
 	VertexBuffer m_VBO;
 	IndexBuffer m_IBO;
 	Texture m_Texture;
-	Shader m_Shader;
 
 public:
-	PointLight(const glm::vec3& color, const Shader& shader);
+	PointLight(const glm::vec3& color);
 	~PointLight();
 
-	void Draw(const Camera& camera) const;
+	void Draw(const Camera& camera, const Shader& shader) const;
 
 	glm::mat4 GetTransform() const;
 	

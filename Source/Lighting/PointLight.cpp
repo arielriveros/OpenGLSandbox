@@ -1,8 +1,7 @@
 #include "PointLight.h"
 
-PointLight::PointLight(const glm::vec3& color, const Shader& shader)
+PointLight::PointLight(const glm::vec3& color)
 {
-	m_Shader = shader;
 	Color = color;
 
 	m_VAO = VertexArray();
@@ -29,14 +28,12 @@ PointLight::PointLight(const glm::vec3& color, const Shader& shader)
 
 	m_Texture = Texture("Resources/Images/light_icon.png", false);
 
-	m_Shader.Unbind();
 	m_VBO.Unbind();
 	m_IBO.Unbind();
 }
 
 PointLight::~PointLight()
 {
-	m_Shader.Unbind();
 	m_VAO.Unbind();
 	m_VBO.Unbind();
 	m_IBO.Unbind();
@@ -48,17 +45,17 @@ PointLight::~PointLight()
 	m_Texture.Delete();
 }
 
-void PointLight::Draw(const Camera& camera) const
+void PointLight::Draw(const Camera& camera, const Shader& shader) const
 {
 	m_VAO.Bind();
 	m_IBO.Bind();
-	m_Shader.Bind();
+	shader.Bind();
 	glEnable(GL_BLEND);
 	m_Texture.Bind();
-	m_Shader.SetMat4("u_model", GetTransform());
-	m_Shader.SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
-	m_Shader.SetVec3("u_lightColor", Color);
-	m_Shader.SetVec3("u_cameraPos", camera.Position);
+	shader.SetMat4("u_model", GetTransform());
+	shader.SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
+	shader.SetVec3("u_lightColor", Color);
+	shader.SetVec3("u_cameraPos", camera.Position);
 
 	unsigned int count = m_IBO.GetCount();
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
