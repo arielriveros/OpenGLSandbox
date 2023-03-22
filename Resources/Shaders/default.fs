@@ -50,8 +50,9 @@ void main()
 
     // specular
     vec3 viewDir = normalize(u_cameraPos - FragPos);
-    vec3 reflectDir = reflect(-lightDir, Normal);  
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), u_material.shininess);
+    vec3 halfwayDir = normalize(lightDir + viewDir);
+    vec3 reflectDir = reflect(-lightDir, Normal);
+    float spec = pow(max(dot(Normal, halfwayDir), 0.0), u_material.shininess);
     vec3 specular = u_pointLight.specular * spec * vec3(texture(u_material.specularTexture, TexCoord)) * u_material.specular;
 
     vec3 result = ambient + diffuse + specular;
