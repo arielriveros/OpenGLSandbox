@@ -74,9 +74,12 @@ void Mesh::Draw(const Camera& camera, const LightSource& light) const
 	m_Shader.SetInts("u_Texture", { 0 });
 
 	m_Shader.SetMat4("u_model", GetTransform());
+
 	m_Shader.SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
-	m_Shader.SetVec3("u_lightColor", light.GetColor());
+	m_Shader.SetVec3("u_cameraPos", camera.Position);
+
 	m_Shader.SetVec3("u_lightPos", light.Position);
+	m_Shader.SetVec3("u_lightColor", light.GetColor());
 	
 	unsigned int count = m_IBO.GetCount();
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);

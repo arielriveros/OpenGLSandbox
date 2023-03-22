@@ -102,10 +102,10 @@ int main()
 		renderer.Clear();
 		
 		// Change object properties
-		cube.EulerRotation.y = (float)glfwGetTime();
-		cube.Position.y = cos(glfwGetTime())/2 + 0.5;
-		light.Position.x = 2 * cos(2*glfwGetTime());
-		light.Position.z = 2 * sin(2 * glfwGetTime());
+		cube.EulerRotation.y = (float)glfwGetTime() / 2;
+		cube.Position.y = cos(glfwGetTime())/4;
+		light.Position.x = 2 * cos(glfwGetTime());
+		light.Position.z = 2 * sin(glfwGetTime());
 		light.SetColor(glm::vec3(fabs(cos(glfwGetTime())), fabs(sin(glfwGetTime() / 2)), fabs(cos(glfwGetTime()) / 2)));
 		
 		// Render meshes
