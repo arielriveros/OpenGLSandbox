@@ -24,6 +24,9 @@ struct Light {
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
+
+    float a;
+    float b;
 };
 
 uniform Light u_light;  
@@ -33,7 +36,7 @@ float calculatePointLightIntensity(float a, float b)
     // Point intensity
     vec3 lightVec = u_light.position - FragPos;
     float distance = length(lightVec);
-    return 1.0f / ( a * distance + b * distance + 1.0f );
+    return 1.0f / ( u_light.a * distance + u_light.b * distance + 1.0f );
 }
 
 void main()
