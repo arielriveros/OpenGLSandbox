@@ -47,7 +47,7 @@ void Mesh::Draw(const Camera& camera, const Shader& shader) const
 	m_IBO.Bind();
 	shader.Bind();
 	m_AlbedoTexture.Bind();
-	//shader.SetInts("u_material.albedo", { 0 });
+	shader.SetInts("u_material.albedoTexture", { 0 });
 	shader.SetVec3("u_material.albedo", m_AlbedoColor);
 	shader.SetVec3("u_material.specular", m_SpecularColor);
 	shader.SetFloats("u_material.shininess", { m_Shininess });

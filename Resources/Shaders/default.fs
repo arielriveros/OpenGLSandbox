@@ -11,7 +11,6 @@ uniform vec3 u_cameraPos = vec3(0.0f, 0.0f, 0.0f);
 struct Material {
     sampler2D albedoTexture;
     vec3 albedo;
-    vec3 ambient;
     vec3 specular;
     float shininess;
 }; 
@@ -34,20 +33,19 @@ uniform PointLight u_pointLight;
 
 void main()
 {
-    vec3 normal = normalize(Normal);
+    vec3 normal = Normal;
 
     vec3 lightVec = u_pointLight.position - FragPos;
     float distance = length(lightVec);
     float pointIntensity = 1.0f / ( u_pointLight.linear * distance + u_pointLight.quadratic * distance + u_pointLight.constant );
 
 	// ambient
-    vec3 ambient = u_pointLight.ambient * u_material.ambient;
+    vec3 ambient = u_pointLight.ambient * u_material.albedo * vec3(texture(u_material.albedoTexture, TexCoord));
 
     // diffuse 
     vec3 lightDir = normalize(u_pointLight.position - FragPos);
     float diff = max(dot(normal, lightDir), 0.0);
-    //vec3 diffuse = u_pointLight.diffuse * diff * vec3(texture(u_material.albedo, TexCoord));
-    vec3 diffuse = u_pointLight.diffuse * diff * u_material.albedo;
+    vec3 diffuse = u_pointLight.diffuse * diff * vec3(texture(u_material.albedoTexture, TexCoord)) * u_material.albedo;
 
     // specular
     vec3 viewDir = normalize(u_cameraPos - FragPos);

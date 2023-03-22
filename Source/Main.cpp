@@ -76,19 +76,18 @@ int main()
 
 	Geometry squareGeometry = { square_vertices, square_indices };
 	Material floorMaterial;
-	//floorMaterial.albedoPath = "Resources/Images/wall.jpg";
-	floorMaterial.albedo = glm::vec3(1.0f, 0.0f, 0.0f);
-	floorMaterial.shininess = 8.0;
-	floorMaterial.specular = glm::vec3(0.1f, 0.1f, 0.1f);
+	floorMaterial.albedoPath = "Resources/Images/wall.jpg";
+	floorMaterial.albedo = glm::vec3(1.0f, 1.0f, 1.0f);
+	floorMaterial.shininess = 1.0f;
+	floorMaterial.specular = glm::vec3(0.2f);
 	Mesh floor = Mesh(squareGeometry, floorMaterial);
 	floor.EulerRotation.x = 3.14 / 2;
 	floor.Position.y = -0.25;
 	floor.Scale = glm::vec3(10.0f);
 
-
 	Geometry pyramidGeometry = { pyramid_vertices, pyramid_indices };
 	Material pyramidMaterial;
-	//pyramidMaterial.albedoPath = "Resources/Images/brick.png";
+	pyramidMaterial.albedoPath = "Resources/Images/brick.png";
 	pyramidMaterial.albedo = glm::vec3(0.0f, 1.0f, 0.0f);
 	Mesh pyramid = Mesh(pyramidGeometry, pyramidMaterial);
 
