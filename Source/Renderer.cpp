@@ -33,8 +33,11 @@ void Renderer::Clear() const
 
 void Renderer::Draw(const Mesh& mesh, const Camera& camera) const
 {
-	m_defaultProgram.SetVec3("u_lightPos", m_PointLight->Position);
-	m_defaultProgram.SetVec3("u_lightColor", m_PointLight->Color);
+	m_defaultProgram.SetVec3("u_light.position", m_PointLight->Position);
+	m_defaultProgram.SetVec3("u_light.diffuse", m_PointLight->Diffuse);
+	m_defaultProgram.SetVec3("u_light.ambient", m_PointLight->Ambient);
+	m_defaultProgram.SetVec3("u_light.specular", m_PointLight->Specular);
+
 	mesh.Draw(camera, m_defaultProgram);
 }
 

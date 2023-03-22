@@ -14,16 +14,23 @@
     <ClCompile Include="Source\Camera\Camera.cpp" />
     <ClCompile Include="Source\Buffers\IndexBuffer.cpp" />
     <ClCompile Include="Source\Buffers\VertexBuffer.cpp" />
-    <ClCompile Include="Source\External\stb_image.cpp" />
+    <ClCompile Include="ThirdParty\include\imgui\backends\imgui_impl_glfw.cpp" />
+    <ClCompile Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="ThirdParty\include\imgui\imgui.cpp" />
+    <ClCompile Include="ThirdParty\include\imgui\imgui_demo.cpp" />
+    <ClCompile Include="ThirdParty\include\imgui\imgui_draw.cpp" />
+    <ClCompile Include="ThirdParty\include\imgui\imgui_tables.cpp" />
+    <ClCompile Include="ThirdParty\include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="ThirdParty\include\stb\stb_image.cpp" />
     <ClCompile Include="Source\Lighting\PointLight.cpp" />
     <ClCompile Include="Source\Mesh\Mesh.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
-    <ClCompile Include="Source\External\glad.c" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Shader\Shader.cpp" />
     <ClCompile Include="Source\Texture\Texture.cpp" />
     <ClCompile Include="Source\VertexArray\VertexArray.cpp" />
     <ClCompile Include="Source\Window.cpp" />
+    <ClCompile Include="ThirdParty\include\glad\glad.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera\Camera.h" />
@@ -37,12 +44,22 @@
     <ClInclude Include="Source\Texture\Texture.h" />
     <ClInclude Include="Source\VertexArray\VertexArray.h" />
     <ClInclude Include="Source\Window.h" />
+    <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_glfw.h" />
+    <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3.h" />
+    <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="ThirdParty\include\imgui\imconfig.h" />
+    <ClInclude Include="ThirdParty\include\imgui\imgui.h" />
+    <ClInclude Include="ThirdParty\include\imgui\imgui_internal.h" />
+    <ClInclude Include="ThirdParty\include\imgui\imstb_rectpack.h" />
+    <ClInclude Include="ThirdParty\include\imgui\imstb_textedit.h" />
+    <ClInclude Include="ThirdParty\include\imgui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\icon.fs" />
     <None Include="Resources\Shaders\icon.vs" />
     <None Include="Resources\Shaders\default.fs" />
     <None Include="Resources\Shaders\default.vs" />
+    <None Include="ThirdParty\include\imgui\imgui.ini" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Images\brick.png" />
