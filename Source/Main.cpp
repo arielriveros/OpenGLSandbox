@@ -25,15 +25,6 @@ int main()
     Renderer renderer = Renderer();
     renderer.Init();
 
-
-	std::vector<float> light_vertices = {
-		//	 px	   py	pz  
-			-0.1, -0.1, 0.0,
-			 0.1,  0.1, 0.0,
-			 0.1, -0.1, 0.0,
-			-0.1,  0.1, 0.0
-	};
-
 	std::vector<float> square_vertices = {
 		//	 px	   py	pz   r	  g	   b	u	  v   nx   ny   nz
 			-0.5, -0.5, 0.0, 1.0, 1.0, 1.0, 0.0,  0.0, 0.0, 0.0, -1.0,
@@ -81,14 +72,14 @@ int main()
 	};
 
 	Shader defaultProgram = Shader("Resources/Shaders/default.vs", "Resources/Shaders/default.fs");
-	Shader lightingProgram = Shader("Resources/Shaders/light.vs", "Resources/Shaders/light.fs");
+	Shader iconProgram = Shader("Resources/Shaders/icon.vs", "Resources/Shaders/icon.fs");
 
-	Mesh cube = Mesh(pyramid_vertices, pyramid_indices, "Resources/Images/brick.png", defaultProgram);
+	Mesh pyramid = Mesh(pyramid_vertices, pyramid_indices, "Resources/Images/brick.png", defaultProgram);
 	Mesh floor = Mesh(square_vertices, square_indices, "Resources/Images/wall.jpg", defaultProgram);
 	floor.EulerRotation.x = 3.14 / 2;
 	floor.Position.y = -0.25;
 	floor.Scale = glm::vec3(10.0f);
-	LightSource light = LightSource(light_vertices, square_indices, glm::vec3(1.0f, 1.0f, 1.0f), lightingProgram);
+	LightSource light = LightSource(glm::vec3(1.0f, 1.0f, 1.0f), iconProgram);
 	light.Position = glm::vec3(0.0f, 0.5f, 0.0f);
 	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.0f, 4.0f));
 
@@ -102,15 +93,15 @@ int main()
 		renderer.Clear();
 		
 		// Change object properties
-		cube.EulerRotation.y = (float)glfwGetTime() / 2;
-		cube.Position.y = cos(glfwGetTime())/4;
-		light.Position.x = 2 * cos(glfwGetTime());
-		light.Position.z = 2 * sin(glfwGetTime());
-		light.SetColor(glm::vec3(fabs(cos(glfwGetTime())), fabs(sin(glfwGetTime() / 2)), fabs(cos(glfwGetTime()) / 2)));
+		pyramid.EulerRotation.y = (float)glfwGetTime() / 2;
+		pyramid.Position.y = cos(glfwGetTime())/4;
+		light.Position.x = 2 * cos(glfwGetTime()/2);
+		light.Position.z = 2 * sin(glfwGetTime()/2);
+		light.Color = glm::vec3(fabs(cos(glfwGetTime())), fabs(sin(glfwGetTime() / 2)), fabs(cos(glfwGetTime()) / 2));
 		
 		// Render meshes
 		renderer.Draw(floor, camera, light);
-		renderer.Draw(cube, camera, light);
+		renderer.Draw(pyramid, camera, light);
 		renderer.Draw(light, camera);
 
         window.SwapBuffersAndPollEvents();

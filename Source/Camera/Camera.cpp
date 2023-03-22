@@ -28,12 +28,17 @@ void Camera::Rotate(float deltaYaw, float deltaPitch)
 
 glm::mat4 Camera::GetViewProjectionMatrix() const
 {
-	glm::mat4 view(1.0f);
-	glm::mat4 projection(1.0f);
+	return GetProjectionMatrix() * GetViewMatrix();
+}
 
-	view = glm::lookAt(Position, Position + Forward, Up);
-	projection = glm::perspective(glm::radians(m_Fov), (float)(m_Width / m_Height), m_Near, m_Far);
-	return projection * view;
+glm::mat4 Camera::GetViewMatrix() const
+{
+	return glm::lookAt(Position, Position + Forward, Up);
+}
+
+glm::mat4 Camera::GetProjectionMatrix() const
+{
+	return glm::perspective(glm::radians(m_Fov), (float)(m_Width / m_Height), m_Near, m_Far);
 }
 
 void Camera::updateCameraVectors()

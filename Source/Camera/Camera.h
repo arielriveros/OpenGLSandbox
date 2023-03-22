@@ -25,6 +25,8 @@ public:
 
 	void Rotate(float deltaYaw, float deltaPitch);
 	glm::mat4 GetViewProjectionMatrix() const;
+	glm::mat4 GetViewMatrix() const;
+	glm::mat4 GetProjectionMatrix() const;
 
 private:
 	void updateCameraVectors();

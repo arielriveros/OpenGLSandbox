@@ -41,13 +41,14 @@
   <ItemGroup>
     <None Include="Resources\Shaders\basic.fs" />
     <None Include="Resources\Shaders\basic.vs" />
-    <None Include="Resources\Shaders\light.fs" />
-    <None Include="Resources\Shaders\light.vs" />
+    <None Include="Resources\Shaders\icon.fs" />
+    <None Include="Resources\Shaders\icon.vs" />
     <None Include="Resources\Shaders\default.fs" />
     <None Include="Resources\Shaders\default.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Images\brick.png" />
+    <Image Include="Resources\Images\light_icon.png" />
     <Image Include="Resources\Images\wall.jpg" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

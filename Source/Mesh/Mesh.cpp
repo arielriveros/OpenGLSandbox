@@ -79,7 +79,7 @@ void Mesh::Draw(const Camera& camera, const LightSource& light) const
 	m_Shader.SetVec3("u_cameraPos", camera.Position);
 
 	m_Shader.SetVec3("u_lightPos", light.Position);
-	m_Shader.SetVec3("u_lightColor", light.GetColor());
+	m_Shader.SetVec3("u_lightColor", light.Color);
 	
 	unsigned int count = m_IBO.GetCount();
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);

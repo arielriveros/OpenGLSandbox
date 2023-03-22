@@ -135,10 +135,10 @@
     <None Include="Resources\Shaders\default.vs">
       <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="Resources\Shaders\light.fs">
+    <None Include="Resources\Shaders\icon.fs">
       <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="Resources\Shaders\light.vs">
+    <None Include="Resources\Shaders\icon.vs">
       <Filter>Resources\Shaders</Filter>
     </None>
   </ItemGroup>
@@ -147,6 +147,9 @@
       <Filter>Resources\Images</Filter>
     </Image>
     <Image Include="Resources\Images\brick.png">
+      <Filter>Resources\Images</Filter>
+    </Image>
+    <Image Include="Resources\Images\light_icon.png">
       <Filter>Resources\Images</Filter>
     </Image>
   </ItemGroup>
