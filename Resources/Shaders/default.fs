@@ -38,7 +38,7 @@ void main()
 {
     vec3 lightVec = u_pointLight.position - FragPos;
     float distance = length(lightVec);
-    float pointIntensity = 1.0f / ( u_pointLight.linear * distance + u_pointLight.quadratic * distance + u_pointLight.constant );
+    float pointIntensity = 1.0f / ( u_pointLight.linear * distance + u_pointLight.quadratic * distance * distance + u_pointLight.constant );
 
 	// ambient
     vec3 ambient = u_pointLight.ambient * u_material.albedo * vec3(texture(u_material.albedoTexture, TexCoord));
