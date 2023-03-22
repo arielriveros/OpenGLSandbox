@@ -14,6 +14,8 @@ public:
 	glm::vec3 Diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
 	glm::vec3 Ambient = glm::vec3(0.25f);
 	glm::vec3 Specular = glm::vec3(1.0f);
+	float a = 3.0;
+	float b = 0.4;
 
 private:
 	VertexArray m_VAO;

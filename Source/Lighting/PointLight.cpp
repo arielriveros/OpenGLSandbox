@@ -54,7 +54,6 @@ void PointLight::Draw(const Camera& camera, const Shader& shader) const
 	m_Texture.Bind();
 	shader.SetMat4("u_model", GetTransform());
 	shader.SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
-	shader.SetVec3("u_lightColor", Diffuse);
 	shader.SetVec3("u_cameraPos", camera.Position);
 
 	unsigned int count = m_IBO.GetCount();

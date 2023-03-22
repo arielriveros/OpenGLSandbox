@@ -37,6 +37,8 @@ void Renderer::Draw(const Mesh& mesh, const Camera& camera) const
 	m_defaultProgram.SetVec3("u_light.diffuse", m_PointLight->Diffuse);
 	m_defaultProgram.SetVec3("u_light.ambient", m_PointLight->Ambient);
 	m_defaultProgram.SetVec3("u_light.specular", m_PointLight->Specular);
+	m_defaultProgram.SetFloats("u_light.a", { m_PointLight->a });
+	m_defaultProgram.SetFloats("u_light.b", { m_PointLight->b });
 
 	mesh.Draw(camera, m_defaultProgram);
 }

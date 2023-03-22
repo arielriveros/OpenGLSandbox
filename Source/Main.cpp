@@ -124,11 +124,13 @@ int main()
 
 #pragma region ImGUI
 		ImGui::Begin("Settings");
-		ImGui::Text("Scene settings");
+		ImGui::Text("Light settings");
 		ImGui::ColorEdit3("Diffuse",  (float*)&light.Diffuse);
 		ImGui::ColorEdit3("Specular", (float*)&light.Specular);
 		ImGui::ColorEdit3("Ambient",  (float*)&light.Ambient);
 		ImGui::Checkbox("Rotate", &rotateLight);
+		ImGui::DragFloat("a", (float*)&light.a, 0.1f, 0.0f, 5.0f);
+		ImGui::DragFloat("b", (float*)&light.b, 0.1f, 0.0f, 5.0f);
 		ImGui::Text("%.1f FPS %.3f ms", 1000.0f / io.Framerate, io.Framerate);
 		ImGui::End();
 		ImGui::Render();
