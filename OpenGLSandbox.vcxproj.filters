@@ -169,6 +169,7 @@
     <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3_loader.h">
       <Filter>Source\External</Filter>
     </ClInclude>
+    <ClInclude Include="Resources\Geometries\Geometries.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\default.fs">

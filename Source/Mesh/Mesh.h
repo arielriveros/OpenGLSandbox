@@ -18,8 +18,8 @@ struct Geometry
 
 struct Material
 {
-	glm::vec3 albedo   = glm::vec3(1.0f, 1.0f, 1.0f);
-	glm::vec3 specular = glm::vec3(0.5f, 0.5f, 0.5f);
+	glm::vec3 albedo   = glm::vec3(1.0f);
+	glm::vec3 specular = glm::vec3(1.0f);
 
 	std::string albedoPath = "Resources/Images/white.jpg";
 	//const std::string& specularPath;

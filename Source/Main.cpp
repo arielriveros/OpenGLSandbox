@@ -10,6 +10,7 @@
 #include <imgui/backends/imgui_impl_glfw.h>
 #include <imgui/backends/imgui_impl_opengl3.h>
 #include <stb/stb_image.h>
+#include "../Resources/Geometries/Geometries.h"
 
 const unsigned int _WIDTH = 800;
 const unsigned int _HEIGHT = 600;
@@ -36,56 +37,15 @@ int main()
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	ImGui::StyleColorsDark();
 
-	std::vector<float> square_vertices = {
-		  //     COORDINATES   /	 NORMALS    /     TexCoord
-			-0.5, -0.5, 0.0,	0.0, 0.0, -1.0,		0.0,  0.0,
-			 0.5,  0.5, 0.0,	0.0, 0.0, -1.0,		10.0, 10.0,
-			 0.5, -0.5, 0.0,	0.0, 0.0, -1.0,		0.0,  10.0,
-			-0.5,  0.5, 0.0,	0.0, 0.0, -1.0,		10.0, 0.0
-	};
-
-	std::vector<unsigned int> square_indices = { 0, 1, 2, 1, 3, 0 };
-
-
-	std::vector<float> pyramid_vertices =
-	{ //     COORDINATES   /	 NORMALS         TexCoord  /
-		-0.5f, 0.0f,  0.5f,	 0.0f, -1.0f, 0.0f,  0.0f, 0.0f,
-		-0.5f, 0.0f, -0.5f,	 0.0f, -1.0f, 0.0f,  0.0f, 1.0f,
-		 0.5f, 0.0f, -0.5f,	 0.0f, -1.0f, 0.0f,  1.0f, 1.0f,
-		 0.5f, 0.0f,  0.5f,	 0.0f, -1.0f, 0.0f,  1.0f, 0.0f,
-
-		-0.5f, 0.0f,  0.5f,	-0.8f, 0.5f,  0.0f, 0.0f, 0.0f,
-		-0.5f, 0.0f, -0.5f,	-0.8f, 0.5f,  0.0f, 1.0f, 0.0f,
-		 0.0f, 0.8f,  0.0f,	-0.8f, 0.5f,  0.0f, 0.5f, 1.0f,
-
-		-0.5f, 0.0f, -0.5f,	0.0f, 0.5f, -0.8f, 1.0f, 0.0f,
-		 0.5f, 0.0f, -0.5f,	0.0f, 0.5f, -0.8f, 0.0f, 0.0f,
-		 0.0f, 0.8f,  0.0f,	0.0f, 0.5f, -0.8f, 0.5f, 1.0f,
-
-		 0.5f, 0.0f, -0.5f,	0.8f, 0.5f,  0.0f, 0.0f, 0.0f,
-		 0.5f, 0.0f,  0.5f,	0.8f, 0.5f,  0.0f, 1.0f, 0.0f,
-		 0.0f, 0.8f,  0.0f,	0.8f, 0.5f,  0.0f, 0.5f, 1.0f,
-
-		 0.5f, 0.0f,  0.5f,	0.0f, 0.5f,  0.8f, 1.0f, 0.0f,
-		-0.5f, 0.0f,  0.5f,	0.0f, 0.5f,  0.8f, 0.0f, 0.0f,
-		 0.0f, 0.8f,  0.0f,	0.0f, 0.5f,  0.8f, 0.5f, 1.0f
-	};
-
-	// Indices for vertices order
-	std::vector<unsigned int> pyramid_indices = { 0, 1, 2, 0, 2, 3, 4, 6, 5, 7, 9, 8, 10, 12, 11, 13, 15, 14 };
-
-	Geometry squareGeometry = { square_vertices, square_indices };
 	Material floorMaterial;
 	floorMaterial.albedoPath = "Resources/Images/wall.jpg";
-	floorMaterial.albedo = glm::vec3(1.0f, 1.0f, 1.0f);
-	floorMaterial.shininess = 1.0f;
-	floorMaterial.specular = glm::vec3(0.2f);
+	floorMaterial.shininess = 32.0f;
+	floorMaterial.specular = glm::vec3(0.1f);
 	Mesh floor = Mesh(squareGeometry, floorMaterial);
 	floor.EulerRotation.x = 3.14 / 2;
 	floor.Position.y = -0.25;
-	floor.Scale = glm::vec3(10.0f);
+	floor.Scale = glm::vec3(5.0f);
 
-	Geometry pyramidGeometry = { pyramid_vertices, pyramid_indices };
 	Material pyramidMaterial;
 	pyramidMaterial.albedoPath = "Resources/Images/brick.png";
 	pyramidMaterial.albedo = glm::vec3(0.0f, 1.0f, 0.0f);
