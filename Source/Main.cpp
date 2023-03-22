@@ -26,58 +26,71 @@ int main()
     renderer.Init();
 
 
-	 
-	std::vector<float> triangle_vertices = {
-		//	 px	   py	pz   r	  g	   b
-			-0.25,  0.0, 0.0, 1.0, 0.0, 0.0,
-			 0.25,  0.0, 0.0, 0.0, 1.0, 0.0,
-			 0.0,  0.5, 0.0, 1.0, 0.0, 1.0
-	};
-
 	std::vector<float> light_vertices = {
 		//	 px	   py	pz  
-			-0.5, -0.5, 0.0,
-			 0.5,  0.5, 0.0,
-			 0.5, -0.5, 0.0,
-			-0.5,  0.5, 0.0
+			-0.1, -0.1, 0.0,
+			 0.1,  0.1, 0.0,
+			 0.1, -0.1, 0.0,
+			-0.1,  0.1, 0.0
 	};
 
 	std::vector<float> square_vertices = {
-		//	 px	   py	pz   r	  g	   b	  u	  v
-			-0.5, -0.5, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0,
-			 0.5,  0.5, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-			 0.5, -0.5, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0,
-			-0.5,  0.5, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0
+		//	 px	   py	pz   r	  g	   b	u	  v   nx   ny   nz
+			-0.5, -0.5, 0.0, 1.0, 1.0, 1.0, 0.0,  0.0, 0.0, 0.0, -1.0,
+			 0.5,  0.5, 0.0, 1.0, 1.0, 1.0, 10.0, 10.0, 0.0, 0.0, -1.0,
+			 0.5, -0.5, 0.0, 1.0, 1.0, 1.0, 0.0,  10.0, 0.0, 0.0, -1.0,
+			-0.5,  0.5, 0.0, 1.0, 1.0, 1.0, 10.0, 0.0, 0.0, 0.0, -1.0
 	};
 
 	std::vector<unsigned int> square_indices = { 0, 1, 2, 1, 3, 0 };
 
-	std::vector<float> pyramid_vertices = {
-		//	 px	   py	  pz    r	  g		b	  u    v
-			-0.5f, 0.0f,  0.5f, 0.83, 0.70, 0.44, 0.0, 0.0,
-			-0.5f, 0.0f, -0.5f, 0.83, 0.70, 0.44, 1.0, 0.0,
-			 0.5f, 0.0f, -0.5f, 0.83, 0.70, 0.44, 0.0, 0.0,
-			 0.5f, 0.0f,  0.5f, 0.83, 0.70, 0.44, 1.0, 0.0,
-			 0.0f, 0.8f,  0.0f, 0.92, 0.86, 0.76, 0.5, 1.0
-	};
-	
-	std::vector<unsigned int> pyramid_indices = {
-		0, 1, 2,
-		0, 2, 3,
-		0, 1, 4,
-		1, 2, 4,
-		2, 3, 4,
-		3, 0, 4
+
+	std::vector<float> pyramid_vertices =
+	{ //     COORDINATES     /        COLORS          /    TexCoord   /        NORMALS       //
+		-0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,      0.0f, -1.0f, 0.0f, // Bottom side
+		-0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 1.0f,      0.0f, -1.0f, 0.0f, // Bottom side
+		 0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 1.0f, 1.0f,      0.0f, -1.0f, 0.0f, // Bottom side
+		 0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 1.0f, 0.0f,      0.0f, -1.0f, 0.0f, // Bottom side
+
+		-0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
+		-0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 1.0f, 0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
+		 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 0.5f, 1.0f,     -0.8f, 0.5f,  0.0f, // Left Side
+
+		-0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 1.0f, 0.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
+		 0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 0.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
+		 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 0.5f, 1.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
+
+		 0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 0.0f,      0.8f, 0.5f,  0.0f, // Right side
+		 0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 1.0f, 0.0f,      0.8f, 0.5f,  0.0f, // Right side
+		 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 0.5f, 1.0f,      0.8f, 0.5f,  0.0f, // Right side
+
+		 0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 1.0f, 0.0f,      0.0f, 0.5f,  0.8f, // Facing side
+		-0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,      0.0f, 0.5f,  0.8f, // Facing side
+		 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 0.5f, 1.0f,      0.0f, 0.5f,  0.8f  // Facing side
 	};
 
-	Shader basicProgram = Shader("Resources/Shaders/basic.vs", "Resources/Shaders/basic.fs");
-	Shader texturedProgram = Shader("Resources/Shaders/textured.vs", "Resources/Shaders/textured.fs");
+	// Indices for vertices order
+	std::vector<unsigned int> pyramid_indices =
+	{
+		0, 1, 2, // Bottom side
+		0, 2, 3, // Bottom side
+		4, 6, 5, // Left side
+		7, 9, 8, // Non-facing side
+		10, 12, 11, // Right side
+		13, 15, 14 // Facing side
+	};
+
+	Shader defaultProgram = Shader("Resources/Shaders/default.vs", "Resources/Shaders/default.fs");
 	Shader lightingProgram = Shader("Resources/Shaders/light.vs", "Resources/Shaders/light.fs");
 
-	Mesh pyramid = Mesh(pyramid_vertices, pyramid_indices, "Resources/Images/brick.png", texturedProgram);
-	Mesh square = Mesh(square_vertices, square_indices, "Resources/Images/wall.jpg", texturedProgram);
-	LightSource light = LightSource(light_vertices, square_indices, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), lightingProgram);
-	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 0.0f, 1.0f));
+	Mesh cube = Mesh(pyramid_vertices, pyramid_indices, "Resources/Images/brick.png", defaultProgram);
+	Mesh floor = Mesh(square_vertices, square_indices, "Resources/Images/wall.jpg", defaultProgram);
+	floor.EulerRotation.x = 3.14 / 2;
+	floor.Position.y = -0.25;
+	floor.Scale = glm::vec3(10.0f);
+	LightSource light = LightSource(light_vertices, square_indices, glm::vec3(1.0f, 1.0f, 1.0f), lightingProgram);
+	light.Position = glm::vec3(0.0f, 0.5f, 0.0f);
+	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.0f, 4.0f));
 
 	// Main window loop
     while (!window.ShouldClose())
@@ -86,27 +99,19 @@ int main()
         processInput(window.GetWindow(), camera);
 		
 		// Rendering commands
-		renderer.Clear();		
-
-		glm::mat4 squareTransform = glm::mat4(1.0f);
-		squareTransform = glm::translate(squareTransform, glm::vec3(0.0f, -1.0f, 0.0f));
-		squareTransform = glm::rotate(squareTransform, (float) 3.14 / 2, glm::vec3(1.0f, 0.0f, 0.0f));
-		squareTransform = glm::scale(squareTransform, glm::vec3(10.0));
-		square.SetTransform(squareTransform);
-		renderer.Draw(square, camera, light);
+		renderer.Clear();
 		
-		glm::mat4 pyramidTransform = glm::mat4(1.0f);
-		pyramidTransform = glm::translate( pyramidTransform, glm::vec3( 0.0f, cos(glfwGetTime())/3.0f - 0.33f, 0.0f) );
-		pyramidTransform = glm::rotate(pyramidTransform, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
-		pyramid.SetTransform(pyramidTransform);
-		renderer.Draw(pyramid, camera, light);
-        
-		glm::mat4 lightTransform = glm::mat4(1.0f);
-		lightTransform = glm::translate(lightTransform, glm::vec3(1.0f, 0.5f, -1.0f));
-		light.SetTransform(lightTransform);
-		light.SetColor(glm::vec4(fabs(cos(glfwGetTime())), 1.0f, 1.0f, 1.0f));
+		// Change object properties
+		cube.EulerRotation.y = (float)glfwGetTime();
+		cube.Position.y = cos(glfwGetTime())/2 + 0.5;
+		light.Position.x = 2 * cos(2*glfwGetTime());
+		light.Position.z = 2 * sin(2 * glfwGetTime());
+		light.SetColor(glm::vec3(fabs(cos(glfwGetTime())), fabs(sin(glfwGetTime() / 2)), fabs(cos(glfwGetTime()) / 2)));
+		
+		// Render meshes
+		renderer.Draw(floor, camera, light);
+		renderer.Draw(cube, camera, light);
 		renderer.Draw(light, camera);
-
 
         window.SwapBuffersAndPollEvents();
     }

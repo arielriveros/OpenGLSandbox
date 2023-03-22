@@ -43,8 +43,8 @@
     <None Include="Resources\Shaders\basic.vs" />
     <None Include="Resources\Shaders\light.fs" />
     <None Include="Resources\Shaders\light.vs" />
-    <None Include="Resources\Shaders\textured.fs" />
-    <None Include="Resources\Shaders\textured.vs" />
+    <None Include="Resources\Shaders\default.fs" />
+    <None Include="Resources\Shaders\default.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Images\brick.png" />

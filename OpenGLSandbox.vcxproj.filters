@@ -42,6 +42,9 @@
     <Filter Include="Source\Lighting">
       <UniqueIdentifier>{9bf760f9-2051-4622-9a68-3f225468f73d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Camera">
+      <UniqueIdentifier>{2fe8d731-6852-4f4c-b7d4-63c78c35c4bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -77,11 +80,11 @@
     <ClCompile Include="Source\Mesh\Mesh.cpp">
       <Filter>Source\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Camera\Camera.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Lighting\LightSource.cpp">
       <Filter>Source\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Camera\Camera.cpp">
+      <Filter>Source\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,9 +115,11 @@
     <ClInclude Include="Source\Mesh\Mesh.h">
       <Filter>Source\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Camera\Camera.h" />
     <ClInclude Include="Source\Lighting\LightSource.h">
       <Filter>Source\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Camera\Camera.h">
+      <Filter>Source\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -124,10 +129,10 @@
     <None Include="Resources\Shaders\basic.vs">
       <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="Resources\Shaders\textured.fs">
+    <None Include="Resources\Shaders\default.fs">
       <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="Resources\Shaders\textured.vs">
+    <None Include="Resources\Shaders\default.vs">
       <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\light.fs">

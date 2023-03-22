@@ -7,9 +7,16 @@
 #include "../Lighting/LightSource.h"
 #include <vector>
 #include <glm/glm.hpp>
+#include <glm/gtx/rotate_vector.hpp>
+#include <glm/gtx/vector_angle.hpp>
 
 class Mesh
 {
+public:
+	glm::vec3 Position = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 EulerRotation = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 Scale = glm::vec3(1.0f, 1.0f, 1.0f);
+
 private:
 	std::vector<float> m_Vertices;
 	std::vector<unsigned int> m_Indices;
@@ -18,7 +25,6 @@ private:
 	IndexBuffer m_IBO;
 	Texture m_Texture;
 	Shader m_Shader;
-	glm::mat4 m_Transform;
 	
 public:
 	Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const std::string& texturePath, const Shader &shader);
@@ -27,6 +33,5 @@ public:
 	
 	void Draw(const Camera& camera, const LightSource& light) const;
 
-	inline glm::mat4 GetTransform() const { return m_Transform; }
-	inline void SetTransform(const glm::mat4& transform) { m_Transform = transform; }
+	glm::mat4 GetTransform() const;
 };

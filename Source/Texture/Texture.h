@@ -12,7 +12,7 @@ private:
 
 public:
 	Texture() {};
-	Texture(const std::string& imagePath);
+	Texture(const std::string& imagePath, bool repeat = false);
 	~Texture();
 
 	void Bind(unsigned int slot = 0) const;
