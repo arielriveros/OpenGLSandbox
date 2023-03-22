@@ -79,6 +79,7 @@ int main()
 	floor.Scale = glm::vec3(10.0f);
 	PointLight light = PointLight(glm::vec3(1.0f, 1.0f, 1.0f));
 	light.Position = glm::vec3(0.0f, 0.5f, 0.0f);
+	renderer.AddPointLight(light);
 	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.0f, 4.0f));
 
 	// Main window loop
@@ -98,8 +99,8 @@ int main()
 		light.Color = glm::vec3(fabs(cos(glfwGetTime())), fabs(sin(glfwGetTime() / 2)), fabs(cos(glfwGetTime()) / 2));
 		
 		// Render meshes
-		renderer.Draw(floor, camera, light);
-		renderer.Draw(pyramid, camera, light);
+		renderer.Draw(floor, camera);
+		renderer.Draw(pyramid, camera);
 		renderer.Draw(light, camera);
 
         window.SwapBuffersAndPollEvents();

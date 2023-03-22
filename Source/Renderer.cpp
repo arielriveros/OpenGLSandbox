@@ -20,7 +20,6 @@ void Renderer::Init()
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	
 	// Enable Depth testing
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	m_defaultProgram = Shader("Resources/Shaders/default.vs", "Resources/Shaders/default.fs");
@@ -32,14 +31,21 @@ void Renderer::Clear() const
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::Draw(const Mesh& mesh, const Camera& camera, const PointLight& light) const
+void Renderer::Draw(const Mesh& mesh, const Camera& camera) const
 {
-	mesh.Draw(camera, light, m_defaultProgram);
+	m_defaultProgram.SetVec3("u_lightPos", m_PointLight->Position);
+	m_defaultProgram.SetVec3("u_lightColor", m_PointLight->Color);
+	mesh.Draw(camera, m_defaultProgram);
 }
 
 void Renderer::Draw(const PointLight& light, const Camera& camera) const
 {
 	light.Draw(camera, m_iconProgram);
+}
+
+void Renderer::AddPointLight(PointLight& pointLight)
+{
+	m_PointLight = &pointLight;
 }
 
 

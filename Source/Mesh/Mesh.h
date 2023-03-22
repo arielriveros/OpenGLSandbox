@@ -30,7 +30,7 @@ public:
 	Mesh(std::vector<float> vertices, std::vector<unsigned int> indices);
 	~Mesh();
 	
-	void Draw(const Camera& camera, const PointLight& light, const Shader& shader) const;
+	void Draw(const Camera& camera, const Shader& shader) const;
 
 	glm::mat4 GetTransform() const;
 };

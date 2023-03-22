@@ -14,13 +14,15 @@ class Renderer
 private:
 	Shader m_defaultProgram;
 	Shader m_iconProgram;
+	PointLight* m_PointLight;
 public:
 	Renderer();
 	~Renderer();
 
 	void Init();
 	void Clear() const;
-	void Draw(const Mesh& mesh, const Camera& camera, const PointLight& light) const;
+	void AddPointLight(PointLight& pointLight);
+	void Draw(const Mesh& mesh, const Camera& camera) const;
 	void Draw(const PointLight& light, const Camera& camera) const;
 	void Shutdown();
 

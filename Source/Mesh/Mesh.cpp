@@ -60,7 +60,7 @@ Mesh::~Mesh()
 	m_Texture.Delete();
 }
 
-void Mesh::Draw(const Camera& camera, const PointLight& light, const Shader& shader) const
+void Mesh::Draw(const Camera& camera, const Shader& shader) const
 {
 	m_VAO.Bind();
 	m_IBO.Bind();
@@ -73,8 +73,7 @@ void Mesh::Draw(const Camera& camera, const PointLight& light, const Shader& sha
 	shader.SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
 	shader.SetVec3("u_cameraPos", camera.Position);
 
-	shader.SetVec3("u_lightPos", light.Position);
-	shader.SetVec3("u_lightColor", light.Color);
+	
 	
 	unsigned int count = m_IBO.GetCount();
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
