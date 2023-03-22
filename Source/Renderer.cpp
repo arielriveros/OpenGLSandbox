@@ -33,12 +33,14 @@ void Renderer::Clear() const
 
 void Renderer::Draw(const Mesh& mesh, const Camera& camera) const
 {
-	m_defaultProgram.SetVec3("u_light.position", m_PointLight->Position);
-	m_defaultProgram.SetVec3("u_light.diffuse", m_PointLight->Diffuse);
-	m_defaultProgram.SetVec3("u_light.ambient", m_PointLight->Ambient);
-	m_defaultProgram.SetVec3("u_light.specular", m_PointLight->Specular);
-	m_defaultProgram.SetFloats("u_light.a", { m_PointLight->a });
-	m_defaultProgram.SetFloats("u_light.b", { m_PointLight->b });
+	m_defaultProgram.SetVec3("u_pointLight.position", m_PointLight->Position);
+	m_defaultProgram.SetVec3("u_pointLight.diffuse", m_PointLight->Diffuse * glm::vec3(0.5f));
+	m_defaultProgram.SetVec3("u_pointLight.ambient", m_PointLight->Ambient * glm::vec3(0.25f));
+	m_defaultProgram.SetVec3("u_pointLight.specular", m_PointLight->Specular);
+
+	m_defaultProgram.SetFloats("u_pointLight.constant", { m_PointLight->Constant });
+	m_defaultProgram.SetFloats("u_pointLight.linear", { m_PointLight->Linear });
+	m_defaultProgram.SetFloats("u_pointLight.quadratic", { m_PointLight->Quadratic });
 
 	mesh.Draw(camera, m_defaultProgram);
 }

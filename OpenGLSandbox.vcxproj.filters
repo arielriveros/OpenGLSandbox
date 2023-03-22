@@ -101,11 +101,11 @@
     <ClCompile Include="ThirdParty\include\imgui\imgui_widgets.cpp">
       <Filter>Source\External</Filter>
     </ClCompile>
-    <ClCompile Include="ThirdParty\include\imgui\backends\imgui_impl_glfw.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\External</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\include\imgui\backends\imgui_impl_glfw.cpp">
+      <Filter>Source\External</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,9 +160,15 @@
     <ClInclude Include="ThirdParty\include\imgui\imstb_textedit.h">
       <Filter>Source\External</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_glfw.h" />
-    <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3.h" />
-    <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_glfw.h">
+      <Filter>Source\External</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3.h">
+      <Filter>Source\External</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3_loader.h">
+      <Filter>Source\External</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\default.fs">
@@ -177,7 +183,9 @@
     <None Include="Resources\Shaders\icon.vs">
       <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="ThirdParty\include\imgui\imgui.ini" />
+    <None Include="ThirdParty\include\imgui\imgui.ini">
+      <Filter>Source\External</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Images\wall.jpg">
@@ -187,6 +195,9 @@
       <Filter>Resources\Images</Filter>
     </Image>
     <Image Include="Resources\Images\light_icon.png">
+      <Filter>Resources\Images</Filter>
+    </Image>
+    <Image Include="Resources\Images\white.jpg">
       <Filter>Resources\Images</Filter>
     </Image>
   </ItemGroup>

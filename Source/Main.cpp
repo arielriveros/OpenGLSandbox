@@ -37,61 +37,67 @@ int main()
 	ImGui::StyleColorsDark();
 
 	std::vector<float> square_vertices = {
-		//	 px	   py	pz   r	  g	   b	u	  v   nx   ny   nz
-			-0.5, -0.5, 0.0, 1.0, 1.0, 1.0, 0.0,  0.0, 0.0, 0.0, -1.0,
-			 0.5,  0.5, 0.0, 1.0, 1.0, 1.0, 10.0, 10.0, 0.0, 0.0, -1.0,
-			 0.5, -0.5, 0.0, 1.0, 1.0, 1.0, 0.0,  10.0, 0.0, 0.0, -1.0,
-			-0.5,  0.5, 0.0, 1.0, 1.0, 1.0, 10.0, 0.0, 0.0, 0.0, -1.0
+		  //     COORDINATES   /	 NORMALS    /     TexCoord
+			-0.5, -0.5, 0.0,	0.0, 0.0, -1.0,		0.0,  0.0,
+			 0.5,  0.5, 0.0,	0.0, 0.0, -1.0,		10.0, 10.0,
+			 0.5, -0.5, 0.0,	0.0, 0.0, -1.0,		0.0,  10.0,
+			-0.5,  0.5, 0.0,	0.0, 0.0, -1.0,		10.0, 0.0
 	};
 
 	std::vector<unsigned int> square_indices = { 0, 1, 2, 1, 3, 0 };
 
 
 	std::vector<float> pyramid_vertices =
-	{ //     COORDINATES     /        COLORS          /    TexCoord   /        NORMALS       //
-		-0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-		-0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 1.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-		 0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 1.0f, 1.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-		 0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 1.0f, 0.0f,      0.0f, -1.0f, 0.0f, // Bottom side
+	{ //     COORDINATES   /	 NORMALS         TexCoord  /
+		-0.5f, 0.0f,  0.5f,	 0.0f, -1.0f, 0.0f,  0.0f, 0.0f,
+		-0.5f, 0.0f, -0.5f,	 0.0f, -1.0f, 0.0f,  0.0f, 1.0f,
+		 0.5f, 0.0f, -0.5f,	 0.0f, -1.0f, 0.0f,  1.0f, 1.0f,
+		 0.5f, 0.0f,  0.5f,	 0.0f, -1.0f, 0.0f,  1.0f, 0.0f,
 
-		-0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
-		-0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 1.0f, 0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
-		 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 0.5f, 1.0f,     -0.8f, 0.5f,  0.0f, // Left Side
+		-0.5f, 0.0f,  0.5f,	-0.8f, 0.5f,  0.0f, 0.0f, 0.0f,
+		-0.5f, 0.0f, -0.5f,	-0.8f, 0.5f,  0.0f, 1.0f, 0.0f,
+		 0.0f, 0.8f,  0.0f,	-0.8f, 0.5f,  0.0f, 0.5f, 1.0f,
 
-		-0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 1.0f, 0.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
-		 0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 0.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
-		 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 0.5f, 1.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
+		-0.5f, 0.0f, -0.5f,	0.0f, 0.5f, -0.8f, 1.0f, 0.0f,
+		 0.5f, 0.0f, -0.5f,	0.0f, 0.5f, -0.8f, 0.0f, 0.0f,
+		 0.0f, 0.8f,  0.0f,	0.0f, 0.5f, -0.8f, 0.5f, 1.0f,
 
-		 0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 0.0f,      0.8f, 0.5f,  0.0f, // Right side
-		 0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 1.0f, 0.0f,      0.8f, 0.5f,  0.0f, // Right side
-		 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 0.5f, 1.0f,      0.8f, 0.5f,  0.0f, // Right side
+		 0.5f, 0.0f, -0.5f,	0.8f, 0.5f,  0.0f, 0.0f, 0.0f,
+		 0.5f, 0.0f,  0.5f,	0.8f, 0.5f,  0.0f, 1.0f, 0.0f,
+		 0.0f, 0.8f,  0.0f,	0.8f, 0.5f,  0.0f, 0.5f, 1.0f,
 
-		 0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 1.0f, 0.0f,      0.0f, 0.5f,  0.8f, // Facing side
-		-0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,      0.0f, 0.5f,  0.8f, // Facing side
-		 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 0.5f, 1.0f,      0.0f, 0.5f,  0.8f  // Facing side
+		 0.5f, 0.0f,  0.5f,	0.0f, 0.5f,  0.8f, 1.0f, 0.0f,
+		-0.5f, 0.0f,  0.5f,	0.0f, 0.5f,  0.8f, 0.0f, 0.0f,
+		 0.0f, 0.8f,  0.0f,	0.0f, 0.5f,  0.8f, 0.5f, 1.0f
 	};
 
 	// Indices for vertices order
-	std::vector<unsigned int> pyramid_indices =
-	{
-		0, 1, 2, // Bottom side
-		0, 2, 3, // Bottom side
-		4, 6, 5, // Left side
-		7, 9, 8, // Non-facing side
-		10, 12, 11, // Right side
-		13, 15, 14 // Facing side
-	};
+	std::vector<unsigned int> pyramid_indices = { 0, 1, 2, 0, 2, 3, 4, 6, 5, 7, 9, 8, 10, 12, 11, 13, 15, 14 };
 
-
-	Mesh pyramid = Mesh(pyramid_vertices, pyramid_indices, "Resources/Images/brick.png");
-	Mesh floor = Mesh(square_vertices, square_indices, "Resources/Images/wall.jpg");
+	Geometry squareGeometry = { square_vertices, square_indices };
+	Material floorMaterial;
+	//floorMaterial.albedoPath = "Resources/Images/wall.jpg";
+	floorMaterial.albedo = glm::vec3(1.0f, 0.0f, 0.0f);
+	floorMaterial.shininess = 8.0;
+	floorMaterial.specular = glm::vec3(0.1f, 0.1f, 0.1f);
+	Mesh floor = Mesh(squareGeometry, floorMaterial);
 	floor.EulerRotation.x = 3.14 / 2;
 	floor.Position.y = -0.25;
 	floor.Scale = glm::vec3(10.0f);
+
+
+	Geometry pyramidGeometry = { pyramid_vertices, pyramid_indices };
+	Material pyramidMaterial;
+	//pyramidMaterial.albedoPath = "Resources/Images/brick.png";
+	pyramidMaterial.albedo = glm::vec3(0.0f, 1.0f, 0.0f);
+	Mesh pyramid = Mesh(pyramidGeometry, pyramidMaterial);
+
+
 	PointLight light = PointLight(glm::vec3(1.0f, 1.0f, 1.0f));
 	light.Position = glm::vec3(0.0f, 0.5f, 0.0f);
 	renderer.AddPointLight(light);
 	bool rotateLight = true;
+
 	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.0f, 4.0f));
 
 	// Main window loop
@@ -109,12 +115,12 @@ int main()
 
 		// Change object properties
 		pyramid.EulerRotation.y = (float)glfwGetTime() / 2;
-		pyramid.Position.y = cos(glfwGetTime())/4;
+		pyramid.Position.y = cos((float)glfwGetTime())/4;
 
 		if (rotateLight)
 		{
-			light.Position.x = cos(glfwGetTime()/2);
-			light.Position.z = sin(glfwGetTime()/2);
+			light.Position.x = cos((float)glfwGetTime()/2);
+			light.Position.z = sin((float)glfwGetTime()/2);
 		}
 		
 		// Render meshes
@@ -124,14 +130,18 @@ int main()
 
 #pragma region ImGUI
 		ImGui::Begin("Settings");
+
 		ImGui::Text("Light settings");
 		ImGui::ColorEdit3("Diffuse",  (float*)&light.Diffuse);
 		ImGui::ColorEdit3("Specular", (float*)&light.Specular);
 		ImGui::ColorEdit3("Ambient",  (float*)&light.Ambient);
 		ImGui::Checkbox("Rotate", &rotateLight);
-		ImGui::DragFloat("a", (float*)&light.a, 0.1f, 0.0f, 5.0f);
-		ImGui::DragFloat("b", (float*)&light.b, 0.1f, 0.0f, 5.0f);
+		ImGui::DragFloat("Constant", (float*)&light.Constant, 0.1f, 0.0f, 5.0f);
+		ImGui::DragFloat("Linear", (float*)&light.Linear, 0.1f, 0.0f, 5.0f);
+		ImGui::DragFloat("Quadratic", (float*)&light.Quadratic, 0.1f, 0.0f, 5.0f);
+
 		ImGui::Text("%.1f FPS %.3f ms", 1000.0f / io.Framerate, io.Framerate);
+
 		ImGui::End();
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

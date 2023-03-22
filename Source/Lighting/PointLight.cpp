@@ -55,6 +55,7 @@ void PointLight::Draw(const Camera& camera, const Shader& shader) const
 	shader.SetMat4("u_model", GetTransform());
 	shader.SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
 	shader.SetVec3("u_cameraPos", camera.Position);
+	shader.SetVec3("u_color", Diffuse);
 
 	unsigned int count = m_IBO.GetCount();
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);

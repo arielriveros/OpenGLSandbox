@@ -1,50 +1,31 @@
 #include "Mesh.h"
 
-
-Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices, const std::string& texturePath)
+Mesh::Mesh(const Geometry& geometry, const Material& material)
 {
-	m_Vertices = vertices;
-	m_Indices = indices;
-	
+	m_Vertices = geometry.vertices;
+	m_Indices = geometry.indices;
+
+	m_AlbedoTexture = Texture(material.albedoPath, true);
+	m_AlbedoColor = material.albedo;
+	m_SpecularColor = material.specular;
+	m_Shininess = material.shininess;
+
 	m_VAO = VertexArray();
 	m_VBO = VertexBuffer();
-	m_VBO.UploadData(&vertices[0], vertices.size() * sizeof(vertices[0]));
-	
+	m_VBO.UploadData(&m_Vertices[0], m_Vertices.size() * sizeof(m_Vertices[0]));
+
 	VertexBufferLayout layout;
 	layout.Push<float>(3); // Position attribute
-	layout.Push<float>(3); // Color Attribute
-	layout.Push<float>(2); // UV Attribute
 	layout.Push<float>(3); // Normal Attribute
+	layout.Push<float>(2); // UV Attribute
 	m_VAO.AttachVertexBuffer(m_VBO, layout);
 
 	m_IBO = IndexBuffer();
-	m_IBO.UploadData(&indices[0], indices.size());
-
-	m_Texture = Texture(texturePath, true);
-	
-	m_VBO.Unbind();
-	m_IBO.Unbind();
-}
-
-Mesh::Mesh(std::vector<float> vertices, std::vector<unsigned int> indices)
-{
-	m_Vertices = vertices;
-	m_Indices = indices;
-
-	m_VAO = VertexArray();
-	m_VBO = VertexBuffer();
-	m_VBO.UploadData(&vertices[0], vertices.size() * sizeof(vertices[0]));
-
-	VertexBufferLayout layout;
-	layout.Push<float>(3); // Position attribute
-	layout.Push<float>(3); // Color Attribute
-	m_VAO.AttachVertexBuffer(m_VBO, layout);
-
-	m_IBO = IndexBuffer();
-	m_IBO.UploadData(&indices[0], indices.size());
+	m_IBO.UploadData(&m_Indices[0], m_Indices.size());
 
 	m_VBO.Unbind();
 	m_IBO.Unbind();
+	m_AlbedoTexture.Unbind();
 }
 
 Mesh::~Mesh()
@@ -52,12 +33,12 @@ Mesh::~Mesh()
 	m_VAO.Unbind();
 	m_VBO.Unbind();
 	m_IBO.Unbind();
-	m_Texture.Unbind();
+	m_AlbedoTexture.Unbind();
 
 	m_VAO.Delete();
 	m_VBO.Delete();
 	m_IBO.Delete();
-	m_Texture.Delete();
+	m_AlbedoTexture.Delete();
 }
 
 void Mesh::Draw(const Camera& camera, const Shader& shader) const
@@ -65,11 +46,11 @@ void Mesh::Draw(const Camera& camera, const Shader& shader) const
 	m_VAO.Bind();
 	m_IBO.Bind();
 	shader.Bind();
-	m_Texture.Bind();
-	shader.SetInts("u_material.albedo", { 0 });
-	shader.SetVec3("u_material.ambient", glm::vec3(1.0f, 1.0f, 1.0f));
-	shader.SetVec3("u_material.specular", glm::vec3(0.3f, 0.3f, 0.3f));
-	shader.SetFloats("u_material.shininess", { 10.5f });
+	m_AlbedoTexture.Bind();
+	//shader.SetInts("u_material.albedo", { 0 });
+	shader.SetVec3("u_material.albedo", m_AlbedoColor);
+	shader.SetVec3("u_material.specular", m_SpecularColor);
+	shader.SetFloats("u_material.shininess", { m_Shininess });
 
 	shader.SetMat4("u_model", GetTransform());
 

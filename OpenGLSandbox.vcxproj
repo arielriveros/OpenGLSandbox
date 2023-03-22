@@ -65,6 +65,7 @@
     <Image Include="Resources\Images\brick.png" />
     <Image Include="Resources\Images\light_icon.png" />
     <Image Include="Resources\Images\wall.jpg" />
+    <Image Include="Resources\Images\white.jpg" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
