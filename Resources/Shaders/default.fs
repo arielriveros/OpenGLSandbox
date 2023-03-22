@@ -36,6 +36,8 @@ uniform PointLight u_pointLight;
 
 void main()
 {
+    vec3 normal = normalize(Normal);
+
     vec3 lightVec = u_pointLight.position - FragPos;
     float distance = length(lightVec);
     float pointIntensity = 1.0f / ( u_pointLight.linear * distance + u_pointLight.quadratic * distance * distance + u_pointLight.constant );
@@ -45,14 +47,14 @@ void main()
 
     // diffuse 
     vec3 lightDir = normalize(lightVec);
-    float diff = max(dot(Normal, lightDir), 0.0);
+    float diff = max(dot(normal, lightDir), 0.0);
     vec3 diffuse = u_pointLight.diffuse * diff * vec3(texture(u_material.albedoTexture, TexCoord)) * u_material.albedo;
 
     // specular
     vec3 viewDir = normalize(u_cameraPos - FragPos);
     vec3 halfwayDir = normalize(lightDir + viewDir);
-    vec3 reflectDir = reflect(-lightDir, Normal);
-    float spec = pow(max(dot(Normal, halfwayDir), 0.0), u_material.shininess);
+    vec3 reflectDir = reflect(-lightDir, normal);
+    float spec = pow(max(dot(normal, halfwayDir), 0.0), u_material.shininess);
     vec3 specular = u_pointLight.specular * spec * vec3(texture(u_material.specularTexture, TexCoord)) * u_material.specular;
 
     vec3 result = ambient + diffuse + specular;

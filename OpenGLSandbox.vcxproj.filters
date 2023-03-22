@@ -201,5 +201,11 @@
     <Image Include="Resources\Images\white.jpg">
       <Filter>Resources\Images</Filter>
     </Image>
+    <Image Include="Resources\Images\planks_albedo.png">
+      <Filter>Resources\Images</Filter>
+    </Image>
+    <Image Include="Resources\Images\planks_specular.png">
+      <Filter>Resources\Images</Filter>
+    </Image>
   </ItemGroup>
 </Project>

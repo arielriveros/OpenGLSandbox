@@ -65,6 +65,8 @@
   <ItemGroup>
     <Image Include="Resources\Images\brick.png" />
     <Image Include="Resources\Images\light_icon.png" />
+    <Image Include="Resources\Images\planks_albedo.png" />
+    <Image Include="Resources\Images\planks_specular.png" />
     <Image Include="Resources\Images\wall.jpg" />
     <Image Include="Resources\Images\white.jpg" />
   </ItemGroup>

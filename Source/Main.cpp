@@ -39,13 +39,14 @@ int main()
 
 	// Floor
 	Material floorMaterial;
-	floorMaterial.albedoPath = "Resources/Images/wall.jpg";
+	floorMaterial.albedoPath = "Resources/Images/planks_albedo.png";
+	floorMaterial.specularPath = "Resources/Images/planks_specular.png";
 	floorMaterial.shininess = 32.0f;
-	floorMaterial.specular = glm::vec3(0.1f);
+	floorMaterial.specular = glm::vec3(0.5f);
 	Mesh floor = Mesh(squareGeometry, floorMaterial);
 	floor.EulerRotation.x = 3.14 / 2;
-	floor.Position.y = -0.25;
-	floor.Scale = glm::vec3(5.0f);
+	floor.Position.y = -0.3;
+	floor.Scale = glm::vec3(3.0f);
 
 	// Pyramid
 	Material pyramidMaterial;
@@ -59,12 +60,11 @@ int main()
 	cubeMaterial.specularPath = "Resources/Images/cube_specular.png";
 	Mesh cube = Mesh(cubeGeometry, cubeMaterial);
 	cube.Scale = glm::vec3(0.5f);
-	cube.Position.x -= 1.0f;
-	cube.Position.y += 0.5f;
 
 	// Point light
 	PointLight light = PointLight(glm::vec3(1.0f, 1.0f, 1.0f));
 	light.Position = glm::vec3(0.0f, 0.5f, 0.0f);
+	light.Constant = 0.3f;
 	renderer.AddPointLight(light);
 	bool rotateLight = true;
 
@@ -98,21 +98,41 @@ int main()
 		
 		// Render meshes
 		renderer.Draw(floor, camera);
-		renderer.Draw(pyramid, camera);
+		//renderer.Draw(pyramid, camera);
 		renderer.Draw(cube, camera);
 		renderer.Draw(light, camera);
 
 #pragma region ImGUI
 		ImGui::Begin("Settings");
 
-		ImGui::Text("Light settings");
-		ImGui::ColorEdit3("Diffuse",  (float*)&light.Diffuse);
-		ImGui::ColorEdit3("Specular", (float*)&light.Specular);
-		ImGui::ColorEdit3("Ambient",  (float*)&light.Ambient);
-		ImGui::Checkbox("Rotate", &rotateLight);
-		ImGui::DragFloat("Constant", (float*)&light.Constant, 0.1f, 0.0f, 5.0f);
-		ImGui::DragFloat("Linear", (float*)&light.Linear, 0.1f, 0.0f, 5.0f);
-		ImGui::DragFloat("Quadratic", (float*)&light.Quadratic, 0.1f, 0.0f, 5.0f);
+		ImGui::SeparatorText("Lighting");
+		{
+			ImGui::Text("Point Light settings");
+			ImGui::ColorEdit3("Diffuse",  (float*)&light.Diffuse);
+			ImGui::ColorEdit3("Specular", (float*)&light.Specular);
+			ImGui::ColorEdit3("Ambient",  (float*)&light.Ambient);
+			ImGui::Checkbox("Rotate", &rotateLight);
+			ImGui::DragFloat("Constant", (float*)&light.Constant, 0.1f, 0.0f, 5.0f);
+			ImGui::DragFloat("Linear", (float*)&light.Linear, 0.1f, 0.0f, 5.0f);
+			ImGui::DragFloat("Quadratic", (float*)&light.Quadratic, 0.1f, 0.0f, 5.0f);
+		}
+
+		ImGui::SeparatorText("Scene");
+		{
+			ImGui::Text("Cube settings");
+
+			ImGui::PushItemWidth(100);
+			ImGui::DragFloat("X", (float*)&cube.Position.x, 0.1f, -1.0f, 1.0f);
+			ImGui::SameLine(0.0f, 0.0f);
+
+			ImGui::PushItemWidth(100);
+			ImGui::DragFloat("Y", (float*)&cube.Position.y, 0.1f, -1.0f, 1.0f);
+			ImGui::SameLine(0.0f, 0.0f);
+
+			ImGui::PushItemWidth(100);
+			ImGui::SameLine(0.0f, 0.0f);
+			ImGui::DragFloat("Z", (float*)&cube.Position.z, 0.1f, -1.0f, 1.0f);
+		}
 
 		ImGui::Text("%.1f FPS %.3f ms", 1000.0f / io.Framerate, io.Framerate);
 
