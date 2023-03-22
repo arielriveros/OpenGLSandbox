@@ -10,8 +10,11 @@ uniform vec3 u_cameraPos = vec3(0.0f, 0.0f, 0.0f);
 
 struct Material {
     sampler2D albedoTexture;
+    sampler2D specularTexture;
+
     vec3 albedo;
     vec3 specular;
+
     float shininess;
 }; 
 
@@ -33,8 +36,6 @@ uniform PointLight u_pointLight;
 
 void main()
 {
-    vec3 normal = Normal;
-
     vec3 lightVec = u_pointLight.position - FragPos;
     float distance = length(lightVec);
     float pointIntensity = 1.0f / ( u_pointLight.linear * distance + u_pointLight.quadratic * distance + u_pointLight.constant );
@@ -43,15 +44,15 @@ void main()
     vec3 ambient = u_pointLight.ambient * u_material.albedo * vec3(texture(u_material.albedoTexture, TexCoord));
 
     // diffuse 
-    vec3 lightDir = normalize(u_pointLight.position - FragPos);
-    float diff = max(dot(normal, lightDir), 0.0);
+    vec3 lightDir = normalize(lightVec);
+    float diff = max(dot(Normal, lightDir), 0.0);
     vec3 diffuse = u_pointLight.diffuse * diff * vec3(texture(u_material.albedoTexture, TexCoord)) * u_material.albedo;
 
     // specular
     vec3 viewDir = normalize(u_cameraPos - FragPos);
-    vec3 reflectDir = reflect(-lightDir, normal);  
+    vec3 reflectDir = reflect(-lightDir, Normal);  
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), u_material.shininess);
-    vec3 specular = u_pointLight.specular * spec * u_material.specular;
+    vec3 specular = u_pointLight.specular * spec * vec3(texture(u_material.specularTexture, TexCoord)) * u_material.specular;
 
     vec3 result = ambient + diffuse + specular;
     FragColor = vec4(result * pointIntensity, 1.0);

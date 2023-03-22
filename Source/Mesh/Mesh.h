@@ -21,8 +21,8 @@ struct Material
 	glm::vec3 albedo   = glm::vec3(1.0f);
 	glm::vec3 specular = glm::vec3(1.0f);
 
-	std::string albedoPath = "Resources/Images/white.jpg";
-	//const std::string& specularPath;
+	std::string albedoPath	 = "Resources/Images/white.jpg";
+	std::string specularPath = "Resources/Images/white.jpg";
 
 	float shininess = 32.0f;
 };
@@ -42,9 +42,11 @@ private:
 	IndexBuffer  m_IBO;
 
 	Texture		m_AlbedoTexture;
+	Texture		m_SpecularTexture;
+
 	glm::vec3	m_AlbedoColor;
-	glm::vec3	m_AmbientColor;
 	glm::vec3	m_SpecularColor;
+
 	float		m_Shininess;
 	
 public:

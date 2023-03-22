@@ -7,6 +7,8 @@ Mesh::Mesh(const Geometry& geometry, const Material& material)
 
 	m_AlbedoTexture = Texture(material.albedoPath, true);
 	m_AlbedoColor = material.albedo;
+
+	m_SpecularTexture = Texture(material.specularPath, true);
 	m_SpecularColor = material.specular;
 	m_Shininess = material.shininess;
 
@@ -46,8 +48,13 @@ void Mesh::Draw(const Camera& camera, const Shader& shader) const
 	m_VAO.Bind();
 	m_IBO.Bind();
 	shader.Bind();
-	m_AlbedoTexture.Bind();
+
+	m_AlbedoTexture.Bind(0);
 	shader.SetInts("u_material.albedoTexture", { 0 });
+
+	m_SpecularTexture.Bind(1);
+	shader.SetInts("u_material.specularTexture", { 1 });
+
 	shader.SetVec3("u_material.albedo", m_AlbedoColor);
 	shader.SetVec3("u_material.specular", m_SpecularColor);
 	shader.SetFloats("u_material.shininess", { m_Shininess });

@@ -37,6 +37,7 @@ int main()
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	ImGui::StyleColorsDark();
 
+	// Floor
 	Material floorMaterial;
 	floorMaterial.albedoPath = "Resources/Images/wall.jpg";
 	floorMaterial.shininess = 32.0f;
@@ -46,12 +47,22 @@ int main()
 	floor.Position.y = -0.25;
 	floor.Scale = glm::vec3(5.0f);
 
+	// Pyramid
 	Material pyramidMaterial;
 	pyramidMaterial.albedoPath = "Resources/Images/brick.png";
 	pyramidMaterial.albedo = glm::vec3(0.0f, 1.0f, 0.0f);
 	Mesh pyramid = Mesh(pyramidGeometry, pyramidMaterial);
 
+	// Cube
+	Material cubeMaterial;
+	cubeMaterial.albedoPath = "Resources/Images/cube_albedo.png";
+	cubeMaterial.specularPath = "Resources/Images/cube_specular.png";
+	Mesh cube = Mesh(cubeGeometry, cubeMaterial);
+	cube.Scale = glm::vec3(0.5f);
+	cube.Position.x -= 1.0f;
+	cube.Position.y += 0.5f;
 
+	// Point light
 	PointLight light = PointLight(glm::vec3(1.0f, 1.0f, 1.0f));
 	light.Position = glm::vec3(0.0f, 0.5f, 0.0f);
 	renderer.AddPointLight(light);
@@ -73,8 +84,11 @@ int main()
 		ImGui::NewFrame();
 
 		// Change object properties
-		pyramid.EulerRotation.y = (float)glfwGetTime() / 2;
+		pyramid.EulerRotation.y = (float)glfwGetTime()/2;
 		pyramid.Position.y = cos((float)glfwGetTime())/4;
+
+		cube.EulerRotation.x = (float)glfwGetTime()/2;
+		cube.EulerRotation.z = (float)glfwGetTime();
 
 		if (rotateLight)
 		{
@@ -85,6 +99,7 @@ int main()
 		// Render meshes
 		renderer.Draw(floor, camera);
 		renderer.Draw(pyramid, camera);
+		renderer.Draw(cube, camera);
 		renderer.Draw(light, camera);
 
 #pragma region ImGUI
