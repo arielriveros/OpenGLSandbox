@@ -1,10 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
-#include "../VertexArray/VertexArray.h"
-#include "../Buffers/IndexBuffer.h"
-#include "../Shader/Shader.h"
 #include "../Camera/Camera.h"
-#include "../Texture/Texture.h"
+#include "../Sprite/Sprite.h"
 
 class DirectionalLight
 {
@@ -17,10 +14,7 @@ public:
 
 
 private:
-	VertexArray m_VAO;
-	VertexBuffer m_VBO;
-	IndexBuffer m_IBO;
-	Texture m_Texture;
+	Sprite* m_Icon;
 
 public:
 	DirectionalLight();
