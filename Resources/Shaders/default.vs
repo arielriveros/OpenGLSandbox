@@ -11,10 +11,11 @@ out vec3 FragPos;
 
 uniform mat4 u_model = mat4(1.0);
 uniform mat4 u_viewProjection = mat4(1.0);
+uniform vec2 u_uvModifier = vec2(1.0);
 
 void main()
 {
-	TexCoord = aTexCoord;
+	TexCoord = aTexCoord * u_uvModifier;
 	Normal = mat3(u_model) * aNormal;
 	FragPos = vec3(u_model * vec4(aPos, 1.0f));
 	gl_Position = u_viewProjection * vec4(FragPos, 1.0);

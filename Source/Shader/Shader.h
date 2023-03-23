@@ -25,6 +25,7 @@ public:
 	void SetInts(const std::string& uniformName, std::vector<int> values) const;
 	void SetFloats(const std::string& uniformName, std::vector<float> values) const;
 	void SetMat4(const std::string& uniformName, glm::mat4 value) const;
+	void SetVec2(const std::string& uniformName, glm::vec2 value) const;
 	void SetVec3(const std::string& uniformName, glm::vec3 value) const;
 	void SetVec4(const std::string& uniformName, glm::vec4 value) const;
 

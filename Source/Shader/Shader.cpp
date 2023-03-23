@@ -155,6 +155,19 @@ void Shader::SetMat4(const std::string& uniformName, glm::mat4 value) const
 	glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(value));
 }
 
+void Shader::SetVec2(const std::string& uniformName, glm::vec2 value) const
+{
+	int uniformLocation = glGetUniformLocation(m_shaderProgramID, uniformName.c_str());
+	if (uniformLocation == -1)
+	{
+		std::cout << "Error: Uniform '" << uniformName << "' not found." << std::endl;
+		return;
+	}
+
+	Bind();
+	glUniform2fv(uniformLocation, 1, glm::value_ptr(value));
+}
+
 void Shader::SetVec3(const std::string& uniformName, glm::vec3 value) const
 {
 	int uniformLocation = glGetUniformLocation(m_shaderProgramID, uniformName.c_str());

@@ -54,6 +54,7 @@ int main()
 	wallMaterial.specularPath = "Resources/Images/bricks_specular.jpg";
 	wallMaterial.shininess = 8.0f;
 	wallMaterial.specular = glm::vec3(0.2f);
+	wallMaterial.uv = glm::vec2(2.5f);
 	Mesh pyramid = Mesh(pyramidGeometry, wallMaterial);
 	pyramid.Position.x -= 1.0f;
 	pyramid.Scale = glm::vec3(0.5f);

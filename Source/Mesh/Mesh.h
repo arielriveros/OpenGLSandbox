@@ -32,6 +32,8 @@ struct Material
 	std::string specularPath = "Resources/Images/white.jpg";
 
 	float shininess = 32.0f;
+
+	glm::vec2 uv = glm::vec2(1.0f);
 };
 
 class Mesh
@@ -55,6 +57,7 @@ private:
 	glm::vec3	m_SpecularColor;
 
 	float		m_Shininess;
+	glm::vec2   m_uvModifier;
 	
 public:
 	Mesh(const Geometry& geometry, const Material& material);

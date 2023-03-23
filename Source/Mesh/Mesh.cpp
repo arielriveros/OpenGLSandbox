@@ -12,6 +12,8 @@ Mesh::Mesh(const Geometry& geometry, const Material& material)
 	m_SpecularColor = material.specular;
 	m_Shininess = material.shininess;
 
+	m_uvModifier = material.uv;
+
 	m_VAO = VertexArray();
 	m_VBO = VertexBuffer();
 	m_VBO.UploadData(&m_Vertices[0], m_Vertices.size() * sizeof(m_Vertices[0]));
@@ -58,6 +60,8 @@ void Mesh::Draw(const Camera& camera, const Shader& shader) const
 	shader.SetVec3("u_material.albedo", m_AlbedoColor);
 	shader.SetVec3("u_material.specular", m_SpecularColor);
 	shader.SetFloats("u_material.shininess", { m_Shininess });
+
+	shader.SetVec2("u_uvModifier", m_uvModifier);
 
 	shader.SetMat4("u_model", GetTransform());
 
