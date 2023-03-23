@@ -26,7 +26,7 @@ private:
 	Texture m_Texture;
 
 public:
-	PointLight();
+	PointLight(glm::vec3 color);
 	~PointLight();
 
 	void Draw(const Camera& camera, const Shader& shader) const;

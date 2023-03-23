@@ -1,7 +1,10 @@
 #include "PointLight.h"
 
-PointLight::PointLight()
+PointLight::PointLight(glm::vec3 color)
 {
+	Diffuse = color;
+	Specular = color;
+
 	m_VAO = VertexArray();
 	m_VBO = VertexBuffer();
 

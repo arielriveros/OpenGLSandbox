@@ -53,6 +53,7 @@ int main()
 	wallMaterial.albedoPath = "Resources/Images/bricks_albedo.jpg";
 	wallMaterial.specularPath = "Resources/Images/bricks_specular.jpg";
 	wallMaterial.shininess = 8.0f;
+	wallMaterial.specular = glm::vec3(0.2f);
 	Mesh pyramid = Mesh(pyramidGeometry, wallMaterial);
 	pyramid.Position.x -= 1.0f;
 	pyramid.Scale = glm::vec3(0.5f);
@@ -61,6 +62,7 @@ int main()
 	Mesh wall = Mesh(squareGeometry, wallMaterial);
 	wall.Position.y = 1.0f;
 	wall.Position.z = -1.5f;
+	wall.EulerRotation.x = 3.14f;
 	wall.EulerRotation.z = 3.14f / 2.0f;
 	wall.Scale = glm::vec3(3.0f);
 
@@ -73,24 +75,21 @@ int main()
 	cube.Scale = glm::vec3(0.5f);
 
 	// Point light
-	PointLight pointLight = PointLight();
-	pointLight.Diffuse = glm::vec3(0.33f);
-	pointLight.Position = glm::vec3(0.0f, 0.5f, 0.0f);
+	PointLight pointLight = PointLight(glm::vec3(0.33f));
+	pointLight.Specular = glm::vec3(0.1f);
+	pointLight.Position = glm::vec3(0.0f, 1.0f, 0.0f);
 	renderer.AddPointLight(pointLight);
 	bool rotateLight = true;
 
 	// More Point lights
-	PointLight pointLight2 = PointLight();
-	pointLight2.Position = glm::vec3(1.0f, 0.5f, -1.0f);
-	pointLight2.Diffuse = glm::vec3(0.0f, 0.0f, 1.0f);
+	PointLight pointLight2 = PointLight(glm::vec3(0.0f, 0.0f, 1.0f));
+	pointLight2.Position = glm::vec3(1.0f, 2.5f, -1.0f);
 
-	PointLight pointLight3 = PointLight();
+	PointLight pointLight3 = PointLight(glm::vec3(0.0f, 1.0f, 0.0f));
 	pointLight3.Position = glm::vec3(1.0f, 0.5f, 1.0f);
-	pointLight3.Diffuse = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	PointLight pointLight4 = PointLight();
+	PointLight pointLight4 = PointLight(glm::vec3(1.0f, 0.0f, 0.0f));
 	pointLight4.Position = glm::vec3(-1.0f, 0.5f, -1.0f);
-	pointLight4.Diffuse = glm::vec3(1.0f, 0.0f, 0.0f);
 
 	renderer.AddPointLight(pointLight2);
 	renderer.AddPointLight(pointLight3);
