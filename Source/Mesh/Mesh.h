@@ -10,9 +10,16 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
+struct Vertex
+{
+	glm::vec3 position;
+	glm::vec3 normal;
+	glm::vec2 uv;
+};
+
 struct Geometry
 {
-	std::vector<float> vertices;
+	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices; 
 };
 
@@ -35,7 +42,7 @@ public:
 	glm::vec3 Scale			= glm::vec3(1.0f, 1.0f, 1.0f);
 
 private:
-	std::vector<float>		  m_Vertices;
+	std::vector<Vertex>		  m_Vertices;
 	std::vector<unsigned int> m_Indices;
 	VertexArray  m_VAO;
 	VertexBuffer m_VBO;
