@@ -113,6 +113,9 @@
     <ClCompile Include="Source\Sprite\Sprite.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Model\Model.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Shader\Shader.h">
@@ -179,6 +182,7 @@
     <ClInclude Include="Source\Lighting\DirectionalLight.h" />
     <ClInclude Include="Source\Lighting\Light.h" />
     <ClInclude Include="Source\Sprite\Sprite.h" />
+    <ClInclude Include="Source\Model\Model.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\default.fs">

@@ -15,6 +15,7 @@
     <ClCompile Include="Source\Buffers\IndexBuffer.cpp" />
     <ClCompile Include="Source\Buffers\VertexBuffer.cpp" />
     <ClCompile Include="Source\Lighting\DirectionalLight.cpp" />
+    <ClCompile Include="Source\Model\Model.cpp" />
     <ClCompile Include="Source\Sprite\Sprite.cpp" />
     <ClCompile Include="ThirdParty\include\imgui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3.cpp" />
@@ -44,6 +45,7 @@
     <ClInclude Include="Source\Lighting\Light.h" />
     <ClInclude Include="Source\Lighting\PointLight.h" />
     <ClInclude Include="Source\Mesh\Mesh.h" />
+    <ClInclude Include="Source\Model\Model.h" />
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\Shader\Shader.h" />
     <ClInclude Include="Source\Sprite\Sprite.h" />
@@ -132,7 +134,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mt.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -150,7 +152,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mt.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

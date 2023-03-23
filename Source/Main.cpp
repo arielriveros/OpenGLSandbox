@@ -11,6 +11,7 @@
 #include <imgui/backends/imgui_impl_opengl3.h>
 #include <stb/stb_image.h>
 #include "../Resources/Geometries/Geometries.h"
+#include "Model/Model.h"
 
 const unsigned int _WIDTH = 800;
 const unsigned int _HEIGHT = 600;
@@ -101,6 +102,14 @@ int main()
 	directionalLight.Direction = glm::vec3(-0.2f, -1.0f, -0.3f);
 	renderer.AddDirectionalLight(directionalLight);
 
+	// Model
+	Material backPackMaterial;
+	backPackMaterial.albedoPath = "Resources/Models/backpack/diffuse.jpg";
+	backPackMaterial.specularPath = "Resources/Models/backpack/specular.jpg";
+	Model backpack = Model("Resources/Models/backpack/backpack.obj", backPackMaterial);
+	
+
+
 	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.0f, 4.0f));
 
 	// Main window loop
@@ -130,10 +139,12 @@ int main()
 		}
 		
 		// Render meshes
-		renderer.Draw(floor, camera);
-		renderer.Draw(pyramid, camera);
-		renderer.Draw(cube, camera);
-		renderer.Draw(wall, camera);
+		//renderer.Draw(floor, camera);
+		//renderer.Draw(pyramid, camera);
+		//renderer.Draw(cube, camera);
+		//renderer.Draw(wall, camera);
+
+		renderer.Draw(backpack, camera);
 		
 		renderer.DrawLights(camera);
 

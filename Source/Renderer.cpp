@@ -35,30 +35,14 @@ void Renderer::Clear() const
 
 void Renderer::Draw(const Mesh& mesh, const Camera& camera) const
 {
-	if (m_DirectionalLight)
-	{
-		m_defaultProgram.SetVec3("u_directionalLight.direction", m_DirectionalLight->Direction);
-		m_defaultProgram.SetVec3("u_directionalLight.diffuse", m_DirectionalLight->Diffuse * glm::vec3(0.5f));
-		m_defaultProgram.SetVec3("u_directionalLight.ambient", m_DirectionalLight->Ambient * glm::vec3(0.25f));
-		m_defaultProgram.SetVec3("u_directionalLight.specular", m_DirectionalLight->Specular);
-	}
-
-	int pointLightsCount = m_PointLights.size();
-	m_defaultProgram.SetInts("u_pointLightsCount", { pointLightsCount });
-
-	for (int i=0; i < pointLightsCount; i++)
-	{
-		m_defaultProgram.SetVec3("u_pointLights["+ std::to_string(i) + "].position", m_PointLights[i]->Position);
-		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].diffuse", m_PointLights[i]->Diffuse);
-		m_defaultProgram.SetVec3("u_pointLights["+ std::to_string(i) + "].ambient", m_PointLights[i]->Ambient);
-		m_defaultProgram.SetVec3("u_pointLights["+ std::to_string(i) + "].specular", m_PointLights[i]->Specular);
-
-		m_defaultProgram.SetFloats("u_pointLights["+ std::to_string(i) + "].constant", { m_PointLights[i]->Constant });
-		m_defaultProgram.SetFloats("u_pointLights["+ std::to_string(i) + "].linear", { m_PointLights[i]->Linear });
-		m_defaultProgram.SetFloats("u_pointLights["+ std::to_string(i) + "].quadratic", { m_PointLights[i]->Quadratic });
-	}
-
+	SetLights();
 	mesh.Draw(camera, m_defaultProgram);
+}
+
+void Renderer::Draw(const Model& model, const Camera& camera) const
+{
+	SetLights();
+	model.Draw(camera, m_defaultProgram);
 }
 
 void Renderer::DrawLights(const Camera& camera) const
@@ -86,6 +70,32 @@ void Renderer::AddDirectionalLight(const DirectionalLight& directionalLight)
 void Renderer::Shutdown()
 {
 	
+}
+
+void Renderer::SetLights() const
+{
+	if (m_DirectionalLight)
+	{
+		m_defaultProgram.SetVec3("u_directionalLight.direction", m_DirectionalLight->Direction);
+		m_defaultProgram.SetVec3("u_directionalLight.diffuse", m_DirectionalLight->Diffuse * glm::vec3(0.5f));
+		m_defaultProgram.SetVec3("u_directionalLight.ambient", m_DirectionalLight->Ambient * glm::vec3(0.25f));
+		m_defaultProgram.SetVec3("u_directionalLight.specular", m_DirectionalLight->Specular);
+	}
+
+	int pointLightsCount = m_PointLights.size();
+	m_defaultProgram.SetInts("u_pointLightsCount", { pointLightsCount });
+
+	for (int i = 0; i < pointLightsCount; i++)
+	{
+		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].position", m_PointLights[i]->Position);
+		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].diffuse", m_PointLights[i]->Diffuse);
+		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].ambient", m_PointLights[i]->Ambient);
+		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].specular", m_PointLights[i]->Specular);
+
+		m_defaultProgram.SetFloats("u_pointLights[" + std::to_string(i) + "].constant", { m_PointLights[i]->Constant });
+		m_defaultProgram.SetFloats("u_pointLights[" + std::to_string(i) + "].linear", { m_PointLights[i]->Linear });
+		m_defaultProgram.SetFloats("u_pointLights[" + std::to_string(i) + "].quadratic", { m_PointLights[i]->Quadratic });
+	}
 }
 
 void APIENTRY GLErrorMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)

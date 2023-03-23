@@ -18,6 +18,8 @@ Mesh::Mesh(const Geometry& geometry, const Material& material)
 	layout.Push<float>(3); // Position attribute
 	layout.Push<float>(3); // Normal Attribute
 	layout.Push<float>(2); // UV Attribute
+	layout.Push<float>(3); // Tangent Attribute
+	layout.Push<float>(3); // Bitangent Attribute
 	m_VAO.AttachVertexBuffer(m_VBO, layout);
 
 	m_IBO = IndexBuffer();
@@ -30,15 +32,7 @@ Mesh::Mesh(const Geometry& geometry, const Material& material)
 
 Mesh::~Mesh()
 {
-	m_VAO.Unbind();
-	m_VBO.Unbind();
-	m_IBO.Unbind();
-	m_AlbedoTexture.Unbind();
-
-	m_VAO.Delete();
-	m_VBO.Delete();
-	m_IBO.Delete();
-	m_AlbedoTexture.Delete();
+	
 }
 
 void Mesh::Draw(const Camera& camera, const Shader& shader) const
@@ -68,6 +62,19 @@ void Mesh::Draw(const Camera& camera, const Shader& shader) const
 	
 	unsigned int count = m_IBO.GetCount();
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+}
+
+void Mesh::Destroy()
+{
+	m_VAO.Unbind();
+	m_VBO.Unbind();
+	m_IBO.Unbind();
+	m_AlbedoTexture.Unbind();
+
+	m_VAO.Delete();
+	m_VBO.Delete();
+	m_IBO.Delete();
+	m_AlbedoTexture.Delete();
 }
 
 glm::mat4 Mesh::GetTransform() const
