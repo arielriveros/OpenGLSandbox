@@ -212,5 +212,20 @@
     <Image Include="Resources\Images\planks_specular.png">
       <Filter>Resources\Images</Filter>
     </Image>
+    <Image Include="Resources\Images\bricks_albedo.jpg">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\Images\bricks_normal.jpg">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\Images\bricks_specular.jpg">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\Images\cube_albedo.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\Images\cube_specular.png">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -1,4 +1,6 @@
 #include "Renderer.h"
+#include <string>
+
 
 #define BREAK __debugbreak();
 
@@ -41,35 +43,38 @@ void Renderer::Draw(const Mesh& mesh, const Camera& camera) const
 		m_defaultProgram.SetVec3("u_directionalLight.specular", m_DirectionalLight->Specular);
 	}
 
-	if (m_PointLight)
-	{
-		m_defaultProgram.SetVec3("u_pointLight.position", m_PointLight->Position);
-		m_defaultProgram.SetVec3("u_pointLight.diffuse", m_PointLight->Diffuse);
-		m_defaultProgram.SetVec3("u_pointLight.ambient", m_PointLight->Ambient);
-		m_defaultProgram.SetVec3("u_pointLight.specular", m_PointLight->Specular);
+	int pointLightsCount = m_PointLights.size();
+	m_defaultProgram.SetInts("u_pointLightsCount", { pointLightsCount });
 
-		m_defaultProgram.SetFloats("u_pointLight.constant", { m_PointLight->Constant });
-		m_defaultProgram.SetFloats("u_pointLight.linear", { m_PointLight->Linear });
-		m_defaultProgram.SetFloats("u_pointLight.quadratic", { m_PointLight->Quadratic });
+	for (int i=0; i < pointLightsCount; i++)
+	{
+		m_defaultProgram.SetVec3("u_pointLights["+ std::to_string(i) + "].position", m_PointLights[i]->Position);
+		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].diffuse", m_PointLights[i]->Diffuse);
+		m_defaultProgram.SetVec3("u_pointLights["+ std::to_string(i) + "].ambient", m_PointLights[i]->Ambient);
+		m_defaultProgram.SetVec3("u_pointLights["+ std::to_string(i) + "].specular", m_PointLights[i]->Specular);
+
+		m_defaultProgram.SetFloats("u_pointLights["+ std::to_string(i) + "].constant", { m_PointLights[i]->Constant });
+		m_defaultProgram.SetFloats("u_pointLights["+ std::to_string(i) + "].linear", { m_PointLights[i]->Linear });
+		m_defaultProgram.SetFloats("u_pointLights["+ std::to_string(i) + "].quadratic", { m_PointLights[i]->Quadratic });
 	}
 
 	mesh.Draw(camera, m_defaultProgram);
 }
 
-void Renderer::Draw(const DirectionalLight& light, const Camera& camera) const
+void Renderer::DrawLights(const Camera& camera) const
 {
-	light.Draw(camera, m_iconProgram);
-}
+	if(m_DirectionalLight)
+		m_DirectionalLight->Draw(camera, m_iconProgram);
 
-void Renderer::Draw(const PointLight& light, const Camera& camera) const
-{
-	light.Draw(camera, m_iconProgram);
+	for (const PointLight* pointLight : m_PointLights)
+	{
+		pointLight->Draw(camera, m_iconProgram);
+	}
 }
-
 
 void Renderer::AddPointLight(const PointLight& pointLight)
 {
-	m_PointLight = &pointLight;
+	m_PointLights.push_back(&pointLight);
 }
 
 void Renderer::AddDirectionalLight(const DirectionalLight& directionalLight)

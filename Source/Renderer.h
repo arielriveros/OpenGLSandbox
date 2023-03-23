@@ -9,6 +9,7 @@
 #include "Camera/Camera.h"
 #include "Lighting/PointLight.h"
 #include "Lighting/DirectionalLight.h"
+#include <vector>
 
 class Renderer
 {
@@ -16,7 +17,7 @@ private:
 	Shader m_defaultProgram;
 	Shader m_iconProgram;
 	const DirectionalLight* m_DirectionalLight = nullptr;
-	const PointLight* m_PointLight = nullptr;
+	std::vector<const PointLight*> m_PointLights;
 
 public:
 	Renderer();
@@ -27,8 +28,7 @@ public:
 	void AddPointLight(const PointLight& pointLight);
 	void AddDirectionalLight(const DirectionalLight& directionalLight);
 	void Draw(const Mesh& mesh, const Camera& camera) const;
-	void Draw(const DirectionalLight& light, const Camera& camera) const;
-	void Draw(const PointLight& light, const Camera& camera) const;
+	void DrawLights(const Camera& camera) const;
 	void Shutdown();
 
 };

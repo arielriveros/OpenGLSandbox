@@ -41,7 +41,10 @@ struct PointLight {
 };
 
 uniform DirectionalLight u_directionalLight;
-uniform PointLight u_pointLight;  
+
+#define MAX_LIGHTS 4
+uniform int u_pointLightsCount = 0;
+uniform PointLight u_pointLights[MAX_LIGHTS];
 
 vec3 CalcDirLight(DirectionalLight light, vec3 normal, vec3 viewDir)
 {
@@ -93,6 +96,8 @@ void main()
     vec3 result = vec3(0.0f);
 
     result += CalcDirLight(u_directionalLight, normal, viewDir);
-    result += CalcPointLight(u_pointLight, normal, FragPos, viewDir);
+    for(int i=0; i < u_pointLightsCount; i++)
+        result += CalcPointLight(u_pointLights[i], normal, FragPos, viewDir);
+
     FragColor = vec4(result, 1.0);
 }

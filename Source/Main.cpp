@@ -38,37 +38,63 @@ int main()
 	ImGui::StyleColorsDark();
 
 	// Floor
-	Material floorMaterial;
-	floorMaterial.albedoPath = "Resources/Images/planks_albedo.png";
-	floorMaterial.specularPath = "Resources/Images/planks_specular.png";
-	floorMaterial.shininess = 32.0f;
-	floorMaterial.specular = glm::vec3(0.5f);
-	Mesh floor = Mesh(squareGeometry, floorMaterial);
+	Material planksMaterial;
+	planksMaterial.albedoPath = "Resources/Images/planks_albedo.png";
+	planksMaterial.specularPath = "Resources/Images/planks_specular.png";
+	planksMaterial.shininess = 32.0f;
+	planksMaterial.specular = glm::vec3(0.5f);
+	Mesh floor = Mesh(squareGeometry, planksMaterial);
 	floor.EulerRotation.x = 3.14 / 2;
-	floor.Position.y = -0.3;
+	floor.Position.y = -0.5;
 	floor.Scale = glm::vec3(3.0f);
 
 	// Pyramid
-	Material pyramidMaterial;
-	pyramidMaterial.albedoPath = "Resources/Images/brick.png";
-	pyramidMaterial.albedo = glm::vec3(0.0f, 1.0f, 0.0f);
-	Mesh pyramid = Mesh(pyramidGeometry, pyramidMaterial);
+	Material wallMaterial;
+	wallMaterial.albedoPath = "Resources/Images/bricks_albedo.jpg";
+	wallMaterial.specularPath = "Resources/Images/bricks_specular.jpg";
+	wallMaterial.shininess = 8.0f;
+	Mesh pyramid = Mesh(pyramidGeometry, wallMaterial);
+	pyramid.Position.x -= 1.0f;
+	pyramid.Scale = glm::vec3(0.5f);
+
+	// Wall
+	Mesh wall = Mesh(squareGeometry, wallMaterial);
+	wall.Position.y = 1.0f;
+	wall.Position.z = -1.5f;
+	wall.EulerRotation.z = 3.14f / 2.0f;
+	wall.Scale = glm::vec3(3.0f);
+
 
 	// Cube
-	Material cubeMaterial;
-	cubeMaterial.albedoPath = "Resources/Images/cube_albedo.png";
-	cubeMaterial.specularPath = "Resources/Images/cube_specular.png";
-	Mesh cube = Mesh(cubeGeometry, cubeMaterial);
-
+	Material crateMaterial;
+	crateMaterial.albedoPath = "Resources/Images/cube_albedo.png";
+	crateMaterial.specularPath = "Resources/Images/cube_specular.png";
+	Mesh cube = Mesh(cubeGeometry, crateMaterial);
 	cube.Scale = glm::vec3(0.5f);
 
 	// Point light
 	PointLight pointLight = PointLight();
-	pointLight.Diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
+	pointLight.Diffuse = glm::vec3(0.33f);
 	pointLight.Position = glm::vec3(0.0f, 0.5f, 0.0f);
-	pointLight.Constant = 0.3f;
 	renderer.AddPointLight(pointLight);
 	bool rotateLight = true;
+
+	// More Point lights
+	PointLight pointLight2 = PointLight();
+	pointLight2.Position = glm::vec3(1.0f, 0.5f, -1.0f);
+	pointLight2.Diffuse = glm::vec3(0.0f, 0.0f, 1.0f);
+
+	PointLight pointLight3 = PointLight();
+	pointLight3.Position = glm::vec3(1.0f, 0.5f, 1.0f);
+	pointLight3.Diffuse = glm::vec3(0.0f, 1.0f, 0.0f);
+
+	PointLight pointLight4 = PointLight();
+	pointLight4.Position = glm::vec3(-1.0f, 0.5f, -1.0f);
+	pointLight4.Diffuse = glm::vec3(1.0f, 0.0f, 0.0f);
+
+	renderer.AddPointLight(pointLight2);
+	renderer.AddPointLight(pointLight3);
+	renderer.AddPointLight(pointLight4);
 
 	// Directional light
 	DirectionalLight directionalLight = DirectionalLight();
@@ -105,10 +131,11 @@ int main()
 		
 		// Render meshes
 		renderer.Draw(floor, camera);
-		//renderer.Draw(pyramid, camera);
+		renderer.Draw(pyramid, camera);
 		renderer.Draw(cube, camera);
-		renderer.Draw(directionalLight, camera);
-		renderer.Draw(pointLight, camera);
+		renderer.Draw(wall, camera);
+		
+		renderer.DrawLights(camera);
 
 #pragma region ImGUI
 		ImGui::Begin("Settings");
