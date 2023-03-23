@@ -33,16 +33,32 @@ void Renderer::Clear() const
 
 void Renderer::Draw(const Mesh& mesh, const Camera& camera) const
 {
-	m_defaultProgram.SetVec3("u_pointLight.position", m_PointLight->Position);
-	m_defaultProgram.SetVec3("u_pointLight.diffuse", m_PointLight->Diffuse * glm::vec3(0.5f));
-	m_defaultProgram.SetVec3("u_pointLight.ambient", m_PointLight->Ambient * glm::vec3(0.25f));
-	m_defaultProgram.SetVec3("u_pointLight.specular", m_PointLight->Specular);
+	if (m_DirectionalLight)
+	{
+		m_defaultProgram.SetVec3("u_directionalLight.direction", m_DirectionalLight->Direction);
+		m_defaultProgram.SetVec3("u_directionalLight.diffuse", m_DirectionalLight->Diffuse * glm::vec3(0.5f));
+		m_defaultProgram.SetVec3("u_directionalLight.ambient", m_DirectionalLight->Ambient * glm::vec3(0.25f));
+		m_defaultProgram.SetVec3("u_directionalLight.specular", m_DirectionalLight->Specular);
+	}
 
-	m_defaultProgram.SetFloats("u_pointLight.constant", { m_PointLight->Constant });
-	m_defaultProgram.SetFloats("u_pointLight.linear", { m_PointLight->Linear });
-	m_defaultProgram.SetFloats("u_pointLight.quadratic", { m_PointLight->Quadratic });
+	if (m_PointLight)
+	{
+		m_defaultProgram.SetVec3("u_pointLight.position", m_PointLight->Position);
+		m_defaultProgram.SetVec3("u_pointLight.diffuse", m_PointLight->Diffuse);
+		m_defaultProgram.SetVec3("u_pointLight.ambient", m_PointLight->Ambient);
+		m_defaultProgram.SetVec3("u_pointLight.specular", m_PointLight->Specular);
+
+		m_defaultProgram.SetFloats("u_pointLight.constant", { m_PointLight->Constant });
+		m_defaultProgram.SetFloats("u_pointLight.linear", { m_PointLight->Linear });
+		m_defaultProgram.SetFloats("u_pointLight.quadratic", { m_PointLight->Quadratic });
+	}
 
 	mesh.Draw(camera, m_defaultProgram);
+}
+
+void Renderer::Draw(const DirectionalLight& light, const Camera& camera) const
+{
+	light.Draw(camera, m_iconProgram);
 }
 
 void Renderer::Draw(const PointLight& light, const Camera& camera) const
@@ -50,9 +66,15 @@ void Renderer::Draw(const PointLight& light, const Camera& camera) const
 	light.Draw(camera, m_iconProgram);
 }
 
-void Renderer::AddPointLight(PointLight& pointLight)
+
+void Renderer::AddPointLight(const PointLight& pointLight)
 {
 	m_PointLight = &pointLight;
+}
+
+void Renderer::AddDirectionalLight(const DirectionalLight& directionalLight)
+{
+	m_DirectionalLight = &directionalLight;
 }
 
 

@@ -107,6 +107,9 @@
     <ClCompile Include="ThirdParty\include\imgui\backends\imgui_impl_glfw.cpp">
       <Filter>Source\External</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Lighting\DirectionalLight.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Shader\Shader.h">
@@ -170,6 +173,8 @@
       <Filter>Source\External</Filter>
     </ClInclude>
     <ClInclude Include="Resources\Geometries\Geometries.h" />
+    <ClInclude Include="Source\Lighting\DirectionalLight.h" />
+    <ClInclude Include="Source\Lighting\Light.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\default.fs">

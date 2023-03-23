@@ -59,14 +59,21 @@ int main()
 	cubeMaterial.albedoPath = "Resources/Images/cube_albedo.png";
 	cubeMaterial.specularPath = "Resources/Images/cube_specular.png";
 	Mesh cube = Mesh(cubeGeometry, cubeMaterial);
+
 	cube.Scale = glm::vec3(0.5f);
 
 	// Point light
-	PointLight light = PointLight(glm::vec3(1.0f, 1.0f, 1.0f));
-	light.Position = glm::vec3(0.0f, 0.5f, 0.0f);
-	light.Constant = 0.3f;
-	renderer.AddPointLight(light);
+	PointLight pointLight = PointLight();
+	pointLight.Diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
+	pointLight.Position = glm::vec3(0.0f, 0.5f, 0.0f);
+	pointLight.Constant = 0.3f;
+	renderer.AddPointLight(pointLight);
 	bool rotateLight = true;
+
+	// Directional light
+	DirectionalLight directionalLight = DirectionalLight();
+	directionalLight.Direction = glm::vec3(-0.2f, -1.0f, -0.3f);
+	renderer.AddDirectionalLight(directionalLight);
 
 	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.0f, 4.0f));
 
@@ -92,29 +99,44 @@ int main()
 
 		if (rotateLight)
 		{
-			light.Position.x = cos((float)glfwGetTime()/2);
-			light.Position.z = sin((float)glfwGetTime()/2);
+			pointLight.Position.x = cos((float)glfwGetTime()/2);
+			pointLight.Position.z = sin((float)glfwGetTime()/2);
 		}
 		
 		// Render meshes
 		renderer.Draw(floor, camera);
 		//renderer.Draw(pyramid, camera);
 		renderer.Draw(cube, camera);
-		renderer.Draw(light, camera);
+		renderer.Draw(directionalLight, camera);
+		renderer.Draw(pointLight, camera);
 
 #pragma region ImGUI
 		ImGui::Begin("Settings");
 
 		ImGui::SeparatorText("Lighting");
 		{
+			ImGui::Text("Directional Light settings");
+			ImGui::ColorEdit3("Dir Diffuse", (float*)&directionalLight.Diffuse);
+			ImGui::PushItemWidth(100);
+			ImGui::DragFloat("DirX", (float*)&directionalLight.Direction.x, 0.1f, -1.0f, 1.0f);
+			ImGui::SameLine(0.0f, 0.0f);
+
+			ImGui::PushItemWidth(100);
+			ImGui::DragFloat("DirY", (float*)&directionalLight.Direction.y, 0.1f, -1.0f, 1.0f);
+			ImGui::SameLine(0.0f, 0.0f);
+
+			ImGui::PushItemWidth(100);
+			ImGui::SameLine(0.0f, 0.0f);
+			ImGui::DragFloat("DirZ", (float*)&directionalLight.Direction.z, 0.1f, -1.0f, 1.0f);
+
 			ImGui::Text("Point Light settings");
-			ImGui::ColorEdit3("Diffuse",  (float*)&light.Diffuse);
-			ImGui::ColorEdit3("Specular", (float*)&light.Specular);
-			ImGui::ColorEdit3("Ambient",  (float*)&light.Ambient);
+			ImGui::ColorEdit3("Diffuse",  (float*)&pointLight.Diffuse);
+			ImGui::ColorEdit3("Specular", (float*)&pointLight.Specular);
+			ImGui::ColorEdit3("Ambient",  (float*)&pointLight.Ambient);
 			ImGui::Checkbox("Rotate", &rotateLight);
-			ImGui::DragFloat("Constant", (float*)&light.Constant, 0.1f, 0.0f, 5.0f);
-			ImGui::DragFloat("Linear", (float*)&light.Linear, 0.1f, 0.0f, 5.0f);
-			ImGui::DragFloat("Quadratic", (float*)&light.Quadratic, 0.1f, 0.0f, 5.0f);
+			ImGui::DragFloat("Constant", (float*)&pointLight.Constant, 0.1f, 0.0f, 5.0f);
+			ImGui::DragFloat("Linear", (float*)&pointLight.Linear, 0.1f, 0.0f, 5.0f);
+			ImGui::DragFloat("Quadratic", (float*)&pointLight.Quadratic, 0.1f, 0.0f, 5.0f);
 		}
 
 		ImGui::SeparatorText("Scene");
@@ -122,16 +144,16 @@ int main()
 			ImGui::Text("Cube settings");
 
 			ImGui::PushItemWidth(100);
-			ImGui::DragFloat("X", (float*)&cube.Position.x, 0.1f, -1.0f, 1.0f);
+			ImGui::DragFloat("X", (float*)&cube.Position.x, 0.05f, -2.0f, 2.0f);
 			ImGui::SameLine(0.0f, 0.0f);
 
 			ImGui::PushItemWidth(100);
-			ImGui::DragFloat("Y", (float*)&cube.Position.y, 0.1f, -1.0f, 1.0f);
+			ImGui::DragFloat("Y", (float*)&cube.Position.y, 0.05f, -2.0f, 2.0f);
 			ImGui::SameLine(0.0f, 0.0f);
 
 			ImGui::PushItemWidth(100);
 			ImGui::SameLine(0.0f, 0.0f);
-			ImGui::DragFloat("Z", (float*)&cube.Position.z, 0.1f, -1.0f, 1.0f);
+			ImGui::DragFloat("Z", (float*)&cube.Position.z, 0.05f, -2.0f, 2.0f);
 		}
 
 		ImGui::Text("%.1f FPS %.3f ms", 1000.0f / io.Framerate, io.Framerate);

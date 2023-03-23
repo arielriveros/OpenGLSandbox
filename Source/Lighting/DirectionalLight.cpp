@@ -1,11 +1,11 @@
-#include "PointLight.h"
+#include "DirectionalLight.h"
 
-PointLight::PointLight()
+DirectionalLight::DirectionalLight()
 {
 	m_VAO = VertexArray();
 	m_VBO = VertexBuffer();
 
-	std::vector<float> vertices = { 
+	std::vector<float> vertices = {
 		-0.1, -0.1, 0.0, 0.0, 0.0,
 		 0.1,  0.1, 0.0, 1.0, 1.0,
 		 0.1, -0.1, 0.0, 0.0, 1.0,
@@ -30,7 +30,7 @@ PointLight::PointLight()
 	m_IBO.Unbind();
 }
 
-PointLight::~PointLight()
+DirectionalLight::~DirectionalLight()
 {
 	m_VAO.Unbind();
 	m_VBO.Unbind();
@@ -43,14 +43,14 @@ PointLight::~PointLight()
 	m_Texture.Delete();
 }
 
-void PointLight::Draw(const Camera& camera, const Shader& shader) const
+void DirectionalLight::Draw(const Camera& camera, const Shader& shader) const
 {
 	m_VAO.Bind();
 	m_IBO.Bind();
 	shader.Bind();
 	glEnable(GL_BLEND);
 	m_Texture.Bind();
-	shader.SetMat4("u_model", GetTransform());
+	shader.SetMat4("u_model", glm::mat4(1.0f));
 	shader.SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
 	shader.SetVec3("u_cameraPos", camera.Position);
 	shader.SetVec3("u_color", Diffuse);
@@ -58,11 +58,4 @@ void PointLight::Draw(const Camera& camera, const Shader& shader) const
 	unsigned int count = m_IBO.GetCount();
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
 	glDisable(GL_BLEND);
-}
-
-glm::mat4 PointLight::GetTransform() const
-{
-	const glm::mat4 transMatrix = glm::translate(glm::mat4(1.0f), Position);
-
-	return transMatrix;
 }

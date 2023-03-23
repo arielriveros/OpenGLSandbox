@@ -14,6 +14,7 @@
     <ClCompile Include="Source\Camera\Camera.cpp" />
     <ClCompile Include="Source\Buffers\IndexBuffer.cpp" />
     <ClCompile Include="Source\Buffers\VertexBuffer.cpp" />
+    <ClCompile Include="Source\Lighting\DirectionalLight.cpp" />
     <ClCompile Include="ThirdParty\include\imgui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="ThirdParty\include\imgui\imgui.cpp" />
@@ -38,6 +39,8 @@
     <ClInclude Include="Source\Buffers\IndexBuffer.h" />
     <ClInclude Include="Source\Buffers\VertexBuffer.h" />
     <ClInclude Include="Source\Buffers\VertexBufferLayout.h" />
+    <ClInclude Include="Source\Lighting\DirectionalLight.h" />
+    <ClInclude Include="Source\Lighting\Light.h" />
     <ClInclude Include="Source\Lighting\PointLight.h" />
     <ClInclude Include="Source\Mesh\Mesh.h" />
     <ClInclude Include="Source\Renderer.h" />
