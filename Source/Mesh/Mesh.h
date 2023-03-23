@@ -53,11 +53,7 @@ private:
 	Texture		m_AlbedoTexture;
 	Texture		m_SpecularTexture;
 
-	glm::vec3	m_AlbedoColor;
-	glm::vec3	m_SpecularColor;
-
-	float		m_Shininess;
-	glm::vec2   m_uvModifier;
+	const Material*		m_Material;
 	
 public:
 	Mesh(const Geometry& geometry, const Material& material);

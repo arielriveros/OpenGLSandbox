@@ -6,13 +6,9 @@ Mesh::Mesh(const Geometry& geometry, const Material& material)
 	m_Indices = geometry.indices;
 
 	m_AlbedoTexture = Texture(material.albedoPath, true);
-	m_AlbedoColor = material.albedo;
-
 	m_SpecularTexture = Texture(material.specularPath, true);
-	m_SpecularColor = material.specular;
-	m_Shininess = material.shininess;
 
-	m_uvModifier = material.uv;
+	m_Material = &material;
 
 	m_VAO = VertexArray();
 	m_VBO = VertexBuffer();
@@ -57,11 +53,11 @@ void Mesh::Draw(const Camera& camera, const Shader& shader) const
 	m_SpecularTexture.Bind(1);
 	shader.SetInts("u_material.specularTexture", { 1 });
 
-	shader.SetVec3("u_material.albedo", m_AlbedoColor);
-	shader.SetVec3("u_material.specular", m_SpecularColor);
-	shader.SetFloats("u_material.shininess", { m_Shininess });
+	shader.SetVec3("u_material.albedo", m_Material->albedo);
+	shader.SetVec3("u_material.specular", m_Material->specular);
+	shader.SetFloats("u_material.shininess", { m_Material->shininess });
 
-	shader.SetVec2("u_uvModifier", m_uvModifier);
+	shader.SetVec2("u_uvModifier", m_Material->uv);
 
 	shader.SetMat4("u_model", GetTransform());
 

@@ -183,6 +183,20 @@ int main()
 			ImGui::DragFloat("Z", (float*)&cube.Position.z, 0.05f, -2.0f, 2.0f);
 		}
 
+		ImGui::SeparatorText("Materials");
+		{
+			ImGui::Text("Wall Material");
+			ImGui::ColorEdit3("Wall Albedo", (float*)&wallMaterial.albedo);
+			ImGui::ColorEdit3("Wall Specular", (float*)&wallMaterial.specular);
+			ImGui::DragFloat("Shininess", (float*)&wallMaterial.shininess, 0.05f, 1.0f, 32.0f);
+			ImGui::PushItemWidth(40);
+			ImGui::DragFloat("UMod", (float*)&wallMaterial.uv.x, 0.05f, 0.5f, 5.0f);
+			ImGui::SameLine(0.0f, 0.0f);
+			ImGui::PushItemWidth(40);
+			ImGui::DragFloat("VMod", (float*)&wallMaterial.uv.y, 0.05f, 0.5f, 5.0f);
+
+		}
+
 		ImGui::Text("%.1f FPS %.3f ms", 1000.0f / io.Framerate, io.Framerate);
 
 		ImGui::End();
