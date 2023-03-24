@@ -37,7 +37,7 @@ void Mesh::Draw(const Camera& camera, const Shader& shader) const
 	if (m_NoTextures) {
 		shader.SetVec3("u_material.diffuse",    m_Material->diffuse);
 		shader.SetVec3("u_material.specular",   m_Material->specular);
-		shader.SetFloat("u_material.shininess", m_Material->shininess);
+		shader.SetFloat("u_material.shininess", m_Material->shininess); 
 		shader.SetBool("u_noTex", true);
 	}
 	else
@@ -52,11 +52,21 @@ void Mesh::Draw(const Camera& camera, const Shader& shader) const
 			std::string name;
 
 			if (m_Textures[i].type == "texture_diffuse")
-				name = std::to_string(diffuseIndex++);
+			{
+				name = "texture_diffuse" + std::to_string(diffuseIndex);
+				//diffuseIndex++;
+			}
 			else if (m_Textures[i].type == "texture_specular")
-				name = std::to_string(specularIndex++);
+			{
+				name = "texture_specular" + std::to_string(specularIndex);
+				//specularIndex++;
+			}
 			else if (m_Textures[i].type == "texture_normal")
-				name = std::to_string(specularIndex++);
+			{
+				name = "texture_normal" + std::to_string(normalIndex);
+				shader.SetBool("u_noNormalMap", true);
+				//normalIndex++;
+			}
 			else
 				name = m_Textures[i].name;
 

@@ -16,7 +16,7 @@ Texture::Texture(const std::string& directory, std::string fileName, const char*
 	m_LocalBuffer = nullptr;
 	m_nChannels = 0;
 	this->type = type;
-	Load(true, true);
+	Load(false, true);
 }
 
 Texture::~Texture()
@@ -32,7 +32,7 @@ void Texture::Bind(unsigned int slot) const
 
 void Texture::Load(bool flipVertically, bool repeat)
 {
-	stbi_set_flip_vertically_on_load(1);
+	stbi_set_flip_vertically_on_load(flipVertically);
 	m_LocalBuffer = stbi_load((m_Directory + "/" + m_FileName).c_str(), &m_Width, &m_Height, &m_nChannels, 0);
 
 	GLenum colorMode = GL_RGB;

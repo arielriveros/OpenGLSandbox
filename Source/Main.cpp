@@ -51,7 +51,7 @@ int main()
 	pyramid.Scale = glm::vec3(0.5f);
 
 	// Wall
-	Mesh wall = Mesh(squareGeometry, Materials::yellow_plastic);
+	Mesh wall = Mesh(squareGeometry, Materials::ruby);
 	wall.Position.y = 1.0f;
 	wall.Position.z = -1.5f;
 	wall.EulerRotation.x = 3.14f;
@@ -60,7 +60,9 @@ int main()
 
 
 	// Cube
-	Mesh cube = Mesh(cubeGeometry, Materials::ruby);
+	Texture crate_D("Resources/Images", "cube_albedo.png", "texture_diffuse");
+	Texture crate_S("Resources/Images", "cube_specular.png", "texture_specular");
+	Mesh cube = Mesh(cubeGeometry, { crate_D , crate_S });
 	cube.Scale = glm::vec3(0.5f);
 
 	// Point light
@@ -90,10 +92,11 @@ int main()
 	renderer.AddDirectionalLight(directionalLight);
 
 	// Model
-	Model backpack = Model("Resources/Models/backpack/backpack.obj");
+	//Model backpack = Model("Resources/Models/backpack/backpack.obj");
+	Model nanosuit = Model("Resources/Models/nanosuit/nanosuit.obj");
+	Model cyborg = Model("Resources/Models/cyborg/cyborg.obj");
 	//Model sponza = Model("Resources/Models/sponza/sponza.obj");
-	//Model nanosuit = Model("Resources/Models/nanosuit/nanosuit.obj");
-
+	Model damagedHelmet = Model("Resources/Models/damagedHelmet/damagedHelmet.gltf");
 
 	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.0f, 4.0f));
 
@@ -129,9 +132,10 @@ int main()
 		renderer.Draw(cube, camera);
 		renderer.Draw(wall, camera);
 
-		renderer.Draw(backpack, camera);
-		//renderer.Draw(sponza, camera);
-		//renderer.Draw(nanosuit, camera);
+		//renderer.Draw(backpack, camera);
+		renderer.Draw(nanosuit, camera);
+		renderer.Draw(cyborg, camera); 
+		renderer.Draw(damagedHelmet, camera);
 		
 		renderer.DrawLights(camera);
 

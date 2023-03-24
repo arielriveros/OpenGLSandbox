@@ -33,4 +33,5 @@ public:
 
 private:
 	std::string LoadSource(const char* shaderPath);
+	int GetUniform(const std::string& uniformName) const;
 };
