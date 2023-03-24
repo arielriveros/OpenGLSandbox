@@ -10,7 +10,8 @@
 #include <imgui/backends/imgui_impl_glfw.h>
 #include <imgui/backends/imgui_impl_opengl3.h>
 #include <stb/stb_image.h>
-#include "../Resources/Geometries/Geometries.h"
+#include "../Resources/Misc/Geometries.h"
+#include "../Resources/Misc/Materials.h"
 #include "Model/Model.h"
 
 const unsigned int _WIDTH = 800;
@@ -39,29 +40,18 @@ int main()
 	ImGui::StyleColorsDark();
 
 	// Floor
-	Material planksMaterial;
-	planksMaterial.albedoPath = "Resources/Images/planks_albedo.png";
-	planksMaterial.specularPath = "Resources/Images/planks_specular.png";
-	planksMaterial.shininess = 32.0f;
-	planksMaterial.specular = glm::vec3(0.5f);
-	Mesh floor = Mesh(squareGeometry, planksMaterial);
+	Mesh floor = Mesh(squareGeometry, Materials::copper);
 	floor.EulerRotation.x = 3.14 / 2;
 	floor.Position.y = -0.5;
 	floor.Scale = glm::vec3(3.0f);
 
 	// Pyramid
-	Material wallMaterial;
-	wallMaterial.albedoPath = "Resources/Images/bricks_albedo.jpg";
-	wallMaterial.specularPath = "Resources/Images/bricks_specular.jpg";
-	wallMaterial.shininess = 8.0f;
-	wallMaterial.specular = glm::vec3(0.2f);
-	wallMaterial.uv = glm::vec2(2.5f);
-	Mesh pyramid = Mesh(pyramidGeometry, wallMaterial);
+	Mesh pyramid = Mesh(pyramidGeometry, Materials::silver);
 	pyramid.Position.x -= 1.0f;
 	pyramid.Scale = glm::vec3(0.5f);
 
 	// Wall
-	Mesh wall = Mesh(squareGeometry, wallMaterial);
+	Mesh wall = Mesh(squareGeometry, Materials::yellow_plastic);
 	wall.Position.y = 1.0f;
 	wall.Position.z = -1.5f;
 	wall.EulerRotation.x = 3.14f;
@@ -70,16 +60,13 @@ int main()
 
 
 	// Cube
-	Material crateMaterial;
-	crateMaterial.albedoPath = "Resources/Images/cube_albedo.png";
-	crateMaterial.specularPath = "Resources/Images/cube_specular.png";
-	Mesh cube = Mesh(cubeGeometry, crateMaterial);
+	Mesh cube = Mesh(cubeGeometry, Materials::ruby);
 	cube.Scale = glm::vec3(0.5f);
 
 	// Point light
 	PointLight pointLight = PointLight(glm::vec3(0.33f));
 	pointLight.Specular = glm::vec3(0.1f);
-	pointLight.Position = glm::vec3(0.0f, 1.0f, 0.0f);
+	pointLight.Position = glm::vec3(0.0f, 0.5f, 0.0f);
 	renderer.AddPointLight(pointLight);
 	bool rotateLight = true;
 
@@ -103,11 +90,9 @@ int main()
 	renderer.AddDirectionalLight(directionalLight);
 
 	// Model
-	Material backPackMaterial;
-	backPackMaterial.albedoPath = "Resources/Models/backpack/diffuse.jpg";
-	backPackMaterial.specularPath = "Resources/Models/backpack/specular.jpg";
-	Model backpack = Model("Resources/Models/backpack/backpack.obj", backPackMaterial);
-	
+	//Model backpack = Model("Resources/Models/backpack/backpack.obj");
+	//Model sponza = Model("Resources/Models/sponza/sponza.obj");
+	//Model nanosuit = Model("Resources/Models/nanosuit/nanosuit.obj");
 
 
 	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.0f, 4.0f));
@@ -139,12 +124,14 @@ int main()
 		}
 		
 		// Render meshes
-		//renderer.Draw(floor, camera);
-		//renderer.Draw(pyramid, camera);
-		//renderer.Draw(cube, camera);
-		//renderer.Draw(wall, camera);
+		renderer.Draw(floor, camera);
+		renderer.Draw(pyramid, camera);
+		renderer.Draw(cube, camera);
+		renderer.Draw(wall, camera);
 
-		renderer.Draw(backpack, camera);
+		//renderer.Draw(backpack, camera);
+		//renderer.Draw(sponza, camera);
+		//renderer.Draw(nanosuit, camera);
 		
 		renderer.DrawLights(camera);
 
@@ -175,37 +162,6 @@ int main()
 			ImGui::DragFloat("Constant", (float*)&pointLight.Constant, 0.1f, 0.0f, 5.0f);
 			ImGui::DragFloat("Linear", (float*)&pointLight.Linear, 0.1f, 0.0f, 5.0f);
 			ImGui::DragFloat("Quadratic", (float*)&pointLight.Quadratic, 0.1f, 0.0f, 5.0f);
-		}
-
-		ImGui::SeparatorText("Scene");
-		{
-			ImGui::Text("Cube settings");
-
-			ImGui::PushItemWidth(100);
-			ImGui::DragFloat("X", (float*)&cube.Position.x, 0.05f, -2.0f, 2.0f);
-			ImGui::SameLine(0.0f, 0.0f);
-
-			ImGui::PushItemWidth(100);
-			ImGui::DragFloat("Y", (float*)&cube.Position.y, 0.05f, -2.0f, 2.0f);
-			ImGui::SameLine(0.0f, 0.0f);
-
-			ImGui::PushItemWidth(100);
-			ImGui::SameLine(0.0f, 0.0f);
-			ImGui::DragFloat("Z", (float*)&cube.Position.z, 0.05f, -2.0f, 2.0f);
-		}
-
-		ImGui::SeparatorText("Materials");
-		{
-			ImGui::Text("Wall Material");
-			ImGui::ColorEdit3("Wall Albedo", (float*)&wallMaterial.albedo);
-			ImGui::ColorEdit3("Wall Specular", (float*)&wallMaterial.specular);
-			ImGui::DragFloat("Shininess", (float*)&wallMaterial.shininess, 0.05f, 1.0f, 32.0f);
-			ImGui::PushItemWidth(40);
-			ImGui::DragFloat("UMod", (float*)&wallMaterial.uv.x, 0.05f, 0.5f, 5.0f);
-			ImGui::SameLine(0.0f, 0.0f);
-			ImGui::PushItemWidth(40);
-			ImGui::DragFloat("VMod", (float*)&wallMaterial.uv.y, 0.05f, 0.5f, 5.0f);
-
 		}
 
 		ImGui::Text("%.1f FPS %.3f ms", 1000.0f / io.Framerate, io.Framerate);

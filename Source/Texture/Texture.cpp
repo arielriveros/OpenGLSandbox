@@ -2,37 +2,20 @@
 #include <glad/glad.h>
 #include <stb/stb_image.h>
 
-Texture::Texture(const std::string& imagePath, bool repeat)
+Texture::Texture(const std::string& name)
+{
+	this->name = name;
+	this->type = "none";
+	Load(true, true);
+}
+
+Texture::Texture(const std::string& imagePath, const char* type)
 {
 	m_ImagePath = imagePath;
 	m_LocalBuffer = nullptr;
-	m_BitsPerPixel = 0;
-
-	stbi_set_flip_vertically_on_load(1);
-	m_LocalBuffer = stbi_load(imagePath.c_str(), &m_Width, &m_Height, &m_BitsPerPixel, 4);
-	
-	glGenTextures(1, &m_TextureID);
-	glBindTexture(GL_TEXTURE_2D, m_TextureID);
-	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	if (repeat)
-	{
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	}
-	else
-	{
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	}
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_LocalBuffer);
-	Unbind();
-
-	if (m_LocalBuffer)
-		stbi_image_free(m_LocalBuffer);
+	m_nChannels = 0;
+	this->type = type;
+	Load(true, true);
 }
 
 Texture::~Texture()
@@ -44,6 +27,49 @@ void Texture::Bind(unsigned int slot) const
 {
 	glActiveTexture(GL_TEXTURE0 + slot);
 	glBindTexture(GL_TEXTURE_2D, m_TextureID);
+}
+
+void Texture::Load(bool flipVertically, bool repeat)
+{
+	stbi_set_flip_vertically_on_load(1);
+	m_LocalBuffer = stbi_load(m_ImagePath.c_str(), &m_Width, &m_Height, &m_nChannels, 0);
+
+	GLenum colorMode = GL_RGB;
+	switch (m_nChannels) {
+	case 1:
+		colorMode = GL_RED;
+		break;
+	case 4:
+		colorMode = GL_RGBA;
+		break;
+	};
+
+	if (m_LocalBuffer)
+	{
+		glGenTextures(1, &m_TextureID);
+		glBindTexture(GL_TEXTURE_2D, m_TextureID);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		if (repeat)
+		{
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		}
+		else
+		{
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		}
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, colorMode, GL_UNSIGNED_BYTE, m_LocalBuffer);
+	}
+
+	else
+		std::cout << "Error loading texture: " << m_ImagePath << std::endl;
+	
+	stbi_image_free(m_LocalBuffer);
 }
 
 void Texture::Unbind() const

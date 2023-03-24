@@ -36,7 +36,8 @@
     <ClCompile Include="ThirdParty\include\glad\glad.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Resources\Geometries\Geometries.h" />
+    <ClInclude Include="Resources\Misc\Geometries.h" />
+    <ClInclude Include="Resources\Misc\Materials.h" />
     <ClInclude Include="Source\Camera\Camera.h" />
     <ClInclude Include="Source\Buffers\IndexBuffer.h" />
     <ClInclude Include="Source\Buffers\VertexBuffer.h" />

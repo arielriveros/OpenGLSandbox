@@ -76,7 +76,7 @@ void Shader::Delete() const
 }
 
 
-void Shader::SetInts(const std::string& uniformName, std::vector<int> values) const
+void Shader::SetInt(const std::string& uniformName, unsigned int value) const
 {
 	int uniformLocation = glGetUniformLocation(m_shaderProgramID, uniformName.c_str());
 	if (uniformLocation == -1)
@@ -86,30 +86,10 @@ void Shader::SetInts(const std::string& uniformName, std::vector<int> values) co
 	}
 
 	Bind();
-	size_t length = values.size();
-	switch (length)
-	{
-	case 0:
-		std::cout << "Error: No value passed to uniform" << std::endl;
-		break;
-	case 1:
-		glUniform1i(uniformLocation, values[0]);
-		break;
-	case 2:
-		glUniform2i(uniformLocation, values[0], values[1]);
-		break;
-	case 3:
-		glUniform3i(uniformLocation, values[0], values[1], values[2]);
-		break;
-	case 4:
-		glUniform4i(uniformLocation, values[0], values[1], values[2], values[3]);
-		break;
-	default:
-		std::cout << "Error: Invalid value passed to uniform" << std::endl;
-	}
+	glUniform1i(uniformLocation, value);
 }
 
-void Shader::SetFloats(const std::string& uniformName, std::vector<float> values) const
+void Shader::SetFloat(const std::string& uniformName, float value) const
 {
 	int uniformLocation = glGetUniformLocation(m_shaderProgramID, uniformName.c_str());
 	if (uniformLocation == -1)
@@ -119,27 +99,20 @@ void Shader::SetFloats(const std::string& uniformName, std::vector<float> values
 	}
 
 	Bind();
-	size_t length = values.size();
-	switch (length)
+	glUniform1f(uniformLocation, value);
+}
+
+void Shader::SetBool(const std::string& uniformName, bool value) const
+{
+	int uniformLocation = glGetUniformLocation(m_shaderProgramID, uniformName.c_str());
+	if (uniformLocation == -1)
 	{
-		case 0:
-			std::cout << "Error: No value passed to uniform" << std::endl;
-			break;
-		case 1:
-			glUniform1f(uniformLocation, values[0]);
-			break;
-		case 2:
-			glUniform2f(uniformLocation, values[0], values[1]);
-			break;
-		case 3:
-			glUniform3f(uniformLocation, values[0], values[1], values[2]);
-			break;
-		case 4:
-			glUniform4f(uniformLocation, values[0], values[1], values[2], values[3]);
-			break;
-		default:
-			std::cout << "Error: Invalid value passed to uniform" << std::endl;
+		std::cout << "Error: Uniform '" << uniformName << "' not found." << std::endl;
+		return;
 	}
+
+	Bind();
+	glUniform1i(uniformLocation, (int)value);
 }
 
 void Shader::SetMat4(const std::string& uniformName, glm::mat4 value) const

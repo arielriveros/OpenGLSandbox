@@ -22,8 +22,10 @@ public:
 	void Unbind() const;
 	void Delete() const;
 
-	void SetInts(const std::string& uniformName, std::vector<int> values) const;
-	void SetFloats(const std::string& uniformName, std::vector<float> values) const;
+	void SetInt(const std::string& uniformName, unsigned int value) const;
+	void SetFloat(const std::string& uniformName, float value) const;
+	void SetBool(const std::string& uniformName, bool value) const;
+
 	void SetMat4(const std::string& uniformName, glm::mat4 value) const;
 	void SetVec2(const std::string& uniformName, glm::vec2 value) const;
 	void SetVec3(const std::string& uniformName, glm::vec3 value) const;

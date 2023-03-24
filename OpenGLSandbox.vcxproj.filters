@@ -178,11 +178,12 @@
     <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3_loader.h">
       <Filter>Source\External</Filter>
     </ClInclude>
-    <ClInclude Include="Resources\Geometries\Geometries.h" />
+    <ClInclude Include="Resources\Misc\Geometries.h" />
     <ClInclude Include="Source\Lighting\DirectionalLight.h" />
     <ClInclude Include="Source\Lighting\Light.h" />
     <ClInclude Include="Source\Sprite\Sprite.h" />
     <ClInclude Include="Source\Model\Model.h" />
+    <ClInclude Include="Resources\Misc\Materials.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\default.fs">

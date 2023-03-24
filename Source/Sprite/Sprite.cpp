@@ -24,7 +24,7 @@ Sprite::Sprite(const std::string& texturePath)
 	m_IBO = IndexBuffer();
 	m_IBO.UploadData(&indices[0], indices.size());
 
-	m_Texture = Texture(texturePath, false);
+	m_Texture = Texture(texturePath, "diffuse");
 
 	m_VBO.Unbind();
 	m_IBO.Unbind();
