@@ -39,11 +39,11 @@ void Renderer::Draw(const Mesh& mesh, const Camera& camera) const
 	mesh.Draw(camera, m_defaultProgram);
 }
 
-//void Renderer::Draw(const Model& model, const Camera& camera) const
-//{
-//	SetLights();
-//	model.Draw(camera, m_defaultProgram);
-//}
+void Renderer::Draw(const Model& model, const Camera& camera) const
+{
+	SetLights();
+	model.Draw(camera, m_defaultProgram);
+}
 
 void Renderer::DrawLights(const Camera& camera) const
 {

@@ -6,7 +6,7 @@ PointLight::PointLight(glm::vec3 color)
 	Diffuse = color;
 	Specular = color;
 
-	m_Icon = new Sprite("Resources/Images/light_icon.png");
+	m_Icon = new Sprite("Resources/Images", "light_icon.png");
 }
 
 PointLight::~PointLight()

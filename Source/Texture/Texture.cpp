@@ -9,9 +9,10 @@ Texture::Texture(const std::string& name)
 	Load(true, true);
 }
 
-Texture::Texture(const std::string& imagePath, const char* type)
+Texture::Texture(const std::string& directory, std::string fileName, const char* type)
 {
-	m_ImagePath = imagePath;
+	m_Directory = directory;
+	m_FileName = fileName;
 	m_LocalBuffer = nullptr;
 	m_nChannels = 0;
 	this->type = type;
@@ -32,7 +33,7 @@ void Texture::Bind(unsigned int slot) const
 void Texture::Load(bool flipVertically, bool repeat)
 {
 	stbi_set_flip_vertically_on_load(1);
-	m_LocalBuffer = stbi_load(m_ImagePath.c_str(), &m_Width, &m_Height, &m_nChannels, 0);
+	m_LocalBuffer = stbi_load((m_Directory + "/" + m_FileName).c_str(), &m_Width, &m_Height, &m_nChannels, 0);
 
 	GLenum colorMode = GL_RGB;
 	switch (m_nChannels) {
@@ -67,7 +68,7 @@ void Texture::Load(bool flipVertically, bool repeat)
 	}
 
 	else
-		std::cout << "Error loading texture: " << m_ImagePath << std::endl;
+		std::cout << "Error loading texture: " << m_Directory << "/" << m_FileName << std::endl;
 	
 	stbi_image_free(m_LocalBuffer);
 }

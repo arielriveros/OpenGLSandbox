@@ -22,7 +22,7 @@ private:
 	Texture m_Texture;
 
 public:
-	Sprite(const std::string& texturePath);
+	Sprite(const std::string& texturePath, const std::string& textureFileName);
 	~Sprite();
 
 	void Draw(const Camera& camera, const Shader& shader) const;

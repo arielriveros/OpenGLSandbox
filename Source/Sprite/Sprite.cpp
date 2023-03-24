@@ -1,6 +1,6 @@
 #include "Sprite.h"
 
-Sprite::Sprite(const std::string& texturePath)
+Sprite::Sprite(const std::string& texturePath, const std::string& textureFileName)
 {
 	m_VAO = VertexArray();
 	m_VBO = VertexBuffer();
@@ -24,7 +24,7 @@ Sprite::Sprite(const std::string& texturePath)
 	m_IBO = IndexBuffer();
 	m_IBO.UploadData(&indices[0], indices.size());
 
-	m_Texture = Texture(texturePath, "diffuse");
+	m_Texture = Texture(texturePath, textureFileName, "diffuse");
 
 	m_VBO.Unbind();
 	m_IBO.Unbind();

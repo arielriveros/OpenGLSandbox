@@ -1,6 +1,12 @@
 #include "Mesh.h"
 #include <string>
 
+Mesh::Mesh(const Geometry& geometry)
+{
+	SetUpVertexArray(geometry.vertices, geometry.indices);
+	SetUpMaterial(Material());
+}
+
 Mesh::Mesh(const Geometry& geometry, const Material& material)
 {
 	m_Material = &material;

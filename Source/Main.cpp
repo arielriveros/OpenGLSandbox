@@ -90,7 +90,7 @@ int main()
 	renderer.AddDirectionalLight(directionalLight);
 
 	// Model
-	//Model backpack = Model("Resources/Models/backpack/backpack.obj");
+	Model backpack = Model("Resources/Models/backpack/backpack.obj");
 	//Model sponza = Model("Resources/Models/sponza/sponza.obj");
 	//Model nanosuit = Model("Resources/Models/nanosuit/nanosuit.obj");
 
@@ -129,7 +129,7 @@ int main()
 		renderer.Draw(cube, camera);
 		renderer.Draw(wall, camera);
 
-		//renderer.Draw(backpack, camera);
+		renderer.Draw(backpack, camera);
 		//renderer.Draw(sponza, camera);
 		//renderer.Draw(nanosuit, camera);
 		

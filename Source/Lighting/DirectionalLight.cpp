@@ -2,7 +2,7 @@
 
 DirectionalLight::DirectionalLight()
 {
-	m_Icon = new Sprite("Resources/Images/light_icon.png");
+	m_Icon = new Sprite("Resources/Images", "light_icon.png");
 }
 
 DirectionalLight::~DirectionalLight()

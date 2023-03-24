@@ -55,6 +55,7 @@ private:
 	bool m_NoTextures;
 	
 public:
+	Mesh(const Geometry& geometry);
 	Mesh(const Geometry& geometry, const Material& material);
 	Mesh(const Geometry& geometry, const std::vector<Texture>& textures);
 	~Mesh();

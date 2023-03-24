@@ -12,12 +12,13 @@ private:
 	unsigned int m_TextureID;
 	int m_Width, m_Height, m_nChannels;
 	unsigned char* m_LocalBuffer;
-	std::string m_ImagePath;
+	std::string m_Directory;
+	std::string m_FileName;
 
 public:
 	Texture() {};
 	Texture(const std::string& name);
-	Texture(const std::string& imagePath, const char* type);
+	Texture(const std::string& directory, std::string fileName, const char* type);
 	~Texture();
 
 	void Bind(unsigned int slot = 0) const;
@@ -26,6 +27,8 @@ public:
 	void Delete() const;
 
 	inline unsigned int ID() const { return m_TextureID; }
+	inline std::string Directory() const { return m_Directory; }
+	inline std::string FileName() const { return m_FileName; }
 	inline unsigned int GetWidth() const { return m_Width; }
 	inline unsigned int GetHeight() const { return m_Height; }
 };
