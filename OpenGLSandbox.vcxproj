@@ -51,6 +51,7 @@
     <ClInclude Include="Source\Shader\Shader.h" />
     <ClInclude Include="Source\Sprite\Sprite.h" />
     <ClInclude Include="Source\Texture\Texture.h" />
+    <ClInclude Include="Source\Transform\Transform.h" />
     <ClInclude Include="Source\VertexArray\VertexArray.h" />
     <ClInclude Include="Source\Window.h" />
     <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_glfw.h" />

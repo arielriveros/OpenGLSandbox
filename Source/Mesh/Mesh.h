@@ -9,6 +9,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/vector_angle.hpp>
+#include "../Transform/Transform.h"
 
 struct Vertex
 {
@@ -38,8 +39,14 @@ class Mesh
 {
 public:
 	glm::vec3 Position	    = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 EulerRotation = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 Rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 Scale			= glm::vec3(1.0f, 1.0f, 1.0f);
+
+	const Mesh*	parent = nullptr;
+	std::vector<const Mesh*> children;
+
+	Transform LocalMatrix;
+	Transform WorldMatrix;
 
 private:
 	std::vector<Vertex>		  m_Vertices;
@@ -63,7 +70,9 @@ public:
 	void Draw(const Camera& camera, const Shader& shader) const;
 	void Destroy();
 
-	glm::mat4 GetTransform() const;
+	void AddChild(Mesh* mesh);
+	void Update();
+	
 
 private:
 	void SetUpVertexArray(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);

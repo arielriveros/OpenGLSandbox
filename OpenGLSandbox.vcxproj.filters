@@ -184,6 +184,7 @@
     <ClInclude Include="Source\Sprite\Sprite.h" />
     <ClInclude Include="Source\Model\Model.h" />
     <ClInclude Include="Resources\Misc\Materials.h" />
+    <ClInclude Include="Source\Transform\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\default.fs">

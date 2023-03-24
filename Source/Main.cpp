@@ -41,7 +41,7 @@ int main()
 
 	// Floor
 	Mesh floor = Mesh(squareGeometry, Materials::copper);
-	floor.EulerRotation.x = 3.14 / 2;
+	floor.Rotation.x = 3.14 / 2;
 	floor.Position.y = -0.5;
 	floor.Scale = glm::vec3(3.0f);
 
@@ -54,8 +54,8 @@ int main()
 	Mesh wall = Mesh(squareGeometry, Materials::ruby);
 	wall.Position.y = 1.0f;
 	wall.Position.z = -1.5f;
-	wall.EulerRotation.x = 3.14f;
-	wall.EulerRotation.z = 3.14f / 2.0f;
+	wall.Rotation.x = 3.14f;
+	wall.Rotation.z = 3.14f / 2.0f;
 	wall.Scale = glm::vec3(3.0f);
 
 
@@ -114,17 +114,22 @@ int main()
 		ImGui::NewFrame();
 
 		// Change object properties
-		pyramid.EulerRotation.y = (float)glfwGetTime()/2;
+		pyramid.Rotation.y = (float)glfwGetTime()/2;
 		pyramid.Position.y = cos((float)glfwGetTime())/4;
 
-		cube.EulerRotation.x = (float)glfwGetTime()/2;
-		cube.EulerRotation.z = (float)glfwGetTime();
+		cube.Rotation.x = (float)glfwGetTime()/2;
+		cube.Rotation.z = (float)glfwGetTime();
 
 		if (rotateLight)
 		{
 			pointLight.Position.x = cos((float)glfwGetTime()/2);
 			pointLight.Position.z = sin((float)glfwGetTime()/2);
 		}
+
+		floor.Update();
+		pyramid.Update();
+		cube.Update();
+		wall.Update();
 		
 		// Render meshes
 		renderer.Draw(floor, camera);

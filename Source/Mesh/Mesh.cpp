@@ -78,7 +78,7 @@ void Mesh::Draw(const Camera& camera, const Shader& shader) const
 		shader.SetBool("u_noTex", false);
 	}
 
-	shader.SetMat4("u_model", GetTransform());
+	shader.SetMat4("u_model", WorldMatrix.GetMatrix());
 	shader.SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
 	shader.SetVec3("u_cameraPos", camera.Position);
 	
@@ -98,25 +98,17 @@ void Mesh::Destroy()
 	m_IBO.Delete();
 }
 
-glm::mat4 Mesh::GetTransform() const
+void Mesh::AddChild(Mesh* mesh)
 {
-	const glm::mat4 transMatrix = glm::translate(glm::mat4(1.0f), Position);
+	mesh->parent = this;
+	children.push_back(mesh);
+}
 
-	const glm::mat4 rotX = glm::rotate(glm::mat4(1.0f),
-		EulerRotation.x,
-		glm::vec3(1.0f, 0.0f, 0.0f));
-	const glm::mat4 rotY = glm::rotate(glm::mat4(1.0f),
-		EulerRotation.y,
-		glm::vec3(0.0f, 1.0f, 0.0f));
-	const glm::mat4 rotZ = glm::rotate(glm::mat4(1.0f),
-		EulerRotation.z,
-		glm::vec3(0.0f, 0.0f, 1.0f));
-
-	const glm::mat4 rotationMatrix = rotY * rotX * rotZ;
-
-	const glm::mat4 scaleMatrix = glm::scale(glm::mat4(1.0f), Scale);
-
-	return transMatrix * rotationMatrix * scaleMatrix;
+void Mesh::Update()
+{
+	WorldMatrix.Position = Position;
+	WorldMatrix.EulerRotation = Rotation;
+	WorldMatrix.Scale = Scale;
 }
 
 void Mesh::SetUpVertexArray(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices)
