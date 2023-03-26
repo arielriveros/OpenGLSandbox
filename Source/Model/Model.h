@@ -12,6 +12,7 @@ public:
     Model(const char* path);
     ~Model();
     void Draw(const Camera& camera, const Shader& shader) const;
+    void Destroy();
 private:
     // model data
     std::vector<Mesh> m_Meshes;

@@ -43,7 +43,7 @@ public:
 	glm::vec3 Scale			= glm::vec3(1.0f, 1.0f, 1.0f);
 
 	const Mesh*	parent = nullptr;
-	std::vector<const Mesh*> children;
+	std::vector<Mesh*> children;
 
 	Transform LocalMatrix;
 	Transform WorldMatrix;
@@ -60,8 +60,10 @@ private:
 	const Material*	m_Material;
 
 	bool m_NoTextures;
+	bool m_Empty;
 	
 public:
+	Mesh();
 	Mesh(const Geometry& geometry);
 	Mesh(const Geometry& geometry, const Material& material);
 	Mesh(const Geometry& geometry, const std::vector<Texture>& textures);

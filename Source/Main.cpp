@@ -58,6 +58,7 @@ int main()
 	wall.Rotation.z = 3.14f / 2.0f;
 	wall.Scale = glm::vec3(3.0f);
 
+	floor.AddChild(&wall);
 
 	// Cube
 	Texture crate_D("Resources/Images", "cube_albedo.png", "texture_diffuse");
@@ -93,6 +94,7 @@ int main()
 
 	// Model
 	//Model backpack = Model("Resources/Models/backpack/backpack.obj");
+	Mesh emptyMesh;
 	Model nanosuit = Model("Resources/Models/nanosuit/nanosuit.obj");
 	Model cyborg = Model("Resources/Models/cyborg/cyborg.obj");
 	//Model sponza = Model("Resources/Models/sponza/sponza.obj");
@@ -129,13 +131,13 @@ int main()
 		floor.Update();
 		pyramid.Update();
 		cube.Update();
-		wall.Update();
+		emptyMesh.Update();
 		
 		// Render meshes
 		renderer.Draw(floor, camera);
 		renderer.Draw(pyramid, camera);
 		renderer.Draw(cube, camera);
-		renderer.Draw(wall, camera);
+		renderer.Draw(emptyMesh, camera);
 
 		//renderer.Draw(backpack, camera);
 		renderer.Draw(nanosuit, camera);

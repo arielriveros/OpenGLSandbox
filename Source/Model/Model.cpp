@@ -9,14 +9,19 @@ Model::Model(const char* path)
 
 Model::~Model()
 {
-    for (unsigned int i = 0; i < m_Meshes.size(); i++)
-        m_Meshes[i].Destroy();
+    
 }
 
 void Model::Draw(const Camera& camera, const Shader& shader) const
 {
 	for (unsigned int i = 0; i < m_Meshes.size(); i++)
         m_Meshes[i].Draw(camera, shader);
+}
+
+void Model::Destroy()
+{
+    for (unsigned int i = 0; i < m_Meshes.size(); i++)
+        m_Meshes[i].Destroy();
 }
 
 void Model::loadModel(std::string path)
@@ -45,8 +50,9 @@ void Model::processNode(aiNode* node, const aiScene* scene)
     {
         // the node object only contains indices to index the actual objects in the scene. 
         // the scene contains all the data, node is just to keep stuff organized (like relations between nodes).
-        aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        m_Meshes.push_back(processMesh(mesh, scene));
+        aiMesh* mMesh = scene->mMeshes[node->mMeshes[i]];
+        Mesh mesh = processMesh(mMesh, scene);
+        m_Meshes.push_back(mesh);
     }
     // after we've processed all of the meshes (if any) we then recursively process each of the children nodes
     for (unsigned int i = 0; i < node->mNumChildren; i++)

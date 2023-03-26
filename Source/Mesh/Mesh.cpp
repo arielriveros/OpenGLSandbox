@@ -1,14 +1,23 @@
 #include "Mesh.h"
 #include <string>
 
+Mesh::Mesh()
+{
+	m_Empty = true;
+	m_Material = nullptr;
+	m_NoTextures = true;
+}
+
 Mesh::Mesh(const Geometry& geometry)
 {
+	m_Empty = false;
 	SetUpVertexArray(geometry.vertices, geometry.indices);
 	SetUpMaterial(Material());
 }
 
 Mesh::Mesh(const Geometry& geometry, const Material& material)
 {
+	m_Empty = false;
 	m_Material = &material;
 	SetUpVertexArray(geometry.vertices, geometry.indices);
 	SetUpMaterial(material);
@@ -16,6 +25,7 @@ Mesh::Mesh(const Geometry& geometry, const Material& material)
 
 Mesh::Mesh(const Geometry& geometry, const std::vector<Texture>& textures)
 {
+	m_Empty = false;
 	m_Textures = textures;
 	SetUpVertexArray(geometry.vertices, geometry.indices);
 	SetUpTextures(textures);
@@ -28,63 +38,69 @@ Mesh::~Mesh()
 
 void Mesh::Draw(const Camera& camera, const Shader& shader) const
 {
-	m_VAO.Bind();
-	m_IBO.Bind();
-	shader.Bind();
-
-	shader.SetBool("u_noNormalMap", true);
-
-	if (m_NoTextures) {
-		shader.SetVec3("u_material.diffuse",    m_Material->diffuse);
-		shader.SetVec3("u_material.specular",   m_Material->specular);
-		shader.SetFloat("u_material.shininess", m_Material->shininess); 
-		shader.SetBool("u_noTex", true);
-	}
-	else
+	if (!m_Empty)
 	{
-		unsigned int diffuseIndex  = 0;
-		unsigned int specularIndex = 0;
-		unsigned int normalIndex   = 0;
+		m_VAO.Bind();
+		m_IBO.Bind();
+		shader.Bind();
 
-		for (unsigned int i = 0; i < m_Textures.size(); i++)
+		shader.SetBool("u_noNormalMap", true);
+
+		if (m_NoTextures) {
+			shader.SetVec3("u_material.diffuse",    m_Material->diffuse);
+			shader.SetVec3("u_material.specular",   m_Material->specular);
+			shader.SetFloat("u_material.shininess", m_Material->shininess); 
+			shader.SetBool("u_noTex", true);
+		}
+		else
 		{
-			glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
-			std::string name;
+			unsigned int diffuseIndex  = 0;
+			unsigned int specularIndex = 0;
+			unsigned int normalIndex   = 0;
 
-			if (m_Textures[i].type == "texture_diffuse")
+			for (unsigned int i = 0; i < m_Textures.size(); i++)
 			{
-				name = "texture_diffuse" + std::to_string(diffuseIndex);
-				//diffuseIndex++;
-			}
-			else if (m_Textures[i].type == "texture_specular")
-			{
-				name = "texture_specular" + std::to_string(specularIndex);
-				//specularIndex++;
-			}
-			else if (m_Textures[i].type == "texture_normal")
-			{
-				name = "texture_normal" + std::to_string(normalIndex);
-				shader.SetBool("u_noNormalMap", true);
-				//normalIndex++;
-			}
-			else
-				name = m_Textures[i].name;
+				glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
+				std::string name;
 
-			shader.SetInt(name, i);
-			// Bind the texture
-			glBindTexture(GL_TEXTURE_2D, m_Textures[i].ID());
+				if (m_Textures[i].type == "texture_diffuse")
+				{
+					name = "texture_diffuse" + std::to_string(diffuseIndex);
+					//diffuseIndex++;
+				}
+				else if (m_Textures[i].type == "texture_specular")
+				{
+					name = "texture_specular" + std::to_string(specularIndex);
+					//specularIndex++;
+				}
+				else if (m_Textures[i].type == "texture_normal")
+				{
+					name = "texture_normal" + std::to_string(normalIndex);
+					shader.SetBool("u_noNormalMap", true);
+					//normalIndex++;
+				}
+				else
+					name = m_Textures[i].name;
+
+				shader.SetInt(name, i);
+				// Bind the texture
+				glBindTexture(GL_TEXTURE_2D, m_Textures[i].ID());
+			}
+
+			shader.SetBool("u_noTex", false);
 		}
 
-		shader.SetBool("u_noTex", false);
+		shader.SetMat4("u_model", WorldMatrix.GetMatrix());
+		shader.SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
+		shader.SetVec3("u_cameraPos", camera.Position);
+	
+		unsigned int count = m_IBO.GetCount();
+		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+		glActiveTexture(GL_TEXTURE0);
 	}
 
-	shader.SetMat4("u_model", WorldMatrix.GetMatrix());
-	shader.SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
-	shader.SetVec3("u_cameraPos", camera.Position);
-	
-	unsigned int count = m_IBO.GetCount();
-	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
-	glActiveTexture(GL_TEXTURE0);
+	for (Mesh* child : children)
+		child->Draw(camera, shader);
 }
 
 void Mesh::Destroy()
@@ -106,9 +122,23 @@ void Mesh::AddChild(Mesh* mesh)
 
 void Mesh::Update()
 {
-	WorldMatrix.Position = Position;
-	WorldMatrix.EulerRotation = Rotation;
-	WorldMatrix.Scale = Scale;
+	LocalMatrix.Position = Position;
+	LocalMatrix.EulerRotation = Rotation;
+	LocalMatrix.Scale = Scale;
+
+	//if (!parent)
+	//{
+		//WorldMatrix = LocalMatrix;
+	//}
+	//else
+	//{
+		// WorldMatrix = parent->WorldMatrix * LocalMatrix
+	//}
+
+	WorldMatrix = LocalMatrix;
+
+	for (Mesh* child : children)
+		child->Update();
 }
 
 void Mesh::SetUpVertexArray(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices)
