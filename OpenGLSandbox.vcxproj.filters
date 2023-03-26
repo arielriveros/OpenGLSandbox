@@ -113,7 +113,7 @@
     <ClCompile Include="Source\Sprite\Sprite.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Model\Model.cpp">
+    <ClCompile Include="Source\Loaders\ModelLoader.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -182,7 +182,7 @@
     <ClInclude Include="Source\Lighting\DirectionalLight.h" />
     <ClInclude Include="Source\Lighting\Light.h" />
     <ClInclude Include="Source\Sprite\Sprite.h" />
-    <ClInclude Include="Source\Model\Model.h" />
+    <ClInclude Include="Source\Loaders\ModelLoader.h" />
     <ClInclude Include="Resources\Misc\Materials.h" />
     <ClInclude Include="Source\Transform\Transform.h" />
   </ItemGroup>

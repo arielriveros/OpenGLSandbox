@@ -6,21 +6,18 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-class Model
+class ModelLoader
 {
 public:
-    Model(const char* path);
-    ~Model();
-    void Draw(const Camera& camera, const Shader& shader) const;
-    void Destroy();
+    ModelLoader();
+    ~ModelLoader();
+    void LoadModel(std::string path, Mesh* target);
 private:
     // model data
-    std::vector<Mesh> m_Meshes;
     std::vector<Texture> m_TexturesLoaded;
     std::string m_Directory;
-
-    void loadModel(std::string path);
-    void processNode(aiNode* node, const aiScene* scene);
-    Mesh processMesh(aiMesh* mesh, const aiScene* scene);
+    
+    void processNode(aiNode* node, const aiScene* scene, Mesh* target);
+    void processMesh(aiMesh* mesh, const aiScene* scene, Mesh* target);
     std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, const char* typeName);
 };

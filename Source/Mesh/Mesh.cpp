@@ -3,28 +3,32 @@
 
 Mesh::Mesh()
 {
+	m_Name = "mesh";
 	m_Empty = true;
 	m_Material = nullptr;
 	m_NoTextures = true;
 }
 
-Mesh::Mesh(const Geometry& geometry)
+Mesh::Mesh(const std::string name, const Geometry& geometry)
 {
+	m_Name = name;
 	m_Empty = false;
 	SetUpVertexArray(geometry.vertices, geometry.indices);
 	SetUpMaterial(Material());
 }
 
-Mesh::Mesh(const Geometry& geometry, const Material& material)
+Mesh::Mesh(const std::string name, const Geometry& geometry, const Material& material)
 {
+	m_Name = name;
 	m_Empty = false;
 	m_Material = &material;
 	SetUpVertexArray(geometry.vertices, geometry.indices);
 	SetUpMaterial(material);
 }
 
-Mesh::Mesh(const Geometry& geometry, const std::vector<Texture>& textures)
+Mesh::Mesh(const std::string name, const Geometry& geometry, const std::vector<Texture>& textures)
 {
+	m_Name = name;
 	m_Empty = false;
 	m_Textures = textures;
 	SetUpVertexArray(geometry.vertices, geometry.indices);

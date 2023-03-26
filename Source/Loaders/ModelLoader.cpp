@@ -1,30 +1,18 @@
-#include "Model.h"
+#include "ModelLoader.h"
 #include <stb/stb_image.h>
 #include <iostream>
 
-Model::Model(const char* path)
+ModelLoader::ModelLoader()
 {
-	loadModel(path);
 }
 
-Model::~Model()
+ModelLoader::~ModelLoader()
 {
     
 }
 
-void Model::Draw(const Camera& camera, const Shader& shader) const
-{
-	for (unsigned int i = 0; i < m_Meshes.size(); i++)
-        m_Meshes[i].Draw(camera, shader);
-}
 
-void Model::Destroy()
-{
-    for (unsigned int i = 0; i < m_Meshes.size(); i++)
-        m_Meshes[i].Destroy();
-}
-
-void Model::loadModel(std::string path)
+void ModelLoader::LoadModel(std::string path, Mesh* target)
 {
     // read file via ASSIMP
     Assimp::Importer importer;
@@ -39,11 +27,11 @@ void Model::loadModel(std::string path)
     m_Directory = path.substr(0, path.find_last_of('/'));
 
     // process ASSIMP's root node recursively
-    processNode(scene->mRootNode, scene);
+    processNode(scene->mRootNode, scene, target);
 }
 
 // processes a node in a recursive fashion. Processes each individual mesh located at the node and repeats this process on its children nodes (if any).
-void Model::processNode(aiNode* node, const aiScene* scene)
+void ModelLoader::processNode(aiNode* node, const aiScene* scene, Mesh* target)
 {
     // process each mesh located at the current node
     for (unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -51,15 +39,14 @@ void Model::processNode(aiNode* node, const aiScene* scene)
         // the node object only contains indices to index the actual objects in the scene. 
         // the scene contains all the data, node is just to keep stuff organized (like relations between nodes).
         aiMesh* mMesh = scene->mMeshes[node->mMeshes[i]];
-        Mesh mesh = processMesh(mMesh, scene);
-        m_Meshes.push_back(mesh);
+        processMesh(mMesh, scene, target);
     }
     // after we've processed all of the meshes (if any) we then recursively process each of the children nodes
     for (unsigned int i = 0; i < node->mNumChildren; i++)
-        processNode(node->mChildren[i], scene);
+        processNode(node->mChildren[i], scene, target);
 }
 
-Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
+void ModelLoader::processMesh(aiMesh* mesh, const aiScene* scene, Mesh* target)
 {
     // data to fill
     std::vector<Vertex> vertices;
@@ -135,19 +122,20 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
         std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_NORMALS, "texture_normal");
         textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 
-        return Mesh(loadedGeometry, textures);
-
+        Mesh* newMesh = new Mesh(mesh->mName.C_Str(), loadedGeometry, textures); // TODO: Handle this heap allocated mesh
+        target->AddChild(newMesh);
     }
     else
     {
         // If no materials are found return mesh with default material
-        return Mesh(loadedGeometry);
+        Mesh* newMesh = new Mesh(mesh->mName.C_Str(), loadedGeometry); // TODO: Handle this heap allocated mesh
+        target->AddChild(newMesh);
     }
 }
 
 // checks all material textures of a given type and loads the textures if they're not loaded yet.
 // the required info is returned as a Texture struct.
-std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, const char* typeName)
+std::vector<Texture> ModelLoader::loadMaterialTextures(aiMaterial* mat, aiTextureType type, const char* typeName)
 {
     std::vector<Texture> textures;
     for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)

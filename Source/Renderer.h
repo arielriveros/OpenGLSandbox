@@ -10,7 +10,6 @@
 #include "Lighting/PointLight.h"
 #include "Lighting/DirectionalLight.h"
 #include <vector>
-#include "Model/Model.h"
 
 class Renderer
 {
@@ -29,7 +28,6 @@ public:
 	void AddPointLight(const PointLight& pointLight);
 	void AddDirectionalLight(const DirectionalLight& directionalLight);
 	void Draw(const Mesh& mesh, const Camera& camera) const;
-	void Draw(const Model& model, const Camera& camera) const;
 	void DrawLights(const Camera& camera) const;
 	void Shutdown();
 

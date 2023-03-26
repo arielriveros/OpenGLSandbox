@@ -38,9 +38,9 @@ struct Material
 class Mesh
 {
 public:
-	glm::vec3 Position	    = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 Rotation = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 Scale			= glm::vec3(1.0f, 1.0f, 1.0f);
+	glm::vec3 Position = glm::vec3(0.0f);
+	glm::vec3 Rotation = glm::vec3(0.0f);
+	glm::vec3 Scale	   = glm::vec3(1.0f);
 
 	const Mesh*	parent = nullptr;
 	std::vector<Mesh*> children;
@@ -49,6 +49,8 @@ public:
 	Transform WorldMatrix;
 
 private:
+	std::string m_Name;
+
 	std::vector<Vertex>		  m_Vertices;
 	std::vector<unsigned int> m_Indices;
 	std::vector<Texture>	  m_Textures;
@@ -64,9 +66,9 @@ private:
 	
 public:
 	Mesh();
-	Mesh(const Geometry& geometry);
-	Mesh(const Geometry& geometry, const Material& material);
-	Mesh(const Geometry& geometry, const std::vector<Texture>& textures);
+	Mesh(const std::string name, const Geometry& geometry);
+	Mesh(const std::string name, const Geometry& geometry, const Material& material);
+	Mesh(const std::string name, const Geometry& geometry, const std::vector<Texture>& textures);
 	~Mesh();
 	
 	void Draw(const Camera& camera, const Shader& shader) const;

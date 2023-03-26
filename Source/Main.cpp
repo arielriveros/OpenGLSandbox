@@ -2,17 +2,15 @@
 #include <iostream>
 #include "Window.h"
 #include "Renderer.h"
-#include "Mesh/Mesh.h"
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/vector_angle.hpp>
-#include "Lighting/PointLight.h"
 #include <imgui/imgui.h>
 #include <imgui/backends/imgui_impl_glfw.h>
 #include <imgui/backends/imgui_impl_opengl3.h>
 #include <stb/stb_image.h>
 #include "../Resources/Misc/Geometries.h"
 #include "../Resources/Misc/Materials.h"
-#include "Model/Model.h"
+#include "Loaders/ModelLoader.h"
 
 const unsigned int _WIDTH = 800;
 const unsigned int _HEIGHT = 600;
@@ -21,7 +19,6 @@ void processInput(GLFWwindow* window, Camera& camera);
 bool firstMouse = true;
 float lastX = _WIDTH / 2.0;
 float lastY = _HEIGHT / 2.0;
-stbi_io_callbacks io;
 
 int main()
 {
@@ -40,18 +37,18 @@ int main()
 	ImGui::StyleColorsDark();
 
 	// Floor
-	Mesh floor = Mesh(squareGeometry, Materials::copper);
+	Mesh floor = Mesh("floor", squareGeometry, Materials::copper);
 	floor.Rotation.x = 3.14 / 2;
 	floor.Position.y = -0.5;
 	floor.Scale = glm::vec3(3.0f);
 
 	// Pyramid
-	Mesh pyramid = Mesh(pyramidGeometry, Materials::silver);
+	Mesh pyramid = Mesh("pyramid", pyramidGeometry, Materials::silver);
 	pyramid.Position.x -= 1.0f;
 	pyramid.Scale = glm::vec3(0.5f);
 
 	// Wall
-	Mesh wall = Mesh(squareGeometry, Materials::ruby);
+	Mesh wall = Mesh("wall", squareGeometry, Materials::ruby);
 	wall.Position.y = 1.0f;
 	wall.Position.z = -1.5f;
 	wall.Rotation.x = 3.14f;
@@ -63,7 +60,7 @@ int main()
 	// Cube
 	Texture crate_D("Resources/Images", "cube_albedo.png", "texture_diffuse");
 	Texture crate_S("Resources/Images", "cube_specular.png", "texture_specular");
-	Mesh cube = Mesh(cubeGeometry, { crate_D , crate_S });
+	Mesh cube = Mesh("cube", cubeGeometry, {crate_D , crate_S});
 	cube.Scale = glm::vec3(0.5f);
 
 	// Point light
@@ -93,12 +90,11 @@ int main()
 	renderer.AddDirectionalLight(directionalLight);
 
 	// Model
-	//Model backpack = Model("Resources/Models/backpack/backpack.obj");
-	Mesh emptyMesh;
-	Model nanosuit = Model("Resources/Models/nanosuit/nanosuit.obj");
-	Model cyborg = Model("Resources/Models/cyborg/cyborg.obj");
-	//Model sponza = Model("Resources/Models/sponza/sponza.obj");
-	Model damagedHelmet = Model("Resources/Models/damagedHelmet/damagedHelmet.gltf");
+	Mesh nanosuit, cyborg, damagedHelmet;
+	ModelLoader loader;
+	loader.LoadModel("Resources/Models/nanosuit/nanosuit.obj", &nanosuit);
+	loader.LoadModel("Resources/Models/cyborg/cyborg.obj", &cyborg);
+	loader.LoadModel("Resources/Models/damagedHelmet/damagedHelmet.gltf", &damagedHelmet);
 
 	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.0f, 4.0f));
 
@@ -131,15 +127,14 @@ int main()
 		floor.Update();
 		pyramid.Update();
 		cube.Update();
-		emptyMesh.Update();
+		nanosuit.Update();
+		cyborg.Update();
+		damagedHelmet.Update();
 		
 		// Render meshes
 		renderer.Draw(floor, camera);
 		renderer.Draw(pyramid, camera);
 		renderer.Draw(cube, camera);
-		renderer.Draw(emptyMesh, camera);
-
-		//renderer.Draw(backpack, camera);
 		renderer.Draw(nanosuit, camera);
 		renderer.Draw(cyborg, camera); 
 		renderer.Draw(damagedHelmet, camera);
