@@ -41,7 +41,7 @@ void Window::OnResize_callback(GLFWwindow* window, int width, int height)
 }
 
 
-bool Window::Init()
+bool Window::Init(GLFWframebuffersizefun callback)
 {
 	if (m_Window == NULL)
 	{
@@ -52,7 +52,7 @@ bool Window::Init()
 
 	glfwMakeContextCurrent(m_Window); // Makes the created window the openGL context to work with
 	glfwSwapInterval(1);
-	glfwSetFramebufferSizeCallback(m_Window, OnResize_callback);
+	glfwSetFramebufferSizeCallback(m_Window, callback);
 
 	// Initializes openGL functions with glad
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))

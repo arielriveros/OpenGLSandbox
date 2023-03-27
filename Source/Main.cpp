@@ -12,10 +12,11 @@
 #include "../Resources/Misc/Materials.h"
 #include "Loaders/ModelLoader.h"
 
-const unsigned int _WIDTH = 800;
-const unsigned int _HEIGHT = 600;
+const unsigned int _WIDTH = 1280;
+const unsigned int _HEIGHT = 720;
 
 void processInput(GLFWwindow* window, Camera& camera);
+void OnResize_callback(GLFWwindow* window, int width, int height);
 bool firstMouse = true;
 float lastX = _WIDTH / 2.0;
 float lastY = _HEIGHT / 2.0;
@@ -24,7 +25,7 @@ int main()
 {
 	// Window context setup
     Window window = Window(_WIDTH, _HEIGHT, "Sandbox");
-    if (!window.Init())
+    if (!window.Init(OnResize_callback))
         return -1;
 
     Renderer renderer = Renderer();
@@ -108,9 +109,8 @@ int main()
 	damagedHelmet.Rotation.x = 3.14f / 2.0f;
 	damagedHelmet.Position.y = 1.5f;
 	
-	//loader.LoadModel("Resources/Models/sponza/sponza.obj", &sponza);
 	loader.LoadModel("Resources/Models/sponza/gltf/sponza.gltf", &sponza);
-	sponza.Scale = glm::vec3(0.01f);
+	sponza.Scale = glm::vec3(0.025f);
 
 	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.0f, 4.0f));
 
@@ -300,6 +300,10 @@ void processInput(GLFWwindow* window, Camera& camera)
 
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
 		camera.Position += camera.speed * (-camera.Up);
+}
 
-
+void OnResize_callback(GLFWwindow* window, int width, int height)
+{
+	// camera.OnReize(width, height);
+	glViewport(0, 0, width, height);
 }

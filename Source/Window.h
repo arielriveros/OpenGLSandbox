@@ -17,7 +17,7 @@ public:
 
 	void Update();
 	bool ShouldClose();
-	bool Init();
+	bool Init(GLFWframebuffersizefun callback);
 	void Destroy();
 	void SwapBuffersAndPollEvents();
 	
