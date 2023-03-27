@@ -45,8 +45,7 @@ public:
 	const Mesh*	parent = nullptr;
 	std::vector<Mesh*> children;
 
-	Transform LocalMatrix;
-	Transform WorldMatrix;
+	Transform ModelTransform;
 
 private:
 	std::string m_Name;

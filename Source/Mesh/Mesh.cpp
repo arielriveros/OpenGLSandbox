@@ -94,7 +94,7 @@ void Mesh::Draw(const Camera& camera, const Shader& shader) const
 			shader.SetBool("u_noTex", false);
 		}
 
-		shader.SetMat4("u_model", WorldMatrix.GetMatrix());
+		shader.SetMat4("u_model", ModelTransform.ModelMatrix);
 		shader.SetMat4("u_viewProjection", camera.GetViewProjectionMatrix());
 		shader.SetVec3("u_cameraPos", camera.Position);
 	
@@ -126,20 +126,18 @@ void Mesh::AddChild(Mesh* mesh)
 
 void Mesh::Update()
 {
-	LocalMatrix.Position = Position;
-	LocalMatrix.EulerRotation = Rotation;
-	LocalMatrix.Scale = Scale;
+	ModelTransform.Position = Position;
+	ModelTransform.EulerRotation = Rotation;
+	ModelTransform.Scale = Scale;
 
-	//if (!parent)
-	//{
-		//WorldMatrix = LocalMatrix;
-	//}
-	//else
-	//{
-		// WorldMatrix = parent->WorldMatrix * LocalMatrix
-	//}
-
-	WorldMatrix = LocalMatrix;
+	if (!parent)
+	{
+		ModelTransform.ComputeModelMatrix();
+	}
+	else
+	{
+		ModelTransform.ComputeModelMatrix(parent->ModelTransform.ModelMatrix);
+	}
 
 	for (Mesh* child : children)
 		child->Update();
