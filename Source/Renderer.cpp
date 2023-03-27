@@ -140,11 +140,12 @@ void APIENTRY GLErrorMessageCallback(GLenum source, GLenum type, GLuint id, GLen
 		break;
 	case GL_DEBUG_SEVERITY_MEDIUM:
 		std::cout << "MEDIUM";
+		BREAK
 		break;
 	case GL_DEBUG_SEVERITY_HIGH:
 		std::cout << "HIGH";
+		BREAK
 		break;
 	}
 	std::cout << std::endl;
-	BREAK
 }
