@@ -29,6 +29,9 @@ void Renderer::Init()
 	glCullFace(GL_FRONT);
 	glFrontFace(GL_CW);
 
+	// Enable MSAA
+	glEnable(GL_MULTISAMPLE);
+
 	m_defaultProgram = Shader("Resources/Shaders/default.vs", "Resources/Shaders/default.fs");
 	m_iconProgram = Shader("Resources/Shaders/icon.vs", "Resources/Shaders/icon.fs");
 }

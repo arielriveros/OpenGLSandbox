@@ -108,7 +108,8 @@ int main()
 	damagedHelmet.Rotation.x = 3.14f / 2.0f;
 	damagedHelmet.Position.y = 1.5f;
 	
-	loader.LoadModel("Resources/Models/sponza/sponza.obj", &sponza);
+	//loader.LoadModel("Resources/Models/sponza/sponza.obj", &sponza);
+	loader.LoadModel("Resources/Models/sponza/gltf/sponza.gltf", &sponza);
 	sponza.Scale = glm::vec3(0.01f);
 
 	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.0f, 4.0f));

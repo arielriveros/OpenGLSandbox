@@ -9,7 +9,10 @@ Window::Window(unsigned int width, unsigned int height, const char* title)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
-	
+
+	// Antialiasing
+	glfwWindowHint(GLFW_SAMPLES, 8);
+
 	m_Title = title;
 	m_Height = height;
 	m_Width = width;
