@@ -20,7 +20,7 @@ Sprite::Sprite(const std::string& texturePath, const std::string& textureFileNam
 	layout.Push<float>(2); // UV Attribute
 	m_VAO.AttachVertexBuffer(m_VBO, layout);
 
-	std::vector<unsigned int> indices = { 0, 1, 2, 1, 3, 0 };
+	std::vector<unsigned int> indices = { 0, 2, 1, 0, 1, 3 };
 	m_IBO = IndexBuffer();
 	m_IBO.UploadData(&indices[0], indices.size());
 

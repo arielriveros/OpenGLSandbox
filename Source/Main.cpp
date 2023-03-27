@@ -95,7 +95,7 @@ int main()
 	// Model
 	ModelLoader loader;
 
-	Mesh nanosuit, cyborg, damagedHelmet;
+	Mesh nanosuit, cyborg, damagedHelmet, sponza;
 
 	loader.LoadModel("Resources/Models/nanosuit/nanosuit.obj", &nanosuit);
 	nanosuit.Position.x -= 1.5f;
@@ -108,6 +108,8 @@ int main()
 	damagedHelmet.Rotation.x = 3.14f / 2.0f;
 	damagedHelmet.Position.y = 1.5f;
 	
+	loader.LoadModel("Resources/Models/sponza/sponza.obj", &sponza);
+	sponza.Scale = glm::vec3(0.01f);
 
 	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.0f, 4.0f));
 
@@ -143,14 +145,15 @@ int main()
 		nanosuit.Update();
 		cyborg.Update();
 		damagedHelmet.Update();
+		sponza.Update();
 		
 		// Render meshes
 		renderer.Draw(groupMesh, camera);
 		renderer.Draw(pyramid, camera);
-		renderer.Draw(cube, camera);
 		renderer.Draw(nanosuit, camera);
 		renderer.Draw(cyborg, camera); 
 		renderer.Draw(damagedHelmet, camera);
+		renderer.Draw(sponza, camera);
 		
 		renderer.DrawLights(camera);
 
@@ -184,93 +187,41 @@ int main()
 		}
 		ImGui::SeparatorText("Scene");
 		{
-			ImGui::Text("Group Transform Settings");
+			ImGui::Text("Sponza Transform Settings");
 			{
 				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Pos X", (float*)&groupMesh.Position.x, 0.1f, -1.0f, 1.0f);
+				ImGui::DragFloat("Group Pos X", (float*)&sponza.Position.x, 0.1f, -1.0f, 1.0f);
 
 				ImGui::SameLine(0.0f, 0.0f);
 				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Pos Y", (float*)&groupMesh.Position.y, 0.1f, -1.0f, 1.0f);
+				ImGui::DragFloat("Group Pos Y", (float*)&sponza.Position.y, 0.1f, -1.0f, 1.0f);
 
 				ImGui::SameLine(0.0f, 0.0f);
 				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Pos Z", (float*)&groupMesh.Position.z, 0.1f, -1.0f, 1.0f);
+				ImGui::DragFloat("Group Pos Z", (float*)&sponza.Position.z, 0.1f, -1.0f, 1.0f);
 
 				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Rot X", (float*)&groupMesh.Rotation.x, 0.1f, 0.0f, 3.1415f);
-
-				ImGui::SameLine(0.0f, 0.0f);
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Rot Y", (float*)&groupMesh.Rotation.y, 0.1f, 0.0f, 3.1415f);
+				ImGui::DragFloat("Group Rot X", (float*)&sponza.Rotation.x, 0.1f, 0.0f, 3.1415f);
 
 				ImGui::SameLine(0.0f, 0.0f);
 				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Rot Z", (float*)&groupMesh.Rotation.z, 0.1f, 0.0f, 3.1415f);
-
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Scale X", (float*)&groupMesh.Scale.x, 0.1f, 0.0f, 5.0f);
+				ImGui::DragFloat("Group Rot Y", (float*)&sponza.Rotation.y, 0.1f, 0.0f, 3.1415f);
 
 				ImGui::SameLine(0.0f, 0.0f);
 				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Scale Y", (float*)&groupMesh.Scale.y, 0.1f, 0.0f, 5.0f);
+				ImGui::DragFloat("Group Rot Z", (float*)&sponza.Rotation.z, 0.1f, 0.0f, 3.1415f);
+
+				ImGui::PushItemWidth(100);
+				ImGui::DragFloat("Group Scale X", (float*)&sponza.Scale.x, 0.1f, 0.0f, 5.0f);
 
 				ImGui::SameLine(0.0f, 0.0f);
 				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Scale Z", (float*)&groupMesh.Scale.z, 0.1f, 0.0f, 5.0f);
+				ImGui::DragFloat("Group Scale Y", (float*)&sponza.Scale.y, 0.1f, 0.0f, 5.0f);
+
+				ImGui::SameLine(0.0f, 0.0f);
+				ImGui::PushItemWidth(100);
+				ImGui::DragFloat("Group Scale Z", (float*)&sponza.Scale.z, 0.1f, 0.0f, 5.0f);
 			}
-
-			ImGui::Text("Wall Transform Settings");
-			{
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Wall Pos X", (float*)&wall.Position.x, 0.1f, -1.0f, 1.0f);
-
-				ImGui::SameLine(0.0f, 0.0f);
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Wall Pos Y", (float*)&wall.Position.y, 0.1f, -1.0f, 1.0f);
-
-				ImGui::SameLine(0.0f, 0.0f);
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Wall Pos Z", (float*)&wall.Position.z, 0.1f, -1.0f, 1.0f);
-
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Wall Rot X", (float*)&wall.Rotation.x, 0.1f, 0.0f, 3.1415f);
-
-				ImGui::SameLine(0.0f, 0.0f);
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Wall Rot Y", (float*)&wall.Rotation.y, 0.1f, 0.0f, 3.1415f);
-
-				ImGui::SameLine(0.0f, 0.0f);
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Wall Rot Z", (float*)&wall.Rotation.z, 0.1f, 0.0f, 3.1415f);
-
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Wall Scale X", (float*)&wall.Scale.x, 0.1f, 0.0f, 5.0f);
-
-				ImGui::SameLine(0.0f, 0.0f);
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Wall Scale Y", (float*)&wall.Scale.y, 0.1f, 0.0f, 5.0f);
-
-				ImGui::SameLine(0.0f, 0.0f);
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Wall Scale Z", (float*)&wall.Scale.z, 0.1f, 0.0f, 5.0f);
-			}
-
-			ImGui::Text("Floor Transform Settings");
-			{
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Floor Pos X", (float*)&floor.Position.x, 0.1f, -1.0f, 1.0f);
-				ImGui::SameLine(0.0f, 0.0f);
-
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Floor Pos Y", (float*)&floor.Position.y, 0.1f, -1.0f, 1.0f);
-				ImGui::SameLine(0.0f, 0.0f);
-
-				ImGui::PushItemWidth(100);
-				ImGui::SameLine(0.0f, 0.0f);
-				ImGui::DragFloat("Floor Pos Z", (float*)&floor.Position.z, 0.1f, -1.0f, 1.0f);
-			}
-
 		}
 
 		ImGui::Text("%.1f FPS %.3f ms", 1000.0f / io.Framerate, io.Framerate);
