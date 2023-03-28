@@ -18,10 +18,11 @@ private:
 public:
 	Texture() {};
 	Texture(const std::string& name);
-	Texture(const std::string& directory, std::string fileName, const char* type);
+	Texture(const std::string& directory, std::string fileName, const char* type, bool flipY = false);
 	~Texture();
 
-	void Bind(unsigned int slot = 0) const;
+	void Activate(unsigned int slot = 0) const;
+	void Bind() const;
 	void Load(bool flipVertically, bool repeat = true);
 	void Unbind() const;
 	void Delete() const;

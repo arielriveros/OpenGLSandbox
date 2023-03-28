@@ -64,31 +64,31 @@ void Mesh::Draw(const Camera& camera, const Shader& shader) const
 
 			for (unsigned int i = 0; i < m_Textures.size(); i++)
 			{
-				glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
+				m_Textures[i].Activate(i); // active proper texture unit before binding
 				std::string name;
 
 				if (m_Textures[i].type == "texture_diffuse")
 				{
 					name = "texture_diffuse" + std::to_string(diffuseIndex);
-					//diffuseIndex++;
+					diffuseIndex++;
 				}
 				else if (m_Textures[i].type == "texture_specular")
 				{
 					name = "texture_specular" + std::to_string(specularIndex);
-					//specularIndex++;
+					specularIndex++;
 				}
 				else if (m_Textures[i].type == "texture_normal")
 				{
 					name = "texture_normal" + std::to_string(normalIndex);
-					shader.SetBool("u_noNormalMap", true);
-					//normalIndex++;
+					shader.SetBool("u_noNormalMap", false);
+					normalIndex++;
 				}
 				else
 					name = m_Textures[i].name;
 
 				shader.SetInt(name, i);
 				// Bind the texture
-				glBindTexture(GL_TEXTURE_2D, m_Textures[i].ID());
+				m_Textures[i].Bind();
 			}
 
 			shader.SetBool("u_noTex", false);
@@ -101,6 +101,7 @@ void Mesh::Draw(const Camera& camera, const Shader& shader) const
 		unsigned int count = m_IBO.GetCount();
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
 		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
 	for (Mesh* child : children)

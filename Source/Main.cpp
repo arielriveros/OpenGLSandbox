@@ -39,16 +39,19 @@ int main()
 
 	// Group mesh
 	Mesh groupMesh;
+	groupMesh.Position.y += 0.5f;
 
 	// Floor
-	Mesh floor = Mesh("floor", squareGeometry, Materials::copper);
-	floor.Rotation.x = 3.14 / 2;
+	Texture test_D("Resources/Images", "white.jpg", "texture_diffuse");
+	Texture test_N("Resources/Images", "test_normal.jpg", "texture_normal", true);
+	Mesh floor = Mesh("floor", squareGeometry, {test_D, test_N });
+	floor.Rotation.x = -3.14 / 2;
 	floor.Position.y = -0.5;
 
 	// Wall
-	Mesh wall = Mesh("wall", squareGeometry, Materials::ruby);
-	wall.Rotation.x = 3.14f;
-	wall.Rotation.z = 3.14f / 2.0f;
+	Texture brickwall_D("Resources/Images", "brickwall_albedo.jpg", "texture_diffuse");
+	Texture brickwall_N("Resources/Images", "brickwall_normal.jpg", "texture_normal");
+	Mesh wall = Mesh("wall", squareGeometry, { brickwall_D, brickwall_N });
 	wall.Position.z = -0.5f;
 
 	groupMesh.AddChild(&floor);
@@ -65,24 +68,23 @@ int main()
 	Mesh cube = Mesh("cube", cubeGeometry, {crate_D , crate_S});
 	cube.Position.z = 0.5f;
 	cube.Scale = glm::vec3(0.5f);
-	groupMesh.AddChild(&cube);
 
 	// Point light
-	PointLight pointLight = PointLight(glm::vec3(0.33f));
-	pointLight.Specular = glm::vec3(0.1f);
+	PointLight pointLight = PointLight(glm::vec3(0.0f));
+	pointLight.Specular = glm::vec3(0.0f, 174.0f / 255.0f, 185.0f / 255.0f);
 	pointLight.Position = glm::vec3(0.0f, 0.5f, 0.0f);
 	renderer.AddPointLight(pointLight);
 	bool rotateLight = true;
 
 	// More Point lights
 	PointLight pointLight2 = PointLight(glm::vec3(0.0f, 0.0f, 1.0f));
-	pointLight2.Position = glm::vec3(1.0f, 2.5f, -1.0f);
+	pointLight2.Position = glm::vec3(2.0f, 2.5f, -2.0f);
 
 	PointLight pointLight3 = PointLight(glm::vec3(0.0f, 1.0f, 0.0f));
-	pointLight3.Position = glm::vec3(1.0f, 0.5f, 1.0f);
+	pointLight3.Position = glm::vec3(2.0f, 0.5f, 2.0f);
 
 	PointLight pointLight4 = PointLight(glm::vec3(1.0f, 0.0f, 0.0f));
-	pointLight4.Position = glm::vec3(-1.0f, 0.5f, -1.0f);
+	pointLight4.Position = glm::vec3(-2.0f, 0.5f, -2.0f);
 
 	renderer.AddPointLight(pointLight2);
 	renderer.AddPointLight(pointLight3);
@@ -90,13 +92,13 @@ int main()
 
 	// Directional light
 	DirectionalLight directionalLight = DirectionalLight();
-	directionalLight.Direction = glm::vec3(-0.2f, -1.0f, -0.3f);
+	directionalLight.Direction = glm::vec3(1.0f, -1.0f, -1.0f);
 	renderer.AddDirectionalLight(directionalLight);
 
 	// Model
 	ModelLoader loader;
 
-	Mesh nanosuit, cyborg, damagedHelmet, sponza;
+	Mesh cyborg, nanosuit, damagedHelmet, sponza;
 
 	loader.LoadModel("Resources/Models/nanosuit/nanosuit.obj", &nanosuit);
 	nanosuit.Position.x -= 1.5f;
@@ -112,7 +114,7 @@ int main()
 	loader.LoadModel("Resources/Models/sponza/gltf/sponza.gltf", &sponza);
 	sponza.Scale = glm::vec3(0.025f);
 
-	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.0f, 4.0f));
+	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(1.0f, -0.5f, 0.5f));
 
 	// Main window loop
     while (!window.ShouldClose())
@@ -131,9 +133,6 @@ int main()
 		pyramid.Rotation.y = (float)glfwGetTime()/2;
 		pyramid.Position.y = cos((float)glfwGetTime())/4;
 
-		cube.Rotation.x = (float)glfwGetTime()/2;
-		cube.Rotation.z = (float)glfwGetTime();
-
 		if (rotateLight)
 		{
 			pointLight.Position.x = cos((float)glfwGetTime()/2);
@@ -142,7 +141,6 @@ int main()
 
 		groupMesh.Update();
 		pyramid.Update();
-		cube.Update();
 		nanosuit.Update();
 		cyborg.Update();
 		damagedHelmet.Update();
@@ -151,8 +149,8 @@ int main()
 		// Render meshes
 		renderer.Draw(groupMesh, camera);
 		renderer.Draw(pyramid, camera);
-		renderer.Draw(nanosuit, camera);
 		renderer.Draw(cyborg, camera); 
+		renderer.Draw(nanosuit, camera);
 		renderer.Draw(damagedHelmet, camera);
 		renderer.Draw(sponza, camera);
 		
@@ -191,37 +189,37 @@ int main()
 			ImGui::Text("Sponza Transform Settings");
 			{
 				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Pos X", (float*)&sponza.Position.x, 0.1f, -1.0f, 1.0f);
+				ImGui::DragFloat("Group Pos X", (float*)&groupMesh.Position.x, 0.1f, -1.0f, 1.0f);
 
 				ImGui::SameLine(0.0f, 0.0f);
 				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Pos Y", (float*)&sponza.Position.y, 0.1f, -1.0f, 1.0f);
+				ImGui::DragFloat("Group Pos Y", (float*)&groupMesh.Position.y, 0.1f, -1.0f, 1.0f);
 
 				ImGui::SameLine(0.0f, 0.0f);
 				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Pos Z", (float*)&sponza.Position.z, 0.1f, -1.0f, 1.0f);
+				ImGui::DragFloat("Group Pos Z", (float*)&groupMesh.Position.z, 0.1f, -1.0f, 1.0f);
 
 				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Rot X", (float*)&sponza.Rotation.x, 0.1f, 0.0f, 3.1415f);
-
-				ImGui::SameLine(0.0f, 0.0f);
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Rot Y", (float*)&sponza.Rotation.y, 0.1f, 0.0f, 3.1415f);
+				ImGui::DragFloat("Group Rot X", (float*)&groupMesh.Rotation.x, 0.1f, 0.0f, 3.1415f);
 
 				ImGui::SameLine(0.0f, 0.0f);
 				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Rot Z", (float*)&sponza.Rotation.z, 0.1f, 0.0f, 3.1415f);
-
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Scale X", (float*)&sponza.Scale.x, 0.1f, 0.0f, 5.0f);
+				ImGui::DragFloat("Group Rot Y", (float*)&groupMesh.Rotation.y, 0.1f, 0.0f, 3.1415f);
 
 				ImGui::SameLine(0.0f, 0.0f);
 				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Scale Y", (float*)&sponza.Scale.y, 0.1f, 0.0f, 5.0f);
+				ImGui::DragFloat("Group Rot Z", (float*)&groupMesh.Rotation.z, 0.1f, 0.0f, 3.1415f);
+
+				ImGui::PushItemWidth(100);
+				ImGui::DragFloat("Group Scale X", (float*)&groupMesh.Scale.x, 0.1f, 0.0f, 5.0f);
 
 				ImGui::SameLine(0.0f, 0.0f);
 				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Scale Z", (float*)&sponza.Scale.z, 0.1f, 0.0f, 5.0f);
+				ImGui::DragFloat("Group Scale Y", (float*)&groupMesh.Scale.y, 0.1f, 0.0f, 5.0f);
+
+				ImGui::SameLine(0.0f, 0.0f);
+				ImGui::PushItemWidth(100);
+				ImGui::DragFloat("Group Scale Z", (float*)&groupMesh.Scale.z, 0.1f, 0.0f, 5.0f);
 			}
 		}
 

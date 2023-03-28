@@ -154,7 +154,7 @@ std::string Shader::LoadSource(const char* shaderPath)
 int Shader::GetUniform(const std::string& uniformName) const
 {
 	int uniformLocation = glGetUniformLocation(m_shaderProgramID, uniformName.c_str());
-	if (uniformLocation == -1)
-		std::cout << "Error: Uniform '" << uniformName << "' not found." << std::endl;
+	//if (uniformLocation == -1)
+		//std::cout << "Error: Uniform '" << uniformName << "' not found." << std::endl;
 	return uniformLocation;
 }

@@ -1,7 +1,7 @@
 #version 330 core
 
 in vec2 TexCoord;
-in vec3 Normal;  
+in mat3 TBN;
 in vec3 FragPos;
 
 out vec4 FragColor;
@@ -93,11 +93,12 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, v
 
 void main()
 {
-    vec3 normal = normalize(Normal);
+    vec3 normal = TBN[2];
     if(!u_noNormalMap)
     {
         normal = texture(texture_normal0, TexCoord).rgb;
         normal = normalize(normal * 2.0 - 1.0);
+        normal = TBN * normal;
     }
 
     vec3 diffuseMap;

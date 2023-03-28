@@ -120,6 +120,9 @@ void ModelLoader::processMesh(aiMesh* mesh, const aiScene* scene, Mesh* target)
         // 3. normal maps
         // .obj, use aiTextureType_HEIGHT
         std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_NORMALS, "texture_normal");
+        if (normalMaps.empty())
+            normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
+
         textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 
         Mesh* newMesh = new Mesh(mesh->mName.C_Str(), loadedGeometry, textures); // TODO: Handle this heap allocated mesh

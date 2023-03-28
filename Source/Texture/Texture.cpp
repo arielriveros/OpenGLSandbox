@@ -9,14 +9,14 @@ Texture::Texture(const std::string& name)
 	Load(true, true);
 }
 
-Texture::Texture(const std::string& directory, std::string fileName, const char* type)
+Texture::Texture(const std::string& directory, std::string fileName, const char* type, bool flipY)
 {
 	m_Directory = directory;
 	m_FileName = fileName;
 	m_LocalBuffer = nullptr;
 	m_nChannels = 0;
 	this->type = type;
-	Load(false, true);
+	Load(flipY, true);
 }
 
 Texture::~Texture()
@@ -24,9 +24,13 @@ Texture::~Texture()
 	
 }
 
-void Texture::Bind(unsigned int slot) const
+void Texture::Activate(unsigned int slot) const
 {
 	glActiveTexture(GL_TEXTURE0 + slot);
+}
+
+void Texture::Bind() const
+{
 	glBindTexture(GL_TEXTURE_2D, m_TextureID);
 }
 
@@ -75,6 +79,7 @@ void Texture::Load(bool flipVertically, bool repeat)
 		std::cout << "Error loading texture: " << m_Directory << "/" << m_FileName << std::endl;
 	
 	stbi_image_free(m_LocalBuffer);
+	Unbind();
 }
 
 void Texture::Unbind() const
