@@ -6,10 +6,10 @@
 
 std::vector<Vertex> square_vertices
 {
-    Vertex({glm::vec3(-0.5, -0.5, 0.0), glm::vec3(0.0, 0.0, -1.0), glm::vec2(0.0, 0.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0)}),
-    Vertex({glm::vec3(0.5,  0.5, 0.0),  glm::vec3(0.0, 0.0, -1.0), glm::vec2(1.0, 1.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0)}),
-    Vertex({glm::vec3(0.5, -0.5, 0.0),  glm::vec3(0.0, 0.0, -1.0), glm::vec2(0.0, 1.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0)}),
-    Vertex({glm::vec3(-0.5,  0.5, 0.0), glm::vec3(0.0, 0.0, -1.0), glm::vec2(1.0, 0.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0)})
+    Vertex({glm::vec3(-0.5, -0.5, 0.0), glm::vec3(0.0, 0.0, 1.0), glm::vec2(0.0, 0.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0)}),
+    Vertex({glm::vec3(0.5,  0.5, 0.0),  glm::vec3(0.0, 0.0, 1.0), glm::vec2(1.0, 1.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0)}),
+    Vertex({glm::vec3(0.5, -0.5, 0.0),  glm::vec3(0.0, 0.0, 1.0), glm::vec2(0.0, 1.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0)}),
+    Vertex({glm::vec3(-0.5,  0.5, 0.0), glm::vec3(0.0, 0.0, 1.0), glm::vec2(1.0, 0.0), glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0)})
 };
 
 std::vector<unsigned int> square_indices = { 0, 2, 1, 0, 1, 3 };
