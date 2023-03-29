@@ -13,8 +13,8 @@ public:
 	glm::vec3 Specular = glm::vec3(1.0f);
 
 	float Constant = 1.0f;
-	float Linear = 0.35f;
-	float Quadratic = 0.44f;
+	float Linear = 0.7f;
+	float Quadratic = 1.8f;
 
 private:
 	Sprite* m_Icon;

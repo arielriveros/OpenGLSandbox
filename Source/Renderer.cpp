@@ -91,7 +91,7 @@ void Renderer::SetLights() const
 	{
 		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].position", m_PointLights[i]->Position);
 		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].diffuse", m_PointLights[i]->Diffuse);
-		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].ambient", m_PointLights[i]->Ambient * glm::vec3(0.2f));
+		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].ambient", m_PointLights[i]->Ambient);
 		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].specular", m_PointLights[i]->Specular);
 
 		m_defaultProgram.SetFloat("u_pointLights[" + std::to_string(i) + "].constant", m_PointLights[i]->Constant );

@@ -124,14 +124,16 @@ int main()
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		redPointLight.Position.x	= 2 * (offset + 1.0f) * cos((float)glfwGetTime());
-		redPointLight.Position.z	= 1.0f + sin((float)glfwGetTime());
+		float dt = (float)glfwGetTime();
 
-		greenPointLight.Position.x	= 2 * (offset + 1.0f) * sin((float)glfwGetTime());
-		greenPointLight.Position.z	= 1.0f + cos((float)glfwGetTime());
+		redPointLight.Position.x	= 2 * (offset + 1.0f) * cos(dt);
+		redPointLight.Position.z	= 1.0f + sin(dt);
 
-		bluePointLight.Position.x	= 2 * (offset + 1.0f) * cos((float)glfwGetTime() * 2);
-		bluePointLight.Position.z	= 1.0f + cos((float)glfwGetTime() / 2);
+		greenPointLight.Position.x	= 2 * (offset + 1.0f) * sin(dt);
+		greenPointLight.Position.z	= -1.0f - cos(dt);
+
+		bluePointLight.Position.x	= 2 * (offset + 1.0f) * cos(dt * 2);
+		bluePointLight.Position.z	= 1.0f + cos(dt / 2);
 
 		scene.Update();
 		

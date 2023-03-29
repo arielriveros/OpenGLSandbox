@@ -32,7 +32,7 @@ struct Material
 	glm::vec3 ambient	= glm::vec3(1.0f);
 	glm::vec3 diffuse	= glm::vec3(1.0f);
 	glm::vec3 specular	= glm::vec3(1.0f);
-	float shininess		= 32.0f;
+	float shininess		= 0.5f;
 };
 
 class Mesh
