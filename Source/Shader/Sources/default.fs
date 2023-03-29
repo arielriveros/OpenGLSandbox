@@ -23,6 +23,8 @@ uniform sampler2D texture_diffuse0;
 uniform sampler2D texture_specular0;
 uniform sampler2D texture_normal0;
 
+uniform float u_gamma = 2.2;
+
 struct DirectionalLight {
     vec3 direction;
 
@@ -61,7 +63,7 @@ vec3 CalcDirLight(DirectionalLight light, vec3 normal, vec3 viewDir, vec3 diffus
 
     // specular
     vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), u_material.shininess * 128.0);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), u_material.shininess * 32.0);
     vec3 specular = light.specular * spec * specularMap;
     // combine results
 
@@ -84,7 +86,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, v
 
     // specular
     vec3 halfwayDir = normalize(lightDir + viewDir);
-    float spec = pow(max(dot(normal, halfwayDir), 0.0), u_material.shininess * 128.0);
+    float spec = pow(max(dot(normal, halfwayDir), 0.0), u_material.shininess * 32.0);
     vec3 specular = light.specular * spec * specularMap;
 
     return (ambient + diffuse + specular) * pointIntensity;
@@ -128,4 +130,11 @@ void main()
         result += CalcPointLight(u_pointLights[i], normal, FragPos, viewDir, diffuseMap, specularMap);
 
     FragColor = vec4(result, 1.0);
+
+    // Reinhard tone mapping
+    //vec3 mapped = result / (result + vec3(1.0));
+
+    // Gamma correction
+    //mapped = pow(mapped, vec3(1.0/u_gamma));
+    //FragColor = vec4(mapped, 1.0);
 }

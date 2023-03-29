@@ -98,6 +98,8 @@ void Renderer::SetLights() const
 		m_defaultProgram.SetFloat("u_pointLights[" + std::to_string(i) + "].linear", m_PointLights[i]->Linear );
 		m_defaultProgram.SetFloat("u_pointLights[" + std::to_string(i) + "].quadratic", m_PointLights[i]->Quadratic );
 	}
+
+	m_defaultProgram.SetFloat("u_gamma", Gamma);
 }
 
 void APIENTRY GLErrorMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)

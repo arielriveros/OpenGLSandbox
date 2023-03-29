@@ -17,10 +17,11 @@ uniform mat4 u_viewProjection = mat4(1.0);
 void main()
 {
 	TexCoord = aTexCoord;
-	mat3 normalMatrix = transpose(inverse(mat3(u_model)));
+	mat3 normalMatrix = mat3(u_model);
 	vec3 N = normalize(normalMatrix * aNormal);
 	vec3 T = normalize(normalMatrix * aTangent);
-	vec3 B = normalize(cross(N, T));
+	vec3 B = normalize(normalMatrix * aBitangent);
+	//vec3 B = normalize(cross(N, T));
 	TBN = mat3(T, B, N);
 	FragPos = vec3(u_model * vec4(aPos, 1.0f));
 	gl_Position = u_viewProjection * vec4(FragPos, 1.0);

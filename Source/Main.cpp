@@ -150,7 +150,7 @@ int main()
 		renderer.DrawLights(camera);
 
 #pragma region ImGUI
-		ImGui::Begin("Directional Light settings");
+		ImGui::Begin("Light settings");
 		{
 			ImGui::PushItemWidth(100);
 			ImGui::ColorEdit3("Dir Diffuse", (float*)&directionalLight.Diffuse);
@@ -161,6 +161,7 @@ int main()
 			ImGui::PushItemWidth(100);
 			ImGui::DragFloat("DirZ", (float*)&directionalLight.Direction.z, 0.1f, -1.0f, 1.0f);
 
+			ImGui::DragFloat("Gamma", (float*)&renderer.Gamma, 0.05f, 0.0f, 2.2f);
 		}
 		ImGui::End();
 

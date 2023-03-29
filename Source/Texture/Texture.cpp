@@ -9,14 +9,14 @@ Texture::Texture(const std::string& name)
 	Load(true, true);
 }
 
-Texture::Texture(const std::string& directory, std::string fileName, const char* type, bool flipY)
+Texture::Texture(const std::string& directory, std::string fileName, const char* type, bool flipY, bool correctedGamma)
 {
 	m_Directory = directory;
 	m_FileName = fileName;
 	m_LocalBuffer = nullptr;
 	m_nChannels = 0;
 	this->type = type;
-	Load(flipY, true);
+	Load(flipY, true, correctedGamma);
 }
 
 Texture::~Texture()
@@ -34,7 +34,7 @@ void Texture::Bind() const
 	glBindTexture(GL_TEXTURE_2D, m_TextureID);
 }
 
-void Texture::Load(bool flipVertically, bool repeat)
+void Texture::Load(bool flipVertically, bool repeat, bool correctedGamma)
 {
 	stbi_set_flip_vertically_on_load(flipVertically);
 	m_LocalBuffer = stbi_load((m_Directory + "/" + m_FileName).c_str(), &m_Width, &m_Height, &m_nChannels, 0);
@@ -42,20 +42,19 @@ void Texture::Load(bool flipVertically, bool repeat)
 	GLenum colorMode = GL_RGB;
 	switch (m_nChannels) {
 	case 1:
-		colorMode = GL_RED;
+		colorMode = GL_ALPHA;
 		break;
 	case 4:
 		colorMode = GL_RGBA;
 		break;
 	};
 
+	GLint format = correctedGamma ? GL_SRGB_ALPHA : GL_RGBA8;
+
 	if (m_LocalBuffer)
 	{
 		glGenTextures(1, &m_TextureID);
 		glBindTexture(GL_TEXTURE_2D, m_TextureID);
-
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		if (repeat)
 		{
@@ -71,7 +70,7 @@ void Texture::Load(bool flipVertically, bool repeat)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, colorMode, GL_UNSIGNED_BYTE, m_LocalBuffer);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, m_Width, m_Height, 0, colorMode, GL_UNSIGNED_BYTE, m_LocalBuffer);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 

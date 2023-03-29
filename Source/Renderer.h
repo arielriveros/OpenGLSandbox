@@ -13,6 +13,8 @@
 
 class Renderer
 {
+public:
+	float Gamma = 2.2f;
 private:
 	Shader m_defaultProgram;
 	Shader m_iconProgram;

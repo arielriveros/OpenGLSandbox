@@ -116,7 +116,7 @@ void ModelLoader::processMesh(aiMesh* mesh, const aiScene* scene, Mesh* target)
         textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
         // 2. specular maps
         std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
-        textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+        //textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
         // 3. normal maps
         // .obj, use aiTextureType_HEIGHT
         std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_NORMALS, "texture_normal");
@@ -159,7 +159,8 @@ std::vector<Texture> ModelLoader::loadMaterialTextures(aiMaterial* mat, aiTextur
 
         if (!skip)
         {
-            Texture texture = Texture(this->m_Directory, str.C_Str(), typeName);
+            //Texture texture = Texture(this->m_Directory, str.C_Str(), typeName, false, typeName == "texture_diffuse");
+            Texture texture = Texture(this->m_Directory, str.C_Str(), typeName, false, false);
             textures.push_back(texture);
             m_TexturesLoaded.push_back(texture);
         }
