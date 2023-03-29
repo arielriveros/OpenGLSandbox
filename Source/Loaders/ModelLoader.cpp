@@ -159,8 +159,7 @@ std::vector<Texture> ModelLoader::loadMaterialTextures(aiMaterial* mat, aiTextur
 
         if (!skip)
         {
-            //Texture texture = Texture(this->m_Directory, str.C_Str(), typeName, false, typeName == "texture_diffuse");
-            Texture texture = Texture(this->m_Directory, str.C_Str(), typeName, false, false);
+            Texture texture = Texture(this->m_Directory, str.C_Str(), typeName, false, typeName == "texture_diffuse");
             textures.push_back(texture);
             m_TexturesLoaded.push_back(texture);
         }

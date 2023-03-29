@@ -121,6 +121,9 @@ void main()
         specularMap = texture(texture_specular0, TexCoord).rgb;
     }
 
+    
+    
+
     vec3 viewDir = normalize(u_cameraPos - FragPos);
 
     vec3 result = vec3(0.0);
@@ -129,12 +132,14 @@ void main()
     for(int i=0; i < u_pointLightsCount; i++)
         result += CalcPointLight(u_pointLights[i], normal, FragPos, viewDir, diffuseMap, specularMap);
 
-    FragColor = vec4(result, 1.0);
+    // No tone mapping
+    vec3 mapped = result;
 
     // Reinhard tone mapping
-    //vec3 mapped = result / (result + vec3(1.0));
+    // vec3 mapped = result / (result + vec3(1.0));
 
     // Gamma correction
-    //mapped = pow(mapped, vec3(1.0/u_gamma));
-    //FragColor = vec4(mapped, 1.0);
+    mapped = pow(mapped, vec3(1.0/u_gamma));
+
+    FragColor = vec4(mapped, 1.0);
 }
