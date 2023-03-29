@@ -6,10 +6,10 @@ Sprite::Sprite(const std::string& texturePath, const std::string& textureFileNam
 	m_VBO = VertexBuffer();
 
 	std::vector<float> vertices = {
-		-0.1, -0.1, 0.0, 0.0, 0.0,
-		 0.1,  0.1, 0.0, 1.0, 1.0,
-		 0.1, -0.1, 0.0, 0.0, 1.0,
-		-0.1,  0.1, 0.0, 1.0, 0.0
+		-0.1f, -0.1f, 0.0f, 0.0f, 0.0f,
+		 0.1f,  0.1f, 0.0f, 1.0f, 1.0f,
+		 0.1f, -0.1f, 0.0f, 0.0f, 1.0f,
+		-0.1f,  0.1f, 0.0f, 1.0f, 0.0f
 	};
 
 	unsigned int size = vertices.size() * sizeof(vertices[0]);
@@ -22,7 +22,7 @@ Sprite::Sprite(const std::string& texturePath, const std::string& textureFileNam
 
 	std::vector<unsigned int> indices = { 0, 2, 1, 0, 1, 3 };
 	m_IBO = IndexBuffer();
-	m_IBO.UploadData(&indices[0], indices.size());
+	m_IBO.UploadData(&indices[0], static_cast<unsigned int>(indices.size()));
 
 	m_Texture = Texture(texturePath, textureFileName, "diffuse");
 

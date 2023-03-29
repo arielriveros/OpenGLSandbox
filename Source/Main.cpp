@@ -36,85 +36,80 @@ int main()
 	ImGui_ImplOpenGL3_Init("#version 330");
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	ImGui::StyleColorsDark();
-
-	// Group mesh
-	Mesh groupMesh;
-	groupMesh.Position.y += 0.5f;
+	
+	float offset = 2.0f;
 
 	// Floor
-	Texture test_D("Resources/Images", "white.jpg", "texture_diffuse");
-	Texture test_N("Resources/Images", "test_normal.jpg", "texture_normal", true);
-	Mesh floor = Mesh("floor", squareGeometry, {test_D, test_N });
-	floor.Rotation.x = -3.14 / 2;
-	floor.Position.y = -0.5;
+	Mesh floor = Mesh("floor", squareGeometry, Materials::turquoise);
+	floor.Rotation.x = -3.14f / 2;
+	floor.Position.y = -0.5f;
 
 	// Wall
-	Texture brickwall_D("Resources/Images", "brickwall_albedo.jpg", "texture_diffuse");
-	Texture brickwall_N("Resources/Images", "brickwall_normal.jpg", "texture_normal");
+	Texture brickwall_D("Resources/Images/Textures", "brickwall_albedo.jpg", "texture_diffuse");
+	Texture brickwall_N("Resources/Images/Textures", "brickwall_normal.jpg", "texture_normal");
 	Mesh wall = Mesh("wall", squareGeometry, { brickwall_D, brickwall_N });
 	wall.Position.z = -0.5f;
 
+	Mesh groupMesh;
+	groupMesh.Position.y = 1.5f;
+	groupMesh.Scale = glm::vec3(5.0f);
 	groupMesh.AddChild(&floor);
 	groupMesh.AddChild(&wall);
 
-	// Pyramid
-	Mesh pyramid = Mesh("pyramid", pyramidGeometry, Materials::silver);
-	pyramid.Position.x -= 1.0f;
-	pyramid.Scale = glm::vec3(0.5f);
 
-	// Cube
-	Texture crate_D("Resources/Images", "cube_albedo.png", "texture_diffuse");
-	Texture crate_S("Resources/Images", "cube_specular.png", "texture_specular");
-	Mesh cube = Mesh("cube", cubeGeometry, {crate_D , crate_S});
-	cube.Position.z = 0.5f;
-	cube.Scale = glm::vec3(0.5f);
+	// Model
+	ModelLoader loader;
 
-	// Point light
-	PointLight pointLight = PointLight(glm::vec3(0.0f));
-	pointLight.Specular = glm::vec3(0.0f, 174.0f / 255.0f, 185.0f / 255.0f);
-	pointLight.Position = glm::vec3(0.0f, 0.5f, 0.0f);
-	renderer.AddPointLight(pointLight);
-	bool rotateLight = true;
+	Mesh sponza;
+	loader.LoadModel("Resources/Models/gltf/sponza/sponza.gltf", &sponza);
+	sponza.Scale = glm::vec3(0.025f);
 
-	// More Point lights
-	PointLight pointLight2 = PointLight(glm::vec3(0.0f, 0.0f, 1.0f));
-	pointLight2.Position = glm::vec3(2.0f, 2.5f, -2.0f);
+	Mesh nanosuit;
+	loader.LoadModel("Resources/Models/obj/nanosuit/nanosuit.obj", &nanosuit);
+	nanosuit.Position.x = -2 * offset;
+	nanosuit.Scale = glm::vec3(0.25f);
 
-	PointLight pointLight3 = PointLight(glm::vec3(0.0f, 1.0f, 0.0f));
-	pointLight3.Position = glm::vec3(2.0f, 0.5f, 2.0f);
+	Mesh cyborg;
+	loader.LoadModel("Resources/Models/obj/cyborg/cyborg.obj", &cyborg);
+	cyborg.Position.x = -1 * offset;
 
-	PointLight pointLight4 = PointLight(glm::vec3(1.0f, 0.0f, 0.0f));
-	pointLight4.Position = glm::vec3(-2.0f, 0.5f, -2.0f);
+	Mesh damagedHelmet;
+	loader.LoadModel("Resources/Models/gltf/damagedHelmet/damagedHelmet.gltf", &damagedHelmet);
+	damagedHelmet.Rotation.x = 3.14f / 2.0f;
+	damagedHelmet.Position.y = 1.5f;
+	
+	Mesh backpack;
+	loader.LoadModel("Resources/Models/obj/backpack/backpack.obj", &backpack);
+	backpack.Position.x = 1 * offset;
+	backpack.Position.y = 1.5;
+	backpack.Scale = glm::vec3(0.66f);
 
-	renderer.AddPointLight(pointLight2);
-	renderer.AddPointLight(pointLight3);
-	renderer.AddPointLight(pointLight4);
+	// Point lights
+	PointLight redPointLight   = PointLight(glm::vec3(1.0f, 0.0f, 0.0f));
+	redPointLight.Position.y = 1.0f;
+	PointLight greenPointLight = PointLight(glm::vec3(0.0f, 1.0f, 0.0f));
+	greenPointLight.Position.y = 2.0f;
+	PointLight bluePointLight  = PointLight(glm::vec3(0.0f, 0.0f, 1.0f));
+	bluePointLight.Position.y = 3.0f;
+
+	renderer.AddPointLight(redPointLight);
+	renderer.AddPointLight(greenPointLight);
+	renderer.AddPointLight(bluePointLight);
 
 	// Directional light
 	DirectionalLight directionalLight = DirectionalLight();
 	directionalLight.Direction = glm::vec3(1.0f, -1.0f, -1.0f);
 	renderer.AddDirectionalLight(directionalLight);
 
-	// Model
-	ModelLoader loader;
+	Mesh scene;
+	scene.AddChild(&groupMesh);
+	scene.AddChild(&sponza);
+	scene.AddChild(&cyborg);
+	scene.AddChild(&nanosuit);
+	scene.AddChild(&damagedHelmet);
+	scene.AddChild(&backpack);
 
-	Mesh cyborg, nanosuit, damagedHelmet, sponza;
-
-	loader.LoadModel("Resources/Models/nanosuit/nanosuit.obj", &nanosuit);
-	nanosuit.Position.x -= 1.5f;
-	nanosuit.Scale = glm::vec3(0.25f);
-
-	loader.LoadModel("Resources/Models/cyborg/cyborg.obj", &cyborg);
-	cyborg.Position.x += 1.5f;
-
-	loader.LoadModel("Resources/Models/damagedHelmet/damagedHelmet.gltf", &damagedHelmet);
-	damagedHelmet.Rotation.x = 3.14f / 2.0f;
-	damagedHelmet.Position.y = 1.5f;
-	
-	loader.LoadModel("Resources/Models/sponza/gltf/sponza.gltf", &sponza);
-	sponza.Scale = glm::vec3(0.025f);
-
-	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(1.0f, -0.5f, 0.5f));
+	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.5f, 3.5f));
 
 	// Main window loop
     while (!window.ShouldClose())
@@ -129,62 +124,37 @@ int main()
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		// Change object properties
-		pyramid.Rotation.y = (float)glfwGetTime()/2;
-		pyramid.Position.y = cos((float)glfwGetTime())/4;
+		redPointLight.Position.x	= 2 * (offset + 1.0f) * cos((float)glfwGetTime());
+		redPointLight.Position.z	= 1.0f + sin((float)glfwGetTime());
 
-		if (rotateLight)
-		{
-			pointLight.Position.x = cos((float)glfwGetTime()/2);
-			pointLight.Position.z = sin((float)glfwGetTime()/2);
-		}
+		greenPointLight.Position.x	= 2 * (offset + 1.0f) * sin((float)glfwGetTime());
+		greenPointLight.Position.z	= 1.0f + cos((float)glfwGetTime());
 
-		groupMesh.Update();
-		pyramid.Update();
-		nanosuit.Update();
-		cyborg.Update();
-		damagedHelmet.Update();
-		sponza.Update();
+		bluePointLight.Position.x	= 2 * (offset + 1.0f) * cos((float)glfwGetTime() * 2);
+		bluePointLight.Position.z	= 1.0f + cos((float)glfwGetTime() / 2);
+
+		scene.Update();
 		
-		// Render meshes
-		renderer.Draw(groupMesh, camera);
-		renderer.Draw(pyramid, camera);
-		renderer.Draw(cyborg, camera); 
-		renderer.Draw(nanosuit, camera);
-		renderer.Draw(damagedHelmet, camera);
-		renderer.Draw(sponza, camera);
-		
+		// Render objects
+		renderer.Draw(scene, camera);
 		renderer.DrawLights(camera);
 
 #pragma region ImGUI
-		ImGui::Begin("Settings");
-
-		ImGui::SeparatorText("Lighting");
+		ImGui::Begin("Directional Light settings");
 		{
-			ImGui::Text("Directional Light settings");
+			ImGui::PushItemWidth(100);
 			ImGui::ColorEdit3("Dir Diffuse", (float*)&directionalLight.Diffuse);
 			ImGui::PushItemWidth(100);
 			ImGui::DragFloat("DirX", (float*)&directionalLight.Direction.x, 0.1f, -1.0f, 1.0f);
-			ImGui::SameLine(0.0f, 0.0f);
-
 			ImGui::PushItemWidth(100);
 			ImGui::DragFloat("DirY", (float*)&directionalLight.Direction.y, 0.1f, -1.0f, 1.0f);
-			ImGui::SameLine(0.0f, 0.0f);
-
 			ImGui::PushItemWidth(100);
-			ImGui::SameLine(0.0f, 0.0f);
 			ImGui::DragFloat("DirZ", (float*)&directionalLight.Direction.z, 0.1f, -1.0f, 1.0f);
 
-			ImGui::Text("Point Light settings");
-			ImGui::ColorEdit3("Diffuse",  (float*)&pointLight.Diffuse);
-			ImGui::ColorEdit3("Specular", (float*)&pointLight.Specular);
-			ImGui::ColorEdit3("Ambient",  (float*)&pointLight.Ambient);
-			ImGui::Checkbox("Rotate", &rotateLight);
-			ImGui::DragFloat("Constant", (float*)&pointLight.Constant, 0.1f, 0.0f, 5.0f);
-			ImGui::DragFloat("Linear", (float*)&pointLight.Linear, 0.1f, 0.0f, 5.0f);
-			ImGui::DragFloat("Quadratic", (float*)&pointLight.Quadratic, 0.1f, 0.0f, 5.0f);
 		}
-		ImGui::SeparatorText("Scene");
+		ImGui::End();
+
+		ImGui::Begin("Scene Settings");
 		{
 			ImGui::Text("Sponza Transform Settings");
 			{
@@ -223,9 +193,10 @@ int main()
 			}
 		}
 
-		ImGui::Text("%.1f FPS %.3f ms", 1000.0f / io.Framerate, io.Framerate);
+		ImGui::Text("%.2f ms %.2f FPS", 1000.0f / io.Framerate, io.Framerate);
 
 		ImGui::End();
+
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 #pragma endregion
@@ -298,6 +269,12 @@ void processInput(GLFWwindow* window, Camera& camera)
 
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
 		camera.Position += camera.speed * (-camera.Up);
+
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		camera.speed = 0.15f;
+
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
+		camera.speed = 0.05f;
 }
 
 void OnResize_callback(GLFWwindow* window, int width, int height)

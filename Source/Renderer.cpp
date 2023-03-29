@@ -32,8 +32,8 @@ void Renderer::Init()
 	// Enable MSAA
 	glEnable(GL_MULTISAMPLE);
 
-	m_defaultProgram = Shader("Resources/Shaders/default.vs", "Resources/Shaders/default.fs");
-	m_iconProgram = Shader("Resources/Shaders/icon.vs", "Resources/Shaders/icon.fs");
+	m_defaultProgram = Shader("Source/Shader/Sources/default.vs", "Source/Shader/Sources/default.fs");
+	m_iconProgram = Shader("Source/Shader/Sources/icon.vs", "Source/Shader/Sources/icon.fs");
 }
 
 void Renderer::Clear() const
@@ -87,7 +87,7 @@ void Renderer::SetLights() const
 	unsigned int pointLightsCount = static_cast<unsigned int>(m_PointLights.size());
 	m_defaultProgram.SetInt("u_pointLightsCount", pointLightsCount );
 
-	for (int i = 0; i < pointLightsCount; i++)
+	for (unsigned int i = 0; i < pointLightsCount; i++)
 	{
 		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].position", m_PointLights[i]->Position);
 		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].diffuse", m_PointLights[i]->Diffuse);

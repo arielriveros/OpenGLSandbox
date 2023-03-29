@@ -69,6 +69,10 @@
     <None Include="Resources\Shaders\icon.vs" />
     <None Include="Resources\Shaders\default.fs" />
     <None Include="Resources\Shaders\default.vs" />
+    <None Include="Source\Shader\Sources\default.fs" />
+    <None Include="Source\Shader\Sources\default.vs" />
+    <None Include="Source\Shader\Sources\icon.fs" />
+    <None Include="Source\Shader\Sources\icon.vs" />
     <None Include="ThirdParty\include\imgui\imgui.ini" />
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +82,7 @@
     <Image Include="Resources\Images\bricks_specular.jpg" />
     <Image Include="Resources\Images\cube_albedo.png" />
     <Image Include="Resources\Images\cube_specular.png" />
+    <Image Include="Resources\Images\Icons\light_icon.png" />
     <Image Include="Resources\Images\light_icon.png" />
     <Image Include="Resources\Images\planks_albedo.png" />
     <Image Include="Resources\Images\planks_specular.png" />

@@ -151,7 +151,7 @@ void Mesh::SetUpVertexArray(const std::vector<Vertex>& vertices, const std::vect
 
 	m_VAO = VertexArray();
 	m_VBO = VertexBuffer();
-	m_VBO.UploadData(&m_Vertices[0], m_Vertices.size() * sizeof(m_Vertices[0]));
+	m_VBO.UploadData(&m_Vertices[0], m_Vertices.size() * sizeof(Vertex));
 
 	VertexBufferLayout layout;
 	layout.Push<float>(3); // Position attribute

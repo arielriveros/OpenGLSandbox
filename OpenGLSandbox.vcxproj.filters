@@ -202,6 +202,10 @@
     <None Include="ThirdParty\include\imgui\imgui.ini">
       <Filter>Source\External</Filter>
     </None>
+    <None Include="Source\Shader\Sources\default.fs" />
+    <None Include="Source\Shader\Sources\default.vs" />
+    <None Include="Source\Shader\Sources\icon.fs" />
+    <None Include="Source\Shader\Sources\icon.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Images\wall.jpg">
@@ -235,6 +239,9 @@
       <Filter>Resources</Filter>
     </Image>
     <Image Include="Resources\Images\cube_specular.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\Images\Icons\light_icon.png">
       <Filter>Resources</Filter>
     </Image>
   </ItemGroup>
