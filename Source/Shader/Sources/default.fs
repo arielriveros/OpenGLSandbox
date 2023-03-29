@@ -110,7 +110,12 @@ void main()
     }
     else
     {
-        diffuseMap = texture(texture_diffuse0, TexCoord).rgb;
+        vec4 texColor = texture(texture_diffuse0, TexCoord);
+        if(texColor.a < 0.2)
+        {
+            discard;
+        }
+        diffuseMap = texColor.rgb;
         specularMap = texture(texture_specular0, TexCoord).rgb;
     }
 

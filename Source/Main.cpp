@@ -64,10 +64,10 @@ int main()
 	loader.LoadModel("Resources/Models/gltf/sponza/sponza.gltf", &sponza);
 	sponza.Scale = glm::vec3(0.025f);
 
-	Mesh nanosuit;
-	loader.LoadModel("Resources/Models/obj/nanosuit/nanosuit.obj", &nanosuit);
-	nanosuit.Position.x = -2 * offset;
-	nanosuit.Scale = glm::vec3(0.25f);
+	Mesh flightHelmet;
+	loader.LoadModel("Resources/Models/gltf/FlightHelmet/FlightHelmet.gltf", &flightHelmet);
+	flightHelmet.Position.x = -2 * offset;
+	flightHelmet.Scale = glm::vec3(5.0f);
 
 	Mesh cyborg;
 	loader.LoadModel("Resources/Models/obj/cyborg/cyborg.obj", &cyborg);
@@ -75,14 +75,21 @@ int main()
 
 	Mesh damagedHelmet;
 	loader.LoadModel("Resources/Models/gltf/damagedHelmet/damagedHelmet.gltf", &damagedHelmet);
-	damagedHelmet.Rotation.x = 3.14f / 2.0f;
+	damagedHelmet.Rotation.x = 3.14f/2;
 	damagedHelmet.Position.y = 1.5f;
 	
 	Mesh backpack;
 	loader.LoadModel("Resources/Models/obj/backpack/backpack.obj", &backpack);
 	backpack.Position.x = 1 * offset;
-	backpack.Position.y = 1.5;
+	backpack.Position.y = 1.5f;
 	backpack.Scale = glm::vec3(0.66f);
+
+	Mesh boomBox;
+	loader.LoadModel("Resources/Models/gltf/BoomBox/BoomBox.gltf", &boomBox);
+	boomBox.Position.x = 2 * offset;
+	boomBox.Position.y = 1.5f;
+	boomBox.Rotation.y = 3.14f;
+	boomBox.Scale = glm::vec3(80.0f);
 
 	// Point lights
 	PointLight redPointLight   = PointLight(glm::vec3(1.0f, 0.0f, 0.0f));
@@ -105,9 +112,10 @@ int main()
 	scene.AddChild(&groupMesh);
 	scene.AddChild(&sponza);
 	scene.AddChild(&cyborg);
-	scene.AddChild(&nanosuit);
+	scene.AddChild(&flightHelmet);
 	scene.AddChild(&damagedHelmet);
 	scene.AddChild(&backpack);
+	scene.AddChild(&boomBox);
 
 	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.5f, 3.5f));
 
