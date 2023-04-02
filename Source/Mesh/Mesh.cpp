@@ -99,7 +99,9 @@ void Mesh::Draw(const Camera& camera, const Shader& shader) const
 		shader.SetVec3("u_cameraPos", camera.Position);
 	
 		unsigned int count = m_IBO.GetCount();
+		glEnable(GL_DEPTH_TEST);
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+		glDisable(GL_DEPTH_TEST);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}

@@ -116,6 +116,9 @@
     <ClCompile Include="Source\Loaders\ModelLoader.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Buffers\Frambuffer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Shader\Shader.h">
@@ -185,6 +188,7 @@
     <ClInclude Include="Source\Loaders\ModelLoader.h" />
     <ClInclude Include="Resources\Misc\Materials.h" />
     <ClInclude Include="Source\Transform\Transform.h" />
+    <ClInclude Include="Source\Buffers\Framebuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\default.fs">
@@ -202,10 +206,10 @@
     <None Include="ThirdParty\include\imgui\imgui.ini">
       <Filter>Source\External</Filter>
     </None>
-    <None Include="Source\Shader\Sources\default.fs" />
-    <None Include="Source\Shader\Sources\default.vs" />
-    <None Include="Source\Shader\Sources\icon.fs" />
-    <None Include="Source\Shader\Sources\icon.vs" />
+    <None Include="Resources\Sources\default.fs" />
+    <None Include="Resources\Sources\default.vs" />
+    <None Include="Resources\Sources\icon.fs" />
+    <None Include="Resources\Sources\icon.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Images\wall.jpg">

@@ -10,16 +10,18 @@
 #include "Lighting/PointLight.h"
 #include "Lighting/DirectionalLight.h"
 #include <vector>
+#include "Buffers/Framebuffer.h"
 
 class Renderer
 {
 public:
 	float Gamma = 2.2f;
 private:
-	Shader m_defaultProgram;
-	Shader m_iconProgram;
+	Shader m_defaultProgram, m_iconProgram, m_framebufferProgram;
 	const DirectionalLight* m_DirectionalLight = nullptr;
 	std::vector<const PointLight*> m_PointLights;
+	Framebuffer m_FBO;
+	unsigned int m_QuadVAO, m_QuadVBO;
 
 public:
 	Renderer();

@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Buffers\Frambuffer.cpp" />
     <ClCompile Include="Source\Camera\Camera.cpp" />
     <ClCompile Include="Source\Buffers\IndexBuffer.cpp" />
     <ClCompile Include="Source\Buffers\VertexBuffer.cpp" />
@@ -38,6 +39,7 @@
   <ItemGroup>
     <ClInclude Include="Resources\Misc\Geometries.h" />
     <ClInclude Include="Resources\Misc\Materials.h" />
+    <ClInclude Include="Source\Buffers\Framebuffer.h" />
     <ClInclude Include="Source\Camera\Camera.h" />
     <ClInclude Include="Source\Buffers\IndexBuffer.h" />
     <ClInclude Include="Source\Buffers\VertexBuffer.h" />
@@ -69,10 +71,10 @@
     <None Include="Resources\Shaders\icon.vs" />
     <None Include="Resources\Shaders\default.fs" />
     <None Include="Resources\Shaders\default.vs" />
-    <None Include="Source\Shader\Sources\default.fs" />
-    <None Include="Source\Shader\Sources\default.vs" />
-    <None Include="Source\Shader\Sources\icon.fs" />
-    <None Include="Source\Shader\Sources\icon.vs" />
+    <None Include="Resources\Sources\default.fs" />
+    <None Include="Resources\Sources\default.vs" />
+    <None Include="Resources\Sources\icon.fs" />
+    <None Include="Resources\Sources\icon.vs" />
     <None Include="ThirdParty\include\imgui\imgui.ini" />
   </ItemGroup>
   <ItemGroup>
