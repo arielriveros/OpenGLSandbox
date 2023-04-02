@@ -6,7 +6,8 @@ private:
 	unsigned int m_BufferID;
 	unsigned int m_RenderBufferID;
 	unsigned int m_Width = 0, m_Height = 0;
-	unsigned int m_TextureBufferID;
+	unsigned int m_ColorBufferID;
+	unsigned int m_DepthBufferID;
 
 public:
 	Framebuffer();
@@ -17,7 +18,8 @@ public:
 	void Unbind() const;
 	void Delete() const;
 	void AttachColor();
+	void AttachDepth();
 	void CheckCompletion() const;
 
-	unsigned int GetTextureID() const { return m_TextureBufferID; }
+	unsigned int GetColorBufferID() const { return m_ColorBufferID; }
 };

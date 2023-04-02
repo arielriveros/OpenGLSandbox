@@ -119,6 +119,9 @@
     <ClCompile Include="Source\Buffers\Frambuffer.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PostProcess\PostProcess.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Shader\Shader.h">
@@ -189,6 +192,7 @@
     <ClInclude Include="Resources\Misc\Materials.h" />
     <ClInclude Include="Source\Transform\Transform.h" />
     <ClInclude Include="Source\Buffers\Framebuffer.h" />
+    <ClInclude Include="Source\PostProcess\PostProcess.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\default.fs">

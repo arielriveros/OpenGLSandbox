@@ -4,14 +4,18 @@
 
 Framebuffer::Framebuffer()
 {
-	m_TextureBufferID = 0;
+	m_ColorBufferID = 0;
+	m_DepthBufferID = 0;
+	m_RenderBufferID = 0;
 	glGenFramebuffers(1, &m_BufferID);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_BufferID);
 }
 
 Framebuffer::Framebuffer(unsigned int width, unsigned int height)
 {
-	m_TextureBufferID = 0;
+	m_ColorBufferID = 0;
+	m_DepthBufferID = 0;
+	m_RenderBufferID = 0;
 	m_Width = width;
 	m_Height = height;
 	glGenFramebuffers(1, &m_BufferID);
@@ -39,10 +43,10 @@ void Framebuffer::Delete() const
 
 void Framebuffer::AttachColor()
 {
-	glGenTextures(1, &m_TextureBufferID);
-	glBindTexture(GL_TEXTURE_2D, m_TextureBufferID);
+	glGenTextures(1, &m_ColorBufferID);
+	glBindTexture(GL_TEXTURE_2D, m_ColorBufferID);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -50,7 +54,7 @@ void Framebuffer::AttachColor()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_TextureBufferID, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorBufferID, 0);
 
 	glGenRenderbuffers(1, &m_RenderBufferID);
 	glBindRenderbuffer(GL_RENDERBUFFER, m_RenderBufferID);
@@ -58,6 +62,20 @@ void Framebuffer::AttachColor()
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_RenderBufferID);
+}
+
+void Framebuffer::AttachDepth()
+{
+	glGenTextures(1, &m_DepthBufferID);
+	glBindTexture(GL_TEXTURE_2D, m_DepthBufferID);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_Width, m_Width, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
 
 void Framebuffer::CheckCompletion() const

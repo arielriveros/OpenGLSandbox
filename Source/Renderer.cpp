@@ -34,59 +34,27 @@ void Renderer::Init()
 
 	m_defaultProgram = Shader("Resources/Shaders/default.vs", "Resources/Shaders/default.fs");
 	m_iconProgram = Shader("Resources/Shaders/icon.vs", "Resources/Shaders/icon.fs");
-	m_framebufferProgram = Shader("Resources/Shaders/postProcess.vs", "Resources/Shaders/postProcess.fs");
+	m_postProcessProgram = Shader("Resources/Shaders/postProcess.vs", "Resources/Shaders/postProcess.fs");
 
 	// Framebuffer
-	m_FBO = Framebuffer(1280, 720); // TODO: Change to dynamic resolution later
-	m_FBO.Bind();
-	m_FBO.AttachColor();
-
-	float quadVertices[] = {
-		-1.0f,  1.0f,  0.0f, 1.0f,
-		-1.0f, -1.0f,  0.0f, 0.0f,
-		 1.0f, -1.0f,  1.0f, 0.0f,
-
-		-1.0f,  1.0f,  0.0f, 1.0f,
-		 1.0f, -1.0f,  1.0f, 0.0f,
-		 1.0f,  1.0f,  1.0f, 1.0f
-	};
-
-	glGenVertexArrays(1, &m_QuadVAO);
-	glGenBuffers(1, &m_QuadVBO);
-	glBindVertexArray(m_QuadVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_QuadVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0); // Position
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(1); // Tex coord
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-
-	m_FBO.CheckCompletion();
-	m_framebufferProgram.SetInt("screenTexture", 0);
-	m_FBO.Unbind();
+	m_PostProcess = PostProcess(1280, 720, &m_postProcessProgram);
+	m_PostProcess.Init();
 }
 
 void Renderer::Clear() const
 {
-	m_FBO.Bind();
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	m_FBO.Unbind();
+	m_PostProcess.Clear();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Renderer::Draw(const Mesh& mesh, const Camera& camera) const
 {
-	m_FBO.Bind();
+	m_PostProcess.Bind();
 	SetLights();
 	mesh.Draw(camera, m_defaultProgram);
+	m_PostProcess.Unbind();
 
-	m_FBO.Unbind();
-	m_framebufferProgram.Bind();
-	glBindVertexArray(m_QuadVAO);
-	glDisable(GL_DEPTH_TEST);
-	glBindTexture(GL_TEXTURE_2D, m_FBO.GetTextureID());
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	m_PostProcess.Draw();
 }
 
 void Renderer::DrawLights(const Camera& camera) const

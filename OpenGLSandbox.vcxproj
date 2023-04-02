@@ -17,6 +17,7 @@
     <ClCompile Include="Source\Buffers\VertexBuffer.cpp" />
     <ClCompile Include="Source\Lighting\DirectionalLight.cpp" />
     <ClCompile Include="Source\Loaders\ModelLoader.cpp" />
+    <ClCompile Include="Source\PostProcess\PostProcess.cpp" />
     <ClCompile Include="Source\Sprite\Sprite.cpp" />
     <ClCompile Include="ThirdParty\include\imgui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3.cpp" />
@@ -49,6 +50,7 @@
     <ClInclude Include="Source\Lighting\PointLight.h" />
     <ClInclude Include="Source\Mesh\Mesh.h" />
     <ClInclude Include="Source\Loaders\ModelLoader.h" />
+    <ClInclude Include="Source\PostProcess\PostProcess.h" />
     <ClInclude Include="Source\Renderer.h" />
     <ClInclude Include="Source\Shader\Shader.h" />
     <ClInclude Include="Source\Sprite\Sprite.h" />
