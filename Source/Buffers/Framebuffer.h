@@ -22,4 +22,5 @@ public:
 	void CheckCompletion() const;
 
 	unsigned int GetColorBufferID() const { return m_ColorBufferID; }
+	unsigned int GetDepthBufferID() const { return m_DepthBufferID; }
 };

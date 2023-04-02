@@ -6,7 +6,7 @@
 class DirectionalLight
 {
 public:
-	glm::vec3 Direction = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 Position = glm::vec3(100.0f, 100.0f, 100.0f);
 
 	glm::vec3 Diffuse = glm::vec3(1.0f);
 	glm::vec3 Ambient = glm::vec3(0.2f);
@@ -15,10 +15,16 @@ public:
 
 private:
 	Sprite* m_Icon;
+	float size = 20.0f;
 
 public:
 	DirectionalLight();
 	~DirectionalLight();
 
 	void Draw(const Camera& camera, const Shader& shader) const;
+
+	glm::mat4 GetViewProjection() const
+	{
+		return glm::ortho(-size, size, -size, size, 0.1f, 10000.0f) * glm::lookAt(Position * 20.0f, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 };

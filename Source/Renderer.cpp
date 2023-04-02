@@ -26,8 +26,8 @@ void Renderer::Init()
 
 	// Cull
 	glEnable(GL_CULL_FACE);
-	glCullFace(GL_FRONT);
-	glFrontFace(GL_CW);
+	glCullFace(GL_BACK);
+	glFrontFace(GL_CCW);
 
 	// Enable MSAA
 	glEnable(GL_MULTISAMPLE);
@@ -35,10 +35,20 @@ void Renderer::Init()
 	m_defaultProgram = Shader("Resources/Shaders/default.vs", "Resources/Shaders/default.fs");
 	m_iconProgram = Shader("Resources/Shaders/icon.vs", "Resources/Shaders/icon.fs");
 	m_postProcessProgram = Shader("Resources/Shaders/postProcess.vs", "Resources/Shaders/postProcess.fs");
+	m_shadowMapProgram = Shader("Resources/Shaders/shadowMap.vs", "Resources/Shaders/shadowMap.fs");
 
-	// Framebuffer
-	m_PostProcess = PostProcess(1280, 720, &m_postProcessProgram);
+	// Post Process
+	m_PostProcess = PostProcess(1280, 720, &m_postProcessProgram); // TODO: Change resolution dynamically
 	m_PostProcess.Init();
+
+	// Shadow mapping
+	m_ShadowResolution = 4096;
+	m_ShadowMapFBO = Framebuffer(m_ShadowResolution, m_ShadowResolution);
+
+	m_ShadowMapFBO.Bind();
+	m_ShadowMapFBO.AttachDepth();
+	m_ShadowMapFBO.CheckCompletion();
+	m_ShadowMapFBO.Unbind();
 }
 
 void Renderer::Clear() const
@@ -49,12 +59,31 @@ void Renderer::Clear() const
 
 void Renderer::Draw(const Mesh& mesh, const Camera& camera) const
 {
-	m_PostProcess.Bind();
-	SetLights();
-	mesh.Draw(camera, m_defaultProgram);
-	m_PostProcess.Unbind();
+	glViewport(0, 0, m_ShadowResolution, m_ShadowResolution);
+	m_ShadowMapFBO.Bind();
+	glClear(GL_DEPTH_BUFFER_BIT);
+	//m_PostProcess.Bind();
+	if (m_DirectionalLight)
+	{
+		m_shadowMapProgram.SetMat4("u_lightSpaceMatrix", m_DirectionalLight->GetViewProjection());
+		m_defaultProgram.SetMat4("u_lightSpaceMatrix", m_DirectionalLight->GetViewProjection());
+		m_defaultProgram.SetInt("shadowMap", 4);
+		glDisable(GL_CULL_FACE);
+		mesh.Draw(camera, m_shadowMapProgram);
+		glEnable(GL_CULL_FACE);
+		
+	}
+	m_ShadowMapFBO.Unbind();
 
-	m_PostProcess.Draw();
+	glViewport(0, 0, 1280, 720);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//m_PostProcess.Unbind();
+	SetLights();
+	
+	glActiveTexture(GL_TEXTURE0 + 4);
+	glBindTexture(GL_TEXTURE_2D, m_ShadowMapFBO.GetDepthBufferID());
+	mesh.Draw(camera, m_defaultProgram);
+	//m_PostProcess.Draw();
 }
 
 void Renderer::DrawLights(const Camera& camera) const
@@ -88,7 +117,8 @@ void Renderer::SetLights() const
 {
 	if (m_DirectionalLight)
 	{
-		m_defaultProgram.SetVec3("u_directionalLight.direction", m_DirectionalLight->Direction);
+		m_defaultProgram.SetVec3("u_directionalLight.position", m_DirectionalLight->Position);
+		m_defaultProgram.SetVec3("u_directionalLight.target", glm::vec3(0.0f, 0.0f, 0.0f));
 		m_defaultProgram.SetVec3("u_directionalLight.diffuse", m_DirectionalLight->Diffuse);
 		m_defaultProgram.SetVec3("u_directionalLight.ambient", m_DirectionalLight->Ambient);
 		m_defaultProgram.SetVec3("u_directionalLight.specular", m_DirectionalLight->Specular);

@@ -62,7 +62,7 @@ int main()
 
 	Mesh sponza;
 	loader.LoadModel("Resources/Models/gltf/sponza/sponza.gltf", &sponza);
-	sponza.Scale = glm::vec3(0.025f);
+	sponza.Scale = glm::vec3(0.02f);
 
 	Mesh flightHelmet;
 	loader.LoadModel("Resources/Models/gltf/FlightHelmet/FlightHelmet.gltf", &flightHelmet);
@@ -105,7 +105,7 @@ int main()
 
 	// Directional light
 	DirectionalLight directionalLight = DirectionalLight();
-	directionalLight.Direction = glm::vec3(1.0f, -1.0f, -1.0f);
+	directionalLight.Position = glm::vec3(0.3f, 1.0f, -0.2f);
 	renderer.AddDirectionalLight(directionalLight);
 
 	Mesh scene;
@@ -155,11 +155,11 @@ int main()
 			ImGui::PushItemWidth(100);
 			ImGui::ColorEdit3("Dir Diffuse", (float*)&directionalLight.Diffuse);
 			ImGui::PushItemWidth(100);
-			ImGui::DragFloat("DirX", (float*)&directionalLight.Direction.x, 0.1f, -1.0f, 1.0f);
+			ImGui::DragFloat("DirX", (float*)&directionalLight.Position.x, 0.01f, -1.0f, 1.0f);
 			ImGui::PushItemWidth(100);
-			ImGui::DragFloat("DirY", (float*)&directionalLight.Direction.y, 0.1f, -1.0f, 1.0f);
+			ImGui::DragFloat("DirY", (float*)&directionalLight.Position.y, 0.01f, -1.0f, 1.0f);
 			ImGui::PushItemWidth(100);
-			ImGui::DragFloat("DirZ", (float*)&directionalLight.Direction.z, 0.1f, -1.0f, 1.0f);
+			ImGui::DragFloat("DirZ", (float*)&directionalLight.Position.z, 0.01f, -1.0f, 1.0f);
 
 			ImGui::DragFloat("Gamma", (float*)&renderer.Gamma, 0.05f, 0.0f, 2.2f);
 		}

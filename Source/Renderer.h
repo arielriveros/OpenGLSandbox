@@ -18,10 +18,14 @@ class Renderer
 public:
 	float Gamma = 2.2f;
 private:
-	Shader m_defaultProgram, m_iconProgram, m_postProcessProgram;
+	Shader m_defaultProgram, m_iconProgram, m_postProcessProgram, m_shadowMapProgram;
 	const DirectionalLight* m_DirectionalLight = nullptr;
 	std::vector<const PointLight*> m_PointLights;
 	PostProcess m_PostProcess;
+	
+	Framebuffer m_ShadowMapFBO;
+	unsigned int m_DepthMap;
+	unsigned int m_ShadowResolution;
 
 public:
 	Renderer();

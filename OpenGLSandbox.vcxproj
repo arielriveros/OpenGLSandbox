@@ -73,6 +73,8 @@
     <None Include="Resources\Shaders\icon.vs" />
     <None Include="Resources\Shaders\default.fs" />
     <None Include="Resources\Shaders\default.vs" />
+    <None Include="Resources\Shaders\shadowMap.fs" />
+    <None Include="Resources\Shaders\shadowMap.vs" />
     <None Include="Resources\Sources\default.fs" />
     <None Include="Resources\Sources\default.vs" />
     <None Include="Resources\Sources\icon.fs" />
