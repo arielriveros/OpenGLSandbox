@@ -62,7 +62,7 @@ void Renderer::Draw(const Mesh& mesh, const Camera& camera) const
 	glViewport(0, 0, m_ShadowResolution, m_ShadowResolution);
 	m_ShadowMapFBO.Bind();
 	glClear(GL_DEPTH_BUFFER_BIT);
-	//m_PostProcess.Bind();
+	
 	if (m_DirectionalLight)
 	{
 		m_shadowMapProgram.SetMat4("u_lightSpaceMatrix", m_DirectionalLight->GetViewProjection());
@@ -77,13 +77,15 @@ void Renderer::Draw(const Mesh& mesh, const Camera& camera) const
 
 	glViewport(0, 0, 1280, 720);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//m_PostProcess.Unbind();
+
+	m_PostProcess.Bind();
 	SetLights();
-	
 	glActiveTexture(GL_TEXTURE0 + 4);
 	glBindTexture(GL_TEXTURE_2D, m_ShadowMapFBO.GetDepthBufferID());
 	mesh.Draw(camera, m_defaultProgram);
-	//m_PostProcess.Draw();
+	m_PostProcess.Unbind();
+
+	m_PostProcess.Draw();
 }
 
 void Renderer::DrawLights(const Camera& camera) const

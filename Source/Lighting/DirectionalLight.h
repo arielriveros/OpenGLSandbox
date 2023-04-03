@@ -15,7 +15,7 @@ public:
 
 private:
 	Sprite* m_Icon;
-	float size = 20.0f;
+	float size = 25.0f;
 
 public:
 	DirectionalLight();
@@ -25,6 +25,6 @@ public:
 
 	glm::mat4 GetViewProjection() const
 	{
-		return glm::ortho(-size, size, -size, size, 0.1f, 10000.0f) * glm::lookAt(Position * 20.0f, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		return glm::ortho(-size, size, -size, size, 0.1f, 10000.0f) * glm::lookAt(Position * size, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	}
 };
