@@ -1,4 +1,6 @@
 #include "Window.h"
+#include <imgui/backends/imgui_impl_opengl3.h>
+#include <imgui/backends/imgui_impl_glfw.h>
 
 Window::Window(unsigned int width, unsigned int height, const char* title)
 {
@@ -28,6 +30,9 @@ Window::~Window()
 
 void Window::Update()
 {
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
 }
 
 bool Window::ShouldClose()
@@ -61,6 +66,12 @@ bool Window::Init(GLFWframebuffersizefun callback)
 		return false;
 	}
 
+	ImGui::CreateContext();
+	ImGui_ImplGlfw_InitForOpenGL(m_Window, true);
+	ImGui_ImplOpenGL3_Init("#version 330");
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGui::StyleColorsDark();
+
 	glViewport(0, 0, m_Width, m_Height);
 	return true;
 }
@@ -68,7 +79,11 @@ bool Window::Init(GLFWframebuffersizefun callback)
 void Window::Destroy()
 {
 	// Cleanup after stopping glfw
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 	glfwTerminate();
+
 }
 
 void Window::SwapBuffersAndPollEvents()

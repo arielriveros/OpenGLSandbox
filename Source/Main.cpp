@@ -1,16 +1,15 @@
-#include <imgui/imgui.h>
-#include <iostream>
-#include "Window.h"
-#include "Renderer.h"
-#include <glm/gtx/rotate_vector.hpp>
-#include <glm/gtx/vector_angle.hpp>
-#include <imgui/imgui.h>
-#include <imgui/backends/imgui_impl_glfw.h>
-#include <imgui/backends/imgui_impl_opengl3.h>
-#include <stb/stb_image.h>
+#include "Window/Window.h"
+#include "Renderer/Renderer.h"
 #include "../Resources/Misc/Geometries.h"
 #include "../Resources/Misc/Materials.h"
 #include "Loaders/ModelLoader.h"
+#include <imgui/imgui.h>
+#include <iostream>
+#include <glm/gtx/rotate_vector.hpp>
+#include <glm/gtx/vector_angle.hpp>
+#include <imgui/backends/imgui_impl_glfw.h>
+#include <imgui/backends/imgui_impl_opengl3.h>
+#include <stb/stb_image.h>
 
 const unsigned int _WIDTH = 1280;
 const unsigned int _HEIGHT = 720;
@@ -30,12 +29,6 @@ int main()
 
     Renderer renderer = Renderer();
     renderer.Init();
-
-	ImGui::CreateContext();
-	ImGui_ImplGlfw_InitForOpenGL(window.GetWindow(), true);
-	ImGui_ImplOpenGL3_Init("#version 330");
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	ImGui::StyleColorsDark();
 	
 	float offset = 2.0f;
 
@@ -50,7 +43,7 @@ int main()
 	Mesh wall = Mesh("wall", squareGeometry, { brickwall_D, brickwall_N });
 	wall.Position.z = -0.5f;
 
-	Mesh groupMesh;
+	Mesh groupMesh("Group");
 	groupMesh.Position.y = 1.5f;
 	groupMesh.Scale = glm::vec3(5.0f);
 	groupMesh.AddChild(&floor);
@@ -60,31 +53,21 @@ int main()
 	// Model
 	ModelLoader loader;
 
-	Mesh sponza;
+	Mesh sponza("Sponza");
 	loader.LoadModel("Resources/Models/gltf/sponza/sponza.gltf", &sponza);
 	sponza.Scale = glm::vec3(0.02f);
 
-	Mesh flightHelmet;
+	Mesh flightHelmet("FlightHelmet");
 	loader.LoadModel("Resources/Models/gltf/FlightHelmet/FlightHelmet.gltf", &flightHelmet);
 	flightHelmet.Position.x = -2 * offset;
 	flightHelmet.Scale = glm::vec3(5.0f);
 
-	Mesh cyborg;
-	loader.LoadModel("Resources/Models/obj/cyborg/cyborg.obj", &cyborg);
-	cyborg.Position.x = -1 * offset;
-
-	Mesh damagedHelmet;
+	Mesh damagedHelmet("DamagedHelmet");
 	loader.LoadModel("Resources/Models/gltf/damagedHelmet/damagedHelmet.gltf", &damagedHelmet);
 	damagedHelmet.Rotation.x = 3.14f/2;
 	damagedHelmet.Position.y = 1.5f;
-	
-	Mesh backpack;
-	loader.LoadModel("Resources/Models/obj/backpack/backpack.obj", &backpack);
-	backpack.Position.x = 1 * offset;
-	backpack.Position.y = 1.5f;
-	backpack.Scale = glm::vec3(0.66f);
 
-	Mesh boomBox;
+	Mesh boomBox("BoomBox");
 	loader.LoadModel("Resources/Models/gltf/BoomBox/BoomBox.gltf", &boomBox);
 	boomBox.Position.x = 2 * offset;
 	boomBox.Position.y = 1.5f;
@@ -108,13 +91,11 @@ int main()
 	directionalLight.Position = glm::vec3(0.3f, 1.0f, -0.2f);
 	renderer.AddDirectionalLight(directionalLight);
 
-	Mesh scene;
+	Mesh scene("Scene");
 	scene.AddChild(&groupMesh);
 	scene.AddChild(&sponza);
-	scene.AddChild(&cyborg);
 	scene.AddChild(&flightHelmet);
 	scene.AddChild(&damagedHelmet);
-	scene.AddChild(&backpack);
 	scene.AddChild(&boomBox);
 
 	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.5f, 3.5f));
@@ -127,10 +108,7 @@ int main()
 		
 		// Rendering commands
 		renderer.Clear();
-		
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
+		window.Update();
 
 		float dt = (float)glfwGetTime();
 
@@ -150,6 +128,7 @@ int main()
 		renderer.DrawLights(camera);
 
 #pragma region ImGUI
+		ImGui::ShowDemoWindow();
 		ImGui::Begin("Light settings");
 		{
 			ImGui::PushItemWidth(100);
@@ -167,44 +146,10 @@ int main()
 
 		ImGui::Begin("Scene Settings");
 		{
-			ImGui::Text("Sponza Transform Settings");
-			{
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Pos X", (float*)&groupMesh.Position.x, 0.1f, -1.0f, 1.0f);
-
-				ImGui::SameLine(0.0f, 0.0f);
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Pos Y", (float*)&groupMesh.Position.y, 0.1f, -1.0f, 1.0f);
-
-				ImGui::SameLine(0.0f, 0.0f);
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Pos Z", (float*)&groupMesh.Position.z, 0.1f, -1.0f, 1.0f);
-
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Rot X", (float*)&groupMesh.Rotation.x, 0.1f, 0.0f, 3.1415f);
-
-				ImGui::SameLine(0.0f, 0.0f);
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Rot Y", (float*)&groupMesh.Rotation.y, 0.1f, 0.0f, 3.1415f);
-
-				ImGui::SameLine(0.0f, 0.0f);
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Rot Z", (float*)&groupMesh.Rotation.z, 0.1f, 0.0f, 3.1415f);
-
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Scale X", (float*)&groupMesh.Scale.x, 0.1f, 0.0f, 5.0f);
-
-				ImGui::SameLine(0.0f, 0.0f);
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Scale Y", (float*)&groupMesh.Scale.y, 0.1f, 0.0f, 5.0f);
-
-				ImGui::SameLine(0.0f, 0.0f);
-				ImGui::PushItemWidth(100);
-				ImGui::DragFloat("Group Scale Z", (float*)&groupMesh.Scale.z, 0.1f, 0.0f, 5.0f);
-			}
+			scene.OnGui();
 		}
 
-		ImGui::Text("%.2f ms %.2f FPS", 1000.0f / io.Framerate, io.Framerate);
+		ImGui::Text("%.2f ms %.2f FPS", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
 		ImGui::End();
 
@@ -218,9 +163,6 @@ int main()
 
 	// Cleanup after stopping loop
     renderer.Shutdown();
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
     window.Destroy();
     return 0;
 }

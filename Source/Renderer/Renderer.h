@@ -1,17 +1,17 @@
 #pragma once
-#include "Window.h"
-#include "Shader/Shader.h"
-#include "Buffers/VertexBuffer.h"
-#include "Buffers/IndexBuffer.h"
-#include "VertexArray/VertexArray.h"
-#include "Texture/Texture.h"
-#include "Mesh/Mesh.h"
-#include "Camera/Camera.h"
-#include "Lighting/PointLight.h"
-#include "Lighting/DirectionalLight.h"
+#include "../Window/Window.h"
+#include "../Shader/Shader.h"
+#include "../Buffers/VertexBuffer.h"
+#include "../Buffers/IndexBuffer.h"
+#include "../Buffers/Framebuffer.h"
+#include "../VertexArray/VertexArray.h"
+#include "../Texture/Texture.h"
+#include "../Mesh/Mesh.h"
+#include "../Camera/Camera.h"
+#include "../Lighting/PointLight.h"
+#include "../Lighting/DirectionalLight.h"
+#include "../PostProcess/PostProcess.h"
 #include <vector>
-#include "Buffers/Framebuffer.h"
-#include "PostProcess/PostProcess.h"
 
 class Renderer
 {

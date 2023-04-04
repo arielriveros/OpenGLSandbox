@@ -65,6 +65,7 @@ private:
 	
 public:
 	Mesh();
+	Mesh(const std::string name);
 	Mesh(const std::string name, const Geometry& geometry);
 	Mesh(const std::string name, const Geometry& geometry, const Material& material);
 	Mesh(const std::string name, const Geometry& geometry, const std::vector<Texture>& textures);
@@ -75,7 +76,7 @@ public:
 
 	void AddChild(Mesh* mesh);
 	void Update();
-	
+	void OnGui();
 
 private:
 	void SetUpVertexArray(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);

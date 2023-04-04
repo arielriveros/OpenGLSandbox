@@ -15,7 +15,7 @@ public:
 
 private:
 	Sprite* m_Icon;
-	float size = 25.0f;
+	float size = 35.0f;
 
 public:
 	DirectionalLight();
