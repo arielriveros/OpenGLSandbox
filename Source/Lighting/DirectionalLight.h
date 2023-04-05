@@ -1,27 +1,18 @@
 #pragma once
-#include <glm/glm.hpp>
+#include "Light.h"
 #include "../Camera/Camera.h"
 #include "../Sprite/Sprite.h"
+#include <glm/glm.hpp>
 
-class DirectionalLight
+class DirectionalLight: public Light
 {
-public:
-	glm::vec3 Position = glm::vec3(100.0f, 100.0f, 100.0f);
-
-	glm::vec3 Diffuse = glm::vec3(1.0f);
-	glm::vec3 Ambient = glm::vec3(0.2f);
-	glm::vec3 Specular = glm::vec3(1.0f);
-
-
 private:
-	Sprite* m_Icon;
 	float size = 35.0f;
 
 public:
-	DirectionalLight();
+	DirectionalLight(std::string name, glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f));
 	~DirectionalLight();
-
-	void Draw(const Camera& camera, const Shader& shader) const;
+	void OnGui();
 
 	glm::mat4 GetViewProjection() const
 	{

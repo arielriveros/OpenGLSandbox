@@ -57,29 +57,12 @@ void Renderer::Clear() const
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::Draw(const Mesh& mesh, const Camera& camera) const
+void Renderer::Draw(const Mesh& mesh,const Camera& camera) const
 {
-	glViewport(0, 0, m_ShadowResolution, m_ShadowResolution);
-	m_ShadowMapFBO.Bind();
-	glClear(GL_DEPTH_BUFFER_BIT);
-	
-	if (m_DirectionalLight)
-	{
-		m_shadowMapProgram.SetMat4("u_lightSpaceMatrix", m_DirectionalLight->GetViewProjection());
-		m_defaultProgram.SetMat4("u_lightSpaceMatrix", m_DirectionalLight->GetViewProjection());
-		m_defaultProgram.SetInt("shadowMap", 4);
-		glDisable(GL_CULL_FACE);
-		mesh.Draw(camera, m_shadowMapProgram);
-		glEnable(GL_CULL_FACE);
-		
-	}
-	m_ShadowMapFBO.Unbind();
-
 	glViewport(0, 0, 1280, 720);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	m_PostProcess.Bind();
-	SetLights();
 	glActiveTexture(GL_TEXTURE0 + 4);
 	glBindTexture(GL_TEXTURE_2D, m_ShadowMapFBO.GetDepthBufferID());
 	mesh.Draw(camera, m_defaultProgram);
@@ -88,25 +71,38 @@ void Renderer::Draw(const Mesh& mesh, const Camera& camera) const
 	m_PostProcess.Draw();
 }
 
-void Renderer::DrawLights(const Camera& camera) const
+void Renderer::DrawLights(DirectionalLight* directionalLight, std::vector<PointLight*> pointLights, const Camera& camera) const
 {
-	if(m_DirectionalLight)
-		m_DirectionalLight->Draw(camera, m_iconProgram);
+	if(directionalLight)
+		directionalLight->Draw(camera, m_iconProgram);
 
-	for (const PointLight* pointLight : m_PointLights)
+	for (const PointLight* pointLight : pointLights)
 	{
 		pointLight->Draw(camera, m_iconProgram);
 	}
 }
 
-void Renderer::AddPointLight(const PointLight& pointLight)
+void Renderer::Draw(const Scene& scene, const Camera& camera) const
 {
-	m_PointLights.push_back(&pointLight);
-}
+	glViewport(0, 0, m_ShadowResolution, m_ShadowResolution);
+	m_ShadowMapFBO.Bind();
+	glClear(GL_DEPTH_BUFFER_BIT);
 
-void Renderer::AddDirectionalLight(const DirectionalLight& directionalLight)
-{
-	m_DirectionalLight = &directionalLight;
+	if (scene.GetDirectionalLight())
+	{
+		m_shadowMapProgram.SetMat4("u_lightSpaceMatrix", scene.GetDirectionalLight()->GetViewProjection());
+		m_defaultProgram.SetMat4("u_lightSpaceMatrix", scene.GetDirectionalLight()->GetViewProjection());
+		m_defaultProgram.SetInt("shadowMap", 4);
+		glDisable(GL_CULL_FACE);
+		scene.GetRoot().Draw(camera, m_shadowMapProgram);
+		glEnable(GL_CULL_FACE);
+	}
+	m_ShadowMapFBO.Unbind();
+
+	SetLights(scene.GetDirectionalLight(), scene.GetPointLights());
+	Draw(scene.GetRoot(), camera);
+	if (ShowLights)
+		DrawLights(scene.GetDirectionalLight(), scene.GetPointLights(), camera);
 }
 
 
@@ -115,30 +111,30 @@ void Renderer::Shutdown()
 	
 }
 
-void Renderer::SetLights() const
+void Renderer::SetLights(DirectionalLight* directionalLight, std::vector<PointLight*> pointLights) const
 {
-	if (m_DirectionalLight)
+	if (directionalLight)
 	{
-		m_defaultProgram.SetVec3("u_directionalLight.position", m_DirectionalLight->Position);
+		m_defaultProgram.SetVec3("u_directionalLight.position", directionalLight->Position);
 		m_defaultProgram.SetVec3("u_directionalLight.target", glm::vec3(0.0f, 0.0f, 0.0f));
-		m_defaultProgram.SetVec3("u_directionalLight.diffuse", m_DirectionalLight->Diffuse);
-		m_defaultProgram.SetVec3("u_directionalLight.ambient", m_DirectionalLight->Ambient);
-		m_defaultProgram.SetVec3("u_directionalLight.specular", m_DirectionalLight->Specular);
+		m_defaultProgram.SetVec3("u_directionalLight.diffuse", directionalLight->Diffuse);
+		m_defaultProgram.SetVec3("u_directionalLight.ambient", directionalLight->Ambient);
+		m_defaultProgram.SetVec3("u_directionalLight.specular", directionalLight->Specular);
 	}
 
-	unsigned int pointLightsCount = static_cast<unsigned int>(m_PointLights.size());
+	unsigned int pointLightsCount = static_cast<unsigned int>(pointLights.size());
 	m_defaultProgram.SetInt("u_pointLightsCount", pointLightsCount );
 
 	for (unsigned int i = 0; i < pointLightsCount; i++)
 	{
-		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].position", m_PointLights[i]->Position);
-		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].diffuse", m_PointLights[i]->Diffuse);
-		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].ambient", m_PointLights[i]->Ambient);
-		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].specular", m_PointLights[i]->Specular);
+		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].position", pointLights[i]->Position);
+		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].diffuse", pointLights[i]->Diffuse);
+		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].ambient", pointLights[i]->Ambient);
+		m_defaultProgram.SetVec3("u_pointLights[" + std::to_string(i) + "].specular", pointLights[i]->Specular);
 
-		m_defaultProgram.SetFloat("u_pointLights[" + std::to_string(i) + "].constant", m_PointLights[i]->Constant );
-		m_defaultProgram.SetFloat("u_pointLights[" + std::to_string(i) + "].linear", m_PointLights[i]->Linear );
-		m_defaultProgram.SetFloat("u_pointLights[" + std::to_string(i) + "].quadratic", m_PointLights[i]->Quadratic );
+		m_defaultProgram.SetFloat("u_pointLights[" + std::to_string(i) + "].constant", pointLights[i]->Constant );
+		m_defaultProgram.SetFloat("u_pointLights[" + std::to_string(i) + "].linear", pointLights[i]->Linear );
+		m_defaultProgram.SetFloat("u_pointLights[" + std::to_string(i) + "].quadratic", pointLights[i]->Quadratic );
 	}
 
 	m_defaultProgram.SetFloat("u_gamma", Gamma);

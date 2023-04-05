@@ -12,15 +12,15 @@
 #include "../Lighting/DirectionalLight.h"
 #include "../PostProcess/PostProcess.h"
 #include <vector>
+#include "../Scene/Scene.h"
 
 class Renderer
 {
 public:
 	float Gamma = 2.2f;
+	bool ShowLights = false;
 private:
 	Shader m_defaultProgram, m_iconProgram, m_postProcessProgram, m_shadowMapProgram;
-	const DirectionalLight* m_DirectionalLight = nullptr;
-	std::vector<const PointLight*> m_PointLights;
 	PostProcess m_PostProcess;
 	
 	Framebuffer m_ShadowMapFBO;
@@ -33,14 +33,13 @@ public:
 
 	void Init();
 	void Clear() const;
-	void AddPointLight(const PointLight& pointLight);
-	void AddDirectionalLight(const DirectionalLight& directionalLight);
-	void Draw(const Mesh& mesh, const Camera& camera) const;
-	void DrawLights(const Camera& camera) const;
+	void Draw(const Scene& scene, const Camera& camera) const;
 	void Shutdown();
 
 private:
-	void SetLights() const;
+	void SetLights(DirectionalLight* directionalLight, std::vector<PointLight*> pointLights) const;
+	void DrawLights(DirectionalLight* directionalLight, std::vector<PointLight*> pointLights, const Camera& camera) const;
+	void Draw(const Mesh& mesh, const Camera& camera) const;
 };
 
 void APIENTRY GLErrorMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);

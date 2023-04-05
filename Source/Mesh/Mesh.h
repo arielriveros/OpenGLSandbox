@@ -4,12 +4,11 @@
 #include "../Shader/Shader.h"
 #include "../Texture/Texture.h"
 #include "../Camera/Camera.h"
-#include "../Lighting/PointLight.h"
+#include "../Transform/Transform.h"
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/vector_angle.hpp>
-#include "../Transform/Transform.h"
 
 struct Vertex
 {

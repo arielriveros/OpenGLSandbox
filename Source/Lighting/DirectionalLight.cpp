@@ -1,20 +1,17 @@
 #include "DirectionalLight.h"
+#include <imgui/imgui.h>
 
-DirectionalLight::DirectionalLight()
+DirectionalLight::DirectionalLight(std::string name, glm::vec3 color): Light(name, color)
 {
-	m_Icon = new Sprite("Resources/Images/Icons", "light_icon.png");
+
 }
 
 DirectionalLight::~DirectionalLight()
 {
-	delete m_Icon;
+
 }
 
-void DirectionalLight::Draw(const Camera& camera, const Shader& shader) const
+void DirectionalLight::OnGui()
 {
-	m_Icon->Position.x = this->Position.x;
-	m_Icon->Position.y = this->Position.y;
-	m_Icon->Position.z = this->Position.z;
-	m_Icon->Color = this->Diffuse;
-	m_Icon->Draw(camera, shader);
+	Light::OnGui();
 }

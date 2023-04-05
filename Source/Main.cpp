@@ -10,6 +10,7 @@
 #include <imgui/backends/imgui_impl_glfw.h>
 #include <imgui/backends/imgui_impl_opengl3.h>
 #include <stb/stb_image.h>
+#include "Scene/Scene.h"
 
 const unsigned int _WIDTH = 1280;
 const unsigned int _HEIGHT = 720;
@@ -29,6 +30,7 @@ int main()
 
     Renderer renderer = Renderer();
     renderer.Init();
+	renderer.ShowLights = true;
 	
 	float offset = 2.0f;
 
@@ -74,29 +76,29 @@ int main()
 	boomBox.Rotation.y = 3.14f;
 	boomBox.Scale = glm::vec3(80.0f);
 
-	// Point lights
-	PointLight redPointLight   = PointLight(glm::vec3(1.0f, 0.0f, 0.0f));
-	redPointLight.Position.y = 1.0f;
-	PointLight greenPointLight = PointLight(glm::vec3(0.0f, 1.0f, 0.0f));
-	greenPointLight.Position.y = 2.0f;
-	PointLight bluePointLight  = PointLight(glm::vec3(0.0f, 0.0f, 1.0f));
-	bluePointLight.Position.y = 3.0f;
-
-	renderer.AddPointLight(redPointLight);
-	renderer.AddPointLight(greenPointLight);
-	renderer.AddPointLight(bluePointLight);
-
-	// Directional light
-	DirectionalLight directionalLight = DirectionalLight();
-	directionalLight.Position = glm::vec3(0.3f, 1.0f, -0.2f);
-	renderer.AddDirectionalLight(directionalLight);
-
-	Mesh scene("Scene");
+	Scene scene;
 	scene.AddChild(&groupMesh);
 	scene.AddChild(&sponza);
 	scene.AddChild(&flightHelmet);
 	scene.AddChild(&damagedHelmet);
 	scene.AddChild(&boomBox);
+
+	// Point lights
+	PointLight redPointLight = PointLight("Red", glm::vec3(1.0f, 0.0f, 0.0f));
+	redPointLight.Position.y = 1.0f;
+	PointLight greenPointLight = PointLight("Green", glm::vec3(0.0f, 1.0f, 0.0f));
+	greenPointLight.Position.y = 2.0f;
+	PointLight bluePointLight = PointLight("Blue", glm::vec3(0.0f, 0.0f, 1.0f));
+	bluePointLight.Position.y = 3.0f;
+
+	scene.AddChild(&redPointLight);
+	scene.AddChild(&greenPointLight);
+	scene.AddChild(&bluePointLight);
+
+	// Directional light
+	DirectionalLight directionalLight = DirectionalLight("Directional");
+	directionalLight.Position = glm::vec3(0.3f, 1.0f, -0.2f);
+	scene.AddChild(&directionalLight);
 
 	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.5f, 3.5f));
 
@@ -125,30 +127,16 @@ int main()
 		
 		// Render objects
 		renderer.Draw(scene, camera);
-		renderer.DrawLights(camera);
+		
 
 #pragma region ImGUI
 		ImGui::ShowDemoWindow();
-		ImGui::Begin("Light settings");
-		{
-			ImGui::PushItemWidth(100);
-			ImGui::ColorEdit3("Dir Diffuse", (float*)&directionalLight.Diffuse);
-			ImGui::PushItemWidth(100);
-			ImGui::DragFloat("DirX", (float*)&directionalLight.Position.x, 0.01f, -1.0f, 1.0f);
-			ImGui::PushItemWidth(100);
-			ImGui::DragFloat("DirY", (float*)&directionalLight.Position.y, 0.01f, -1.0f, 1.0f);
-			ImGui::PushItemWidth(100);
-			ImGui::DragFloat("DirZ", (float*)&directionalLight.Position.z, 0.01f, -1.0f, 1.0f);
-
-			ImGui::DragFloat("Gamma", (float*)&renderer.Gamma, 0.05f, 0.0f, 2.2f);
-		}
-		ImGui::End();
 
 		ImGui::Begin("Scene Settings");
 		{
 			scene.OnGui();
 		}
-
+		ImGui::DragFloat("Gamma", (float*)&renderer.Gamma, 0.05f, 0.0f, 2.2f);
 		ImGui::Text("%.2f ms %.2f FPS", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
 		ImGui::End();
