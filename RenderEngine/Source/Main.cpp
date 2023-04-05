@@ -5,11 +5,6 @@
 #include "Loaders/ModelLoader.h"
 #include <imgui/imgui.h>
 #include <iostream>
-#include <glm/gtx/rotate_vector.hpp>
-#include <glm/gtx/vector_angle.hpp>
-#include <imgui/backends/imgui_impl_glfw.h>
-#include <imgui/backends/imgui_impl_opengl3.h>
-#include <stb/stb_image.h>
 #include "Scene/Scene.h"
 
 const unsigned int _WIDTH = 1280;
@@ -141,11 +136,10 @@ int main()
 
 		ImGui::End();
 
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		
 #pragma endregion
 
-        window.SwapBuffersAndPollEvents();
+        window.PostUpdate();
     }
 
 

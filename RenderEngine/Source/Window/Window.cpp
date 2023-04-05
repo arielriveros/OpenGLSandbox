@@ -86,8 +86,11 @@ void Window::Destroy()
 
 }
 
-void Window::SwapBuffersAndPollEvents()
+void Window::PostUpdate()
 {
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 	// Event polling and buffer swapping
 	glfwSwapBuffers(m_Window);
 	glfwPollEvents();

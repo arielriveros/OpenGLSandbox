@@ -19,7 +19,7 @@ public:
 	bool ShouldClose();
 	bool Init(GLFWframebuffersizefun callback);
 	void Destroy();
-	void SwapBuffersAndPollEvents();
+	void PostUpdate();
 	
 	GLFWwindow* GetWindow() { return m_Window; }
 
