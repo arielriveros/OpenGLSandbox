@@ -104,27 +104,6 @@
     <ClCompile Include="ThirdParty\include\glad\glad.c">
       <Filter>Source\External</Filter>
     </ClCompile>
-    <ClCompile Include="ThirdParty\include\imgui\imgui.cpp">
-      <Filter>Source\External</Filter>
-    </ClCompile>
-    <ClCompile Include="ThirdParty\include\imgui\imgui_demo.cpp">
-      <Filter>Source\External</Filter>
-    </ClCompile>
-    <ClCompile Include="ThirdParty\include\imgui\imgui_draw.cpp">
-      <Filter>Source\External</Filter>
-    </ClCompile>
-    <ClCompile Include="ThirdParty\include\imgui\imgui_tables.cpp">
-      <Filter>Source\External</Filter>
-    </ClCompile>
-    <ClCompile Include="ThirdParty\include\imgui\imgui_widgets.cpp">
-      <Filter>Source\External</Filter>
-    </ClCompile>
-    <ClCompile Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3.cpp">
-      <Filter>Source\External</Filter>
-    </ClCompile>
-    <ClCompile Include="ThirdParty\include\imgui\backends\imgui_impl_glfw.cpp">
-      <Filter>Source\External</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Lighting\DirectionalLight.cpp">
       <Filter>Source\Lighting</Filter>
     </ClCompile>
@@ -181,33 +160,6 @@
     <ClInclude Include="Source\Camera\Camera.h">
       <Filter>Source\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\include\imgui\imstb_truetype.h">
-      <Filter>Source\External</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\include\imgui\imconfig.h">
-      <Filter>Source\External</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\include\imgui\imgui.h">
-      <Filter>Source\External</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\include\imgui\imgui_internal.h">
-      <Filter>Source\External</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\include\imgui\imstb_rectpack.h">
-      <Filter>Source\External</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\include\imgui\imstb_textedit.h">
-      <Filter>Source\External</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_glfw.h">
-      <Filter>Source\External</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3.h">
-      <Filter>Source\External</Filter>
-    </ClInclude>
-    <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3_loader.h">
-      <Filter>Source\External</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Lighting\DirectionalLight.h">
       <Filter>Source\Lighting</Filter>
     </ClInclude>
@@ -257,9 +209,6 @@
     </None>
     <None Include="Resources\Shaders\icon.vs">
       <Filter>Resources\Shaders</Filter>
-    </None>
-    <None Include="ThirdParty\include\imgui\imgui.ini">
-      <Filter>Source\External</Filter>
     </None>
     <None Include="Resources\Shaders\shadowMap.vs">
       <Filter>Resources\Shaders</Filter>

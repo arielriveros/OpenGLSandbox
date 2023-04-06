@@ -1,5 +1,5 @@
 #include "Scene.h"
-#include <imgui/imgui.h>
+#include <imgui.h>
 
 Scene::Scene()
 {

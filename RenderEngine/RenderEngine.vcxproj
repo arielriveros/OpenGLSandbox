@@ -21,13 +21,6 @@
     <ClCompile Include="Source\PostProcess\PostProcess.cpp" />
     <ClCompile Include="Source\Scene\Scene.cpp" />
     <ClCompile Include="Source\Sprite\Sprite.cpp" />
-    <ClCompile Include="ThirdParty\include\imgui\backends\imgui_impl_glfw.cpp" />
-    <ClCompile Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="ThirdParty\include\imgui\imgui.cpp" />
-    <ClCompile Include="ThirdParty\include\imgui\imgui_demo.cpp" />
-    <ClCompile Include="ThirdParty\include\imgui\imgui_draw.cpp" />
-    <ClCompile Include="ThirdParty\include\imgui\imgui_tables.cpp" />
-    <ClCompile Include="ThirdParty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="ThirdParty\include\stb\stb_image.cpp" />
     <ClCompile Include="Source\Lighting\PointLight.cpp" />
     <ClCompile Include="Source\Mesh\Mesh.cpp" />
@@ -61,15 +54,6 @@
     <ClInclude Include="Source\Transform\Transform.h" />
     <ClInclude Include="Source\VertexArray\VertexArray.h" />
     <ClInclude Include="Source\Window\Window.h" />
-    <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_glfw.h" />
-    <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3.h" />
-    <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="ThirdParty\include\imgui\imconfig.h" />
-    <ClInclude Include="ThirdParty\include\imgui\imgui.h" />
-    <ClInclude Include="ThirdParty\include\imgui\imgui_internal.h" />
-    <ClInclude Include="ThirdParty\include\imgui\imstb_rectpack.h" />
-    <ClInclude Include="ThirdParty\include\imgui\imstb_textedit.h" />
-    <ClInclude Include="ThirdParty\include\imgui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\icon.fs" />
@@ -80,11 +64,13 @@
     <None Include="Resources\Shaders\postProcess.vs" />
     <None Include="Resources\Shaders\shadowMap.fs" />
     <None Include="Resources\Shaders\shadowMap.vs" />
-    <None Include="ThirdParty\include\imgui\imgui.ini" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ThirdParty\GLFW\GLFW.vcxproj">
       <Project>{c2322d33-ddfa-4d83-90eb-e288751ca5f7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ThirdParty\ImGui\ImGui.vcxproj">
+      <Project>{a640b480-3092-4a68-bae6-23495338c4e3}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -133,12 +119,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>$(ProjectDir)ThirdParty\lib;$(SolutionDir)ThirdParty\GLFW\bin\$(Configuration);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)ThirdParty\lib;$(SolutionDir)ThirdParty\GLFW\bin\$(Configuration);$(SolutionDir)ThirdParty\ImGui\bin\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LibraryPath>$(ProjectDir)ThirdParty\lib;$(SolutionDir)ThirdParty\GLFW\bin\$(Configuration);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)ThirdParty\lib;$(SolutionDir)ThirdParty\GLFW\bin\$(Configuration);$(SolutionDir)ThirdParty\ImGui\bin\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
@@ -149,12 +135,12 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\include;$(SolutionDir)ThirdParty\GLFW\include;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\ImGui;$(SolutionDir)ThirdParty\GLFW\include;$(ProjectDir)ThirdParty\include;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>GLFW.lib;opengl32.lib;assimp-vc143-mt.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLFW.lib;opengl32.lib;ImGui.lib;assimp-vc143-mt.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -166,14 +152,14 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\include;$(SolutionDir)ThirdParty\GLFW\include;$(IncludePath)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\ImGui;$(SolutionDir)ThirdParty\GLFW\include;$(ProjectDir)ThirdParty\include;$(SolutionDir)ThirdParty\ImGui\imgui;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>GLFW.lib;opengl32.lib;assimp-vc143-mt.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLFW.lib;opengl32.lib;ImGui.lib;assimp-vc143-mt.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

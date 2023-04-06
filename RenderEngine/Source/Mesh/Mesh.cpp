@@ -1,6 +1,6 @@
 #include "Mesh.h"
 #include <string>
-#include <imgui/imgui.h>
+#include <imgui.h>
 
 const float PI = 3.1415926535f;
 

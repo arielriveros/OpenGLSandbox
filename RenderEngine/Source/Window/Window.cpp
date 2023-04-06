@@ -1,6 +1,6 @@
 #include "Window.h"
-#include <imgui/backends/imgui_impl_opengl3.h>
-#include <imgui/backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
+#include <backends/imgui_impl_glfw.h>
 
 Window::Window(unsigned int width, unsigned int height, const char* title)
 {

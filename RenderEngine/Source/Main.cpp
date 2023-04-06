@@ -3,7 +3,7 @@
 #include "../Resources/Misc/Geometries.h"
 #include "../Resources/Misc/Materials.h"
 #include "Loaders/ModelLoader.h"
-#include <imgui/imgui.h>
+#include <imgui.h>
 #include <iostream>
 #include "Scene/Scene.h"
 

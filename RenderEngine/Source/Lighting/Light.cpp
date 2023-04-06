@@ -1,5 +1,5 @@
 #include "Light.h"
-#include <imgui/imgui.h>
+#include <imgui.h>
 
 Light::Light(std::string name, glm::vec3 color)
 {
