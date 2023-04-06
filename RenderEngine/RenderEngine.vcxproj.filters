@@ -45,6 +45,30 @@
     <Filter Include="Source\Camera">
       <UniqueIdentifier>{2fe8d731-6852-4f4c-b7d4-63c78c35c4bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Loaders">
+      <UniqueIdentifier>{0dbc95f4-74f3-42c8-9d6a-72ef45d9f8a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Sprite">
+      <UniqueIdentifier>{ad311715-bc13-441c-b4ef-34c4a7554e18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene">
+      <UniqueIdentifier>{75ff595d-a345-40ad-83be-27d54685d443}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\PostProcess">
+      <UniqueIdentifier>{8d9b4163-8b70-4b6c-8075-0712923c4efb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Transform">
+      <UniqueIdentifier>{573b88ef-fa9b-4fde-973a-7cf9de94c60a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Misc">
+      <UniqueIdentifier>{d60c781c-f3a2-4be8-b05c-24f5218020d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Images\Icons">
+      <UniqueIdentifier>{4eff7df6-ab3e-42d1-ac4a-8c9b4c5c4a59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Images\Textures">
+      <UniqueIdentifier>{81ed5c5a-475c-4e00-a007-ad43abc861f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -102,31 +126,31 @@
       <Filter>Source\External</Filter>
     </ClCompile>
     <ClCompile Include="Source\Lighting\DirectionalLight.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Sprite\Sprite.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Loaders\ModelLoader.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\Lighting</Filter>
     </ClCompile>
     <ClCompile Include="Source\Buffers\Frambuffer.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PostProcess\PostProcess.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Scene\Scene.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Renderer\Renderer.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Window\Window.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\Buffers</Filter>
     </ClCompile>
     <ClCompile Include="Source\Lighting\Light.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Renderer\Renderer.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Loaders\ModelLoader.cpp">
+      <Filter>Source\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PostProcess\PostProcess.cpp">
+      <Filter>Source\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Scene\Scene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sprite\Sprite.cpp">
+      <Filter>Source\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Window\Window.cpp">
+      <Filter>Source\Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,18 +208,42 @@
     <ClInclude Include="ThirdParty\include\imgui\backends\imgui_impl_opengl3_loader.h">
       <Filter>Source\External</Filter>
     </ClInclude>
-    <ClInclude Include="Resources\Misc\Geometries.h" />
-    <ClInclude Include="Source\Lighting\DirectionalLight.h" />
-    <ClInclude Include="Source\Lighting\Light.h" />
-    <ClInclude Include="Source\Sprite\Sprite.h" />
-    <ClInclude Include="Source\Loaders\ModelLoader.h" />
-    <ClInclude Include="Resources\Misc\Materials.h" />
-    <ClInclude Include="Source\Transform\Transform.h" />
-    <ClInclude Include="Source\Buffers\Framebuffer.h" />
-    <ClInclude Include="Source\PostProcess\PostProcess.h" />
-    <ClInclude Include="Source\Renderer\Renderer.h" />
-    <ClInclude Include="Source\Scene\Scene.h" />
-    <ClInclude Include="Source\Window\Window.h" />
+    <ClInclude Include="Source\Lighting\DirectionalLight.h">
+      <Filter>Source\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Buffers\Framebuffer.h">
+      <Filter>Source\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Lighting\Light.h">
+      <Filter>Source\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Renderer\Renderer.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Loaders\ModelLoader.h">
+      <Filter>Source\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PostProcess\PostProcess.h">
+      <Filter>Source\PostProcess</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Scene\Scene.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sprite\Sprite.h">
+      <Filter>Source\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Transform\Transform.h">
+      <Filter>Source\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Window\Window.h">
+      <Filter>Source\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Misc\Materials.h">
+      <Filter>Resources\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\Misc\Geometries.h">
+      <Filter>Resources\Misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\default.fs">
@@ -213,53 +261,46 @@
     <None Include="ThirdParty\include\imgui\imgui.ini">
       <Filter>Source\External</Filter>
     </None>
-    <None Include="Resources\Sources\default.fs" />
-    <None Include="Resources\Sources\default.vs" />
-    <None Include="Resources\Sources\icon.fs" />
-    <None Include="Resources\Sources\icon.vs" />
     <None Include="Resources\Shaders\shadowMap.vs">
       <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\shadowMap.fs">
       <Filter>Resources\Shaders</Filter>
     </None>
+    <None Include="Resources\Shaders\postProcess.fs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\postProcess.vs">
+      <Filter>Resources\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\Images\wall.jpg">
-      <Filter>Resources\Images</Filter>
+    <Image Include="Resources\Images\Textures\brick.png">
+      <Filter>Resources\Images\Textures</Filter>
     </Image>
-    <Image Include="Resources\Images\brick.png">
-      <Filter>Resources\Images</Filter>
+    <Image Include="Resources\Images\Textures\brickwall_albedo.jpg">
+      <Filter>Resources\Images\Textures</Filter>
     </Image>
-    <Image Include="Resources\Images\light_icon.png">
-      <Filter>Resources\Images</Filter>
+    <Image Include="Resources\Images\Textures\brickwall_normal.jpg">
+      <Filter>Resources\Images\Textures</Filter>
     </Image>
-    <Image Include="Resources\Images\white.jpg">
-      <Filter>Resources\Images</Filter>
+    <Image Include="Resources\Images\Textures\cube_albedo.png">
+      <Filter>Resources\Images\Textures</Filter>
     </Image>
-    <Image Include="Resources\Images\planks_albedo.png">
-      <Filter>Resources\Images</Filter>
+    <Image Include="Resources\Images\Textures\cube_specular.png">
+      <Filter>Resources\Images\Textures</Filter>
     </Image>
-    <Image Include="Resources\Images\planks_specular.png">
-      <Filter>Resources\Images</Filter>
+    <Image Include="Resources\Images\Textures\planks_albedo.png">
+      <Filter>Resources\Images\Textures</Filter>
     </Image>
-    <Image Include="Resources\Images\bricks_albedo.jpg">
-      <Filter>Resources</Filter>
+    <Image Include="Resources\Images\Textures\planks_specular.png">
+      <Filter>Resources\Images\Textures</Filter>
     </Image>
-    <Image Include="Resources\Images\bricks_normal.jpg">
-      <Filter>Resources</Filter>
-    </Image>
-    <Image Include="Resources\Images\bricks_specular.jpg">
-      <Filter>Resources</Filter>
-    </Image>
-    <Image Include="Resources\Images\cube_albedo.png">
-      <Filter>Resources</Filter>
-    </Image>
-    <Image Include="Resources\Images\cube_specular.png">
-      <Filter>Resources</Filter>
+    <Image Include="Resources\Images\Textures\wall.jpg">
+      <Filter>Resources\Images\Textures</Filter>
     </Image>
     <Image Include="Resources\Images\Icons\light_icon.png">
-      <Filter>Resources</Filter>
+      <Filter>Resources\Images\Icons</Filter>
     </Image>
   </ItemGroup>
 </Project>

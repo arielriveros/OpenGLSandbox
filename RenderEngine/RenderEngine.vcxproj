@@ -76,27 +76,27 @@
     <None Include="Resources\Shaders\icon.vs" />
     <None Include="Resources\Shaders\default.fs" />
     <None Include="Resources\Shaders\default.vs" />
+    <None Include="Resources\Shaders\postProcess.fs" />
+    <None Include="Resources\Shaders\postProcess.vs" />
     <None Include="Resources\Shaders\shadowMap.fs" />
     <None Include="Resources\Shaders\shadowMap.vs" />
-    <None Include="Resources\Sources\default.fs" />
-    <None Include="Resources\Sources\default.vs" />
-    <None Include="Resources\Sources\icon.fs" />
-    <None Include="Resources\Sources\icon.vs" />
     <None Include="ThirdParty\include\imgui\imgui.ini" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\Images\brick.png" />
-    <Image Include="Resources\Images\bricks_albedo.jpg" />
-    <Image Include="Resources\Images\bricks_normal.jpg" />
-    <Image Include="Resources\Images\bricks_specular.jpg" />
-    <Image Include="Resources\Images\cube_albedo.png" />
-    <Image Include="Resources\Images\cube_specular.png" />
+    <ProjectReference Include="..\ThirdParty\GLFW\GLFW.vcxproj">
+      <Project>{c2322d33-ddfa-4d83-90eb-e288751ca5f7}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Image Include="Resources\Images\Icons\light_icon.png" />
-    <Image Include="Resources\Images\light_icon.png" />
-    <Image Include="Resources\Images\planks_albedo.png" />
-    <Image Include="Resources\Images\planks_specular.png" />
-    <Image Include="Resources\Images\wall.jpg" />
-    <Image Include="Resources\Images\white.jpg" />
+    <Image Include="Resources\Images\Textures\brick.png" />
+    <Image Include="Resources\Images\Textures\brickwall_albedo.jpg" />
+    <Image Include="Resources\Images\Textures\brickwall_normal.jpg" />
+    <Image Include="Resources\Images\Textures\cube_albedo.png" />
+    <Image Include="Resources\Images\Textures\cube_specular.png" />
+    <Image Include="Resources\Images\Textures\planks_albedo.png" />
+    <Image Include="Resources\Images\Textures\planks_specular.png" />
+    <Image Include="Resources\Images\Textures\wall.jpg" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -133,14 +133,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>$(ProjectDir)ThirdParty\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir)ThirdParty\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)ThirdParty\lib;$(SolutionDir)ThirdParty\GLFW\bin\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LibraryPath>$(ProjectDir)ThirdParty\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir)ThirdParty\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)ThirdParty\lib;$(SolutionDir)ThirdParty\GLFW\bin\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
@@ -151,11 +149,12 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\include;$(SolutionDir)ThirdParty\GLFW\include;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mt.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLFW.lib;opengl32.lib;assimp-vc143-mt.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -167,13 +166,14 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\include;$(SolutionDir)ThirdParty\GLFW\include;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mt.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLFW.lib;opengl32.lib;assimp-vc143-mt.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
