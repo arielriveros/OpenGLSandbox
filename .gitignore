@@ -32,8 +32,8 @@ bld/
 [Oo]ut/
 [Ll]og/
 [Ll]ogs/
-Binaries/
-Intermediate/
+Binaries/*
+Intermediate/*
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -93,6 +93,7 @@ StyleCopReport.xml
 *.tmp_proj
 *_wpftmp.csproj
 *.log
+*.tlog
 *.vspscc
 *.vssscc
 .builds
