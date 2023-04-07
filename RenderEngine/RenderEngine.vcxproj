@@ -15,6 +15,7 @@
     <ClCompile Include="Source\Camera\Camera.cpp" />
     <ClCompile Include="Source\Buffers\IndexBuffer.cpp" />
     <ClCompile Include="Source\Buffers\VertexBuffer.cpp" />
+    <ClCompile Include="Source\GUI\Editor.cpp" />
     <ClCompile Include="Source\Lighting\DirectionalLight.cpp" />
     <ClCompile Include="Source\Lighting\Light.cpp" />
     <ClCompile Include="Source\Loaders\ModelLoader.cpp" />
@@ -40,6 +41,7 @@
     <ClInclude Include="Source\Buffers\IndexBuffer.h" />
     <ClInclude Include="Source\Buffers\VertexBuffer.h" />
     <ClInclude Include="Source\Buffers\VertexBufferLayout.h" />
+    <ClInclude Include="Source\GUI\Editor.h" />
     <ClInclude Include="Source\Lighting\DirectionalLight.h" />
     <ClInclude Include="Source\Lighting\Light.h" />
     <ClInclude Include="Source\Lighting\PointLight.h" />

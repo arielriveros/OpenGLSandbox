@@ -1,6 +1,7 @@
 #include "Mesh.h"
 #include <string>
 #include <imgui.h>
+#include "../GUI/Editor.h"
 
 const float PI = 3.1415926535f;
 
@@ -161,74 +162,9 @@ void Mesh::OnGui()
 {
 	ImGui::Text(m_Name.c_str());
 
-	ImGui::PushItemWidth(100);
-	ImGui::Text("Position");
-	ImGui::SameLine(0.0f, 0.0f);
-	ImGui::PushItemWidth(50);
-	ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::ImColor(1.0f, 0.5f, 0.5f, 1.0f));
-	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::ImColor(1.0f, 0.25f, 0.25f, 1.0f));
-	ImGui::DragFloat(("##" + m_Name + "Pos X").c_str(), (float*)&Position.x, 0.1f);
-	ImGui::PopStyleColor(2);
-
-	ImGui::SameLine(0.0f, 0.0f);
-	ImGui::PushItemWidth(50);
-	ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::ImColor(0.5f, 1.0f, 0.5f, 1.0f));
-	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::ImColor(0.25f, 1.0f, 0.25f, 1.0f));
-	ImGui::DragFloat(("##" + m_Name + "Pos Y").c_str(), (float*)&Position.y, 0.1f);
-	ImGui::PopStyleColor(2);
-
-	ImGui::SameLine(0.0f, 0.0f);
-	ImGui::PushItemWidth(50);
-	ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::ImColor(0.5f, 0.5f, 1.0f, 1.0f));
-	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::ImColor(0.25f, 0.25f, 1.00f, 1.0f));
-	ImGui::DragFloat(("##" + m_Name + "Pos Z").c_str(), (float*)&Position.z, 0.1f);
-	ImGui::PopStyleColor(2);
-
-	ImGui::PushItemWidth(100);
-	ImGui::Text("Rotation");
-	ImGui::SameLine(0.0f, 0.0f);
-	ImGui::PushItemWidth(50);
-	ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::ImColor(1.0f, 0.5f, 0.5f, 1.0f));
-	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::ImColor(1.0f, 0.25f, 0.25f, 1.0f));
-	ImGui::DragFloat(("##" + m_Name + "Rot X").c_str(), (float*)&Rotation.x, 0.1f, -2 * PI, 2 * PI);
-	ImGui::PopStyleColor(2);
-
-	ImGui::SameLine(0.0f, 0.0f);
-	ImGui::PushItemWidth(50);
-	ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::ImColor(0.5f, 1.0f, 0.5f, 1.0f));
-	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::ImColor(0.25f, 1.0f, 0.25f, 1.0f));
-	ImGui::DragFloat(("##" + m_Name + "Rot Y").c_str(), (float*)&Rotation.y, 0.1f, -2 * PI, 2 * PI);
-	ImGui::PopStyleColor(2);
-
-	ImGui::SameLine(0.0f, 0.0f);
-	ImGui::PushItemWidth(50);
-	ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::ImColor(0.5f, 0.5f, 1.0f, 1.0f));
-	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::ImColor(0.25f, 0.25f, 1.00f, 1.0f));
-	ImGui::DragFloat(("##" + m_Name + "Rot Z").c_str(), (float*)&Rotation.z, 0.1f, -2 * PI, 2 * PI);
-	ImGui::PopStyleColor(2);
-
-	ImGui::PushItemWidth(100);
-	ImGui::Text("Scale   ");
-	ImGui::SameLine(0.0f, 0.0f);
-	ImGui::PushItemWidth(50);
-	ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::ImColor(1.0f, 0.5f, 0.5f, 1.0f));
-	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::ImColor(1.0f, 0.25f, 0.25f, 1.0f));
-	ImGui::DragFloat(("##" + m_Name + "Scale X").c_str(), (float*)&Scale.x, 0.1f, 0.0f);
-	ImGui::PopStyleColor(2);
-
-	ImGui::SameLine(0.0f, 0.0f);
-	ImGui::PushItemWidth(50);
-	ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::ImColor(0.5f, 1.0f, 0.5f, 1.0f));
-	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::ImColor(0.25f, 1.0f, 0.25f, 1.0f));
-	ImGui::DragFloat(("##" + m_Name + "Scale Y").c_str(), (float*)&Scale.y, 0.1f, 0.0f);
-	ImGui::PopStyleColor(2);
-
-	ImGui::SameLine(0.0f, 0.0f);
-	ImGui::PushItemWidth(50);
-	ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::ImColor(0.5f, 0.5f, 1.0f, 1.0f));
-	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::ImColor(0.25f, 0.25f, 1.00f, 1.0f));
-	ImGui::DragFloat(("##" + m_Name + "Scale Z").c_str(), (float*)&Scale.z, 0.1f, 0.0f);
-	ImGui::PopStyleColor(2);
+	AxisWidget(m_Name, "Position", &Position.x, &Position.y, &Position.z);
+	AxisWidget(m_Name, "Rotation", &Rotation.x, &Rotation.y, &Rotation.z);
+	AxisWidget(m_Name, "Scale   ", &Scale.x, &Scale.y, &Scale.z);
 
 	if (!children.empty())
 	{

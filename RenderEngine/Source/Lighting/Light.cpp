@@ -1,5 +1,6 @@
 #include "Light.h"
 #include <imgui.h>
+#include "../GUI/Editor.h"
 
 Light::Light(std::string name, glm::vec3 color)
 {
@@ -45,29 +46,7 @@ void Light::OnGui()
 	ImGui::SameLine(0.0f, 0.0f);
 	ImGui::ColorEdit3(("##" + Name + "Ambient").c_str(), (float*)&Ambient, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
 
-	ImGui::PushItemWidth(100);
-	ImGui::Text("Position");
-
-	ImGui::SameLine(0.0f, 0.0f);
-	ImGui::PushItemWidth(50);
-	ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::ImColor(1.0f, 0.5f, 0.5f, 1.0f));
-	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::ImColor(1.0f, 0.25f, 0.25f, 1.0f));
-	ImGui::DragFloat(("##" + Name + "PosX").c_str(), (float*)&Position.x, 0.01f);
-	ImGui::PopStyleColor(2);
-
-	ImGui::SameLine(0.0f, 0.0f);
-	ImGui::PushItemWidth(50);
-	ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::ImColor(0.5f, 1.0f, 0.5f, 1.0f));
-	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::ImColor(0.25f, 1.0f, 0.25f, 1.0f));
-	ImGui::DragFloat(("##" + Name + "PosY").c_str(), (float*)&Position.y, 0.01f);
-	ImGui::PopStyleColor(2);
-
-	ImGui::SameLine(0.0f, 0.0f);
-	ImGui::PushItemWidth(50);
-	ImGui::PushStyleColor(ImGuiCol_FrameBg, (ImVec4)ImColor::ImColor(0.5f, 0.5f, 1.0f, 1.0f));
-	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, (ImVec4)ImColor::ImColor(0.25f, 0.25f, 1.00f, 1.0f));
-	ImGui::DragFloat(("##" + Name + "PosZ").c_str(), (float*)&Position.z, 0.01f);
-	ImGui::PopStyleColor(2);
+	AxisWidget(Name, "Position", &Position.x, &Position.y, &Position.z, 0.01f);
 }
 
 glm::mat4 Light::GetTransform() const

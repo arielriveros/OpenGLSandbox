@@ -131,6 +131,9 @@
     <ClCompile Include="Source\Window\Window.cpp">
       <Filter>Source\Window</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GUI\Editor.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Shader\Shader.h">
@@ -196,6 +199,7 @@
     <ClInclude Include="Resources\Misc\Geometries.h">
       <Filter>Resources\Misc</Filter>
     </ClInclude>
+    <ClInclude Include="Source\GUI\Editor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\default.fs">
