@@ -60,11 +60,14 @@ bool Window::Init(GLFWframebuffersizefun callback)
 	glfwSetFramebufferSizeCallback(m_Window, callback);
 
 	// Initializes openGL functions with glad
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		std::cout << "Failed to initialize GLAD" << std::endl;
-		return false;
+	int version = gladLoadGL(glfwGetProcAddress);
+	if (version == 0) {
+		printf("Failed to initialize OpenGL context\n");
+		return -1;
 	}
+
+	// Successfully loaded OpenGL
+	printf("Loaded OpenGL %d.%d\n", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
 
 	ImGui::CreateContext();
 	ImGui_ImplGlfw_InitForOpenGL(m_Window, true);

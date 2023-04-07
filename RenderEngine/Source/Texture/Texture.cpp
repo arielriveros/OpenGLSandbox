@@ -1,5 +1,5 @@
 #include "Texture.h"
-#include <glad/glad.h>
+#include <glad/gl.h>
 #include <stb/stb_image.h>
 
 Texture::Texture(const std::string& name)

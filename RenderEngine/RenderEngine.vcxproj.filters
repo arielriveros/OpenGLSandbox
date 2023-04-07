@@ -69,6 +69,9 @@
     <Filter Include="Resources\Images\Textures">
       <UniqueIdentifier>{81ed5c5a-475c-4e00-a007-ad43abc861f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\GUI">
+      <UniqueIdentifier>{42aa095e-b3a3-4284-aa9c-d2fa12093579}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
@@ -101,9 +104,6 @@
     <ClCompile Include="Source\Camera\Camera.cpp">
       <Filter>Source\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="ThirdParty\include\glad\glad.c">
-      <Filter>Source\External</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Lighting\DirectionalLight.cpp">
       <Filter>Source\Lighting</Filter>
     </ClCompile>
@@ -132,7 +132,7 @@
       <Filter>Source\Window</Filter>
     </ClCompile>
     <ClCompile Include="Source\GUI\Editor.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,7 +199,9 @@
     <ClInclude Include="Resources\Misc\Geometries.h">
       <Filter>Resources\Misc</Filter>
     </ClInclude>
-    <ClInclude Include="Source\GUI\Editor.h" />
+    <ClInclude Include="Source\GUI\Editor.h">
+      <Filter>Source\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\default.fs">

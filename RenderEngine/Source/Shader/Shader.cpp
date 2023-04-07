@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <glad/glad.h>
+#include <glad/gl.h>
 
 Shader::Shader(const char* vsPath, const char* fsPath)
 {
