@@ -33,6 +33,7 @@ void Renderer::Init()
 	glEnable(GL_MULTISAMPLE);
 
 	m_defaultProgram = Shader("Resources/Shaders/default.vs", "Resources/Shaders/default.fs");
+	m_defaultProgram.Bind();
 	m_iconProgram = Shader("Resources/Shaders/icon.vs", "Resources/Shaders/icon.fs");
 	m_postProcessProgram = Shader("Resources/Shaders/postProcess.vs", "Resources/Shaders/postProcess.fs");
 	m_shadowMapProgram = Shader("Resources/Shaders/shadowMap.vs", "Resources/Shaders/shadowMap.fs");
@@ -42,6 +43,7 @@ void Renderer::Init()
 	m_PostProcess.Init();
 
 	// Shadow mapping
+	m_shadowMapProgram.Bind();
 	m_ShadowResolution = 4096;
 	m_ShadowMapFBO = Framebuffer(m_ShadowResolution, m_ShadowResolution);
 
@@ -90,12 +92,16 @@ void Renderer::Draw(const Scene& scene, const Camera& camera) const
 
 	if (scene.GetDirectionalLight())
 	{
-		m_shadowMapProgram.SetMat4("u_lightSpaceMatrix", scene.GetDirectionalLight()->GetViewProjection());
+		m_defaultProgram.Bind();
 		m_defaultProgram.SetMat4("u_lightSpaceMatrix", scene.GetDirectionalLight()->GetViewProjection());
 		m_defaultProgram.SetInt("shadowMap", 4);
+
+		m_shadowMapProgram.Bind();
+		m_shadowMapProgram.SetMat4("u_lightSpaceMatrix", scene.GetDirectionalLight()->GetViewProjection());
 		glDisable(GL_CULL_FACE);
 		scene.GetRoot().Draw(camera, m_shadowMapProgram);
 		glEnable(GL_CULL_FACE);
+		m_shadowMapProgram.Unbind();
 	}
 	m_ShadowMapFBO.Unbind();
 
@@ -113,6 +119,7 @@ void Renderer::Shutdown()
 
 void Renderer::SetLights(DirectionalLight* directionalLight, std::vector<PointLight*> pointLights) const
 {
+	m_defaultProgram.Bind();
 	if (directionalLight)
 	{
 		m_defaultProgram.SetVec3("u_directionalLight.position", directionalLight->Position);
@@ -138,6 +145,7 @@ void Renderer::SetLights(DirectionalLight* directionalLight, std::vector<PointLi
 	}
 
 	m_defaultProgram.SetFloat("u_gamma", Gamma);
+	m_defaultProgram.Unbind();
 }
 
 void APIENTRY GLErrorMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
