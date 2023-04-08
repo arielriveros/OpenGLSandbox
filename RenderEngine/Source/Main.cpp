@@ -7,14 +7,7 @@
 #include <iostream>
 #include "Scene/Scene.h"
 
-const unsigned int _WIDTH = 1280;
-const unsigned int _HEIGHT = 720;
 
-void processInput(GLFWwindow* window, Camera& camera);
-void OnResize_callback(GLFWwindow* window, int width, int height);
-bool firstMouse = true;
-float lastX = _WIDTH / 2.0;
-float lastY = _HEIGHT / 2.0;
 
 class RendererApplication
 {
@@ -24,12 +17,21 @@ private:
 	Scene*		m_Scene		= nullptr;
 	Camera*		m_Camera	= nullptr;
 
+	unsigned int m_Width= 1280;
+	unsigned int m_Height = 720;
+
+	bool m_FirstMouse = true;
+	float m_LastX = m_Width / 2.0f;
+	float m_LastY = m_Height / 2.0f;
+
 public:
-	RendererApplication()
+	RendererApplication(unsigned int width, unsigned int height)
 	{
+		m_Width = width;
+		m_Height = height;
 		// Window context setup
-		m_Window = new Window(_WIDTH, _HEIGHT, "Sandbox");
-		if (!m_Window->Init(OnResize_callback))
+		m_Window = new Window(m_Width, m_Height, "Sandbox");
+		if (!m_Window->Init(OnResize))
 			std::cout << "Application Error" << std::endl;
 
 		m_Renderer = new Renderer();
@@ -38,17 +40,14 @@ public:
 
 	~RendererApplication()
 	{
-		// Cleanup after stopping loop
-		delete m_Renderer;
-		delete m_Window;
-		delete m_Scene;
-		delete m_Camera;
 	}
 
 	void Init()
 	{
 		m_Renderer->Init();
 		m_Renderer->ShowLights = true;
+
+		m_Camera = new Camera(m_Width, m_Height, glm::vec3(0.0f, 1.5f, 3.5f));
 
 		float offset = 2.0f;
 
@@ -68,7 +67,6 @@ public:
 		groupMesh->Scale = glm::vec3(5.0f);
 		groupMesh->AddChild(floor);
 		groupMesh->AddChild(wall);
-
 
 		// Model
 		ModelLoader loader;
@@ -116,8 +114,6 @@ public:
 		DirectionalLight* directionalLight = new DirectionalLight("Directional");
 		directionalLight->Position = glm::vec3(0.3f, 1.0f, -0.2f);
 		m_Scene->AddChild(directionalLight);
-
-		m_Camera = new Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.5f, 3.5f));
 	}
 
 	void Run()
@@ -125,7 +121,7 @@ public:
 		while (!m_Window->ShouldClose())
 		{
 			// Input polling and processing
-			processInput(m_Window->GetWindow(), *m_Camera);
+			ProcessInput();
 
 			// Rendering commands
 			m_Renderer->Clear();
@@ -152,81 +148,90 @@ public:
 			m_Window->PostUpdate();
 		}
 	}
+	
+	void Terminate()
+	{
+		// Cleanup
+		delete m_Renderer;
+		delete m_Window;
+		delete m_Scene;
+		delete m_Camera;
+	}
+
+	void ProcessInput()
+	{
+		if (glfwGetKey(m_Window->GetWindow(), GLFW_KEY_ESCAPE) == GLFW_PRESS)
+			glfwSetWindowShouldClose(m_Window->GetWindow(), true);
+
+		if (glfwGetMouseButton(m_Window->GetWindow(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+		{
+			glfwSetInputMode(m_Window->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
+			double mouseX, mouseY;
+
+			glfwGetCursorPos(m_Window->GetWindow(), &mouseX, &mouseY);
+
+			float xpos = static_cast<float>(mouseX);
+			float ypos = static_cast<float>(mouseY);
+
+			if (m_FirstMouse)
+			{
+				m_LastX = xpos;
+				m_LastY = ypos;
+				m_FirstMouse = false;
+			}
+
+			float xoffset = xpos - m_LastX;
+			float yoffset = m_LastY - ypos; // reversed since y-coordinates go from bottom to top
+			m_Camera->Rotate(xoffset, yoffset);
+
+			m_LastX = xpos;
+			m_LastY = ypos;
+		}
+
+		if (glfwGetMouseButton(m_Window->GetWindow(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
+		{
+			glfwSetInputMode(m_Window->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			m_FirstMouse = true;
+		}
+
+		if (glfwGetKey(m_Window->GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
+			m_Camera->Position += m_Camera->speed * m_Camera->Forward;
+
+		if (glfwGetKey(m_Window->GetWindow(), GLFW_KEY_S) == GLFW_PRESS)
+			m_Camera->Position += m_Camera->speed * (-m_Camera->Forward);
+
+		if (glfwGetKey(m_Window->GetWindow(), GLFW_KEY_A) == GLFW_PRESS)
+			m_Camera->Position += m_Camera->speed * (-m_Camera->Right);
+
+		if (glfwGetKey(m_Window->GetWindow(), GLFW_KEY_D) == GLFW_PRESS)
+			m_Camera->Position += m_Camera->speed * m_Camera->Right;
+
+		if (glfwGetKey(m_Window->GetWindow(), GLFW_KEY_SPACE) == GLFW_PRESS)
+			m_Camera->Position += m_Camera->speed * m_Camera->Up;
+
+		if (glfwGetKey(m_Window->GetWindow(), GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+			m_Camera->Position += m_Camera->speed * (-m_Camera->Up);
+
+		if (glfwGetKey(m_Window->GetWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+			m_Camera->speed = 0.15f;
+
+		if (glfwGetKey(m_Window->GetWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
+			m_Camera->speed = 0.05f;
+	}
+
+	static void OnResize(GLFWwindow* window, int width, int height)
+	{
+		// camera.OnReize(width, height);
+		glViewport(0, 0, width, height);
+	}
 };
 
 int main()
 {
-	RendererApplication* application = new RendererApplication();
+	RendererApplication* application = new RendererApplication(1280, 720);
 	application->Init();
-	application->Run();
+	application->Run();	// Main render loop
+	application->Terminate();
 	delete application;
-}
-
-// Process Input from keyboard
-void processInput(GLFWwindow* window, Camera& camera)
-{
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
-	{
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-
-		double mouseX, mouseY;
-
-		glfwGetCursorPos(window, &mouseX, &mouseY);
-
-		float xpos = static_cast<float>(mouseX);
-		float ypos = static_cast<float>(mouseY);
-
-		if (firstMouse)
-		{
-			lastX = xpos;
-			lastY = ypos;
-			firstMouse = false;
-		}
-
-		float xoffset = xpos - lastX;
-		float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
-		camera.Rotate(xoffset, yoffset);
-		
-		lastX = xpos;
-		lastY = ypos;
-	}
-
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
-	{
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		firstMouse = true;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera.Position += camera.speed * camera.Forward;
-
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera.Position += camera.speed * (-camera.Forward);
-
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera.Position += camera.speed * (-camera.Right);
-
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera.Position += camera.speed * camera.Right;
-
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		camera.Position += camera.speed * camera.Up;
-
-	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
-		camera.Position += camera.speed * (-camera.Up);
-
-	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-		camera.speed = 0.15f;
-
-	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
-		camera.speed = 0.05f;
-}
-
-void OnResize_callback(GLFWwindow* window, int width, int height)
-{
-	// camera.OnReize(width, height);
-	glViewport(0, 0, width, height);
 }

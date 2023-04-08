@@ -9,9 +9,9 @@ public:
 	std::string type;
 
 private:
-	unsigned int m_TextureID;
-	int m_Width, m_Height, m_nChannels;
-	unsigned char* m_LocalBuffer;
+	unsigned int m_TextureID = 0;
+	int m_Width = 0, m_Height = 0, m_nChannels = 0;
+	unsigned char* m_LocalBuffer = nullptr;
 	std::string m_Directory;
 	std::string m_FileName;
 

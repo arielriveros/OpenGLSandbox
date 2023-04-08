@@ -7,9 +7,9 @@
 class Shader
 {
 private:
-	unsigned int	m_shaderProgramID;
-	unsigned int	m_vsID;
-	unsigned int	m_fsID;
+	unsigned int	m_shaderProgramID = 0;
+	unsigned int	m_vsID = 0;
+	unsigned int	m_fsID = 0;
 	std::string		m_vertexSource;
 	std::string		m_fragmentSource;
 	

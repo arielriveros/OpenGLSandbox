@@ -41,12 +41,6 @@ bool Window::ShouldClose()
 	return glfwWindowShouldClose(m_Window);
 }
 
-void Window::OnResize_callback(GLFWwindow* window, int width, int height)
-{
-	glViewport(0, 0, width, height);
-}
-
-
 bool Window::Init(GLFWframebuffersizefun callback)
 {
 	if (m_Window == NULL)
@@ -64,7 +58,7 @@ bool Window::Init(GLFWframebuffersizefun callback)
 	int version = gladLoadGL(glfwGetProcAddress);
 	if (version == 0) {
 		printf("Failed to initialize OpenGL context\n");
-		return -1;
+		return false;
 	}
 
 	// Successfully loaded OpenGL

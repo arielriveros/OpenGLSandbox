@@ -24,8 +24,5 @@ public:
 	
 	GLFWwindow* GetWindow() { return m_Window; }
 
-private:
-	static void OnResize_callback(GLFWwindow* window, int width, int height);
-
 };
 
