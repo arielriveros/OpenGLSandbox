@@ -16,137 +16,150 @@ bool firstMouse = true;
 float lastX = _WIDTH / 2.0;
 float lastY = _HEIGHT / 2.0;
 
-int main()
+class RendererApplication
 {
-	// Window context setup
-    Window window = Window(_WIDTH, _HEIGHT, "Sandbox");
-    if (!window.Init(OnResize_callback))
-        return -1;
+private:
+	Window*		m_Window	= nullptr;
+	Renderer*	m_Renderer	= nullptr;
+	Scene*		m_Scene		= nullptr;
+	Camera*		m_Camera	= nullptr;
 
-    Renderer renderer = Renderer();
-    renderer.Init();
-	renderer.ShowLights = true;
-	
-	float offset = 2.0f;
+public:
+	RendererApplication()
+	{
+		// Window context setup
+		m_Window = new Window(_WIDTH, _HEIGHT, "Sandbox");
+		if (!m_Window->Init(OnResize_callback))
+			std::cout << "Application Error" << std::endl;
 
-	// Floor
-	Mesh floor = Mesh("floor", squareGeometry, Materials::turquoise);
-	floor.Rotation.x = -3.14f / 2;
-	floor.Position.y = -0.5f;
+		m_Renderer = new Renderer();
+		m_Scene = new Scene();
+	}
 
-	// Wall
-	Texture brickwall_D("Resources/Images/Textures", "brickwall_albedo.jpg", "texture_diffuse");
-	Texture brickwall_N("Resources/Images/Textures", "brickwall_normal.jpg", "texture_normal");
-	Mesh wall = Mesh("wall", squareGeometry, { brickwall_D, brickwall_N });
-	wall.Position.z = -0.5f;
+	~RendererApplication()
+	{
+		// Cleanup after stopping loop
+		delete m_Renderer;
+		delete m_Window;
+		delete m_Scene;
+		delete m_Camera;
+	}
 
-	Mesh groupMesh("Group");
-	groupMesh.Position.y = 1.5f;
-	groupMesh.Scale = glm::vec3(5.0f);
-	groupMesh.AddChild(&floor);
-	groupMesh.AddChild(&wall);
+	void Init()
+	{
+		m_Renderer->Init();
+		m_Renderer->ShowLights = true;
+
+		float offset = 2.0f;
+
+		// Floor
+		Mesh* floor = new Mesh("floor", squareGeometry, Materials::turquoise);
+		floor->Rotation.x = -3.14f / 2;
+		floor->Position.y = -0.5f;
+
+		// Wall
+		Texture brickwall_D("Resources/Images/Textures", "brickwall_albedo.jpg", "texture_diffuse");
+		Texture brickwall_N("Resources/Images/Textures", "brickwall_normal.jpg", "texture_normal");
+		Mesh* wall = new Mesh("wall", squareGeometry, { brickwall_D, brickwall_N });
+		wall->Position.z = -0.5f;
+
+		Mesh* groupMesh = new Mesh("Group");
+		groupMesh->Position.y = 1.5f;
+		groupMesh->Scale = glm::vec3(5.0f);
+		groupMesh->AddChild(floor);
+		groupMesh->AddChild(wall);
 
 
-	// Model
-	ModelLoader loader;
+		// Model
+		ModelLoader loader;
 
-	Mesh sponza("Sponza");
-	loader.LoadModel("Resources/Models/gltf/sponza/sponza.gltf", &sponza);
-	sponza.Scale = glm::vec3(0.02f);
+		Mesh* sponza = new Mesh("Sponza");
+		loader.LoadModel("Resources/Models/gltf/sponza/sponza.gltf", sponza);
+		sponza->Scale = glm::vec3(0.02f);
 
-	Mesh flightHelmet("FlightHelmet");
-	loader.LoadModel("Resources/Models/gltf/FlightHelmet/FlightHelmet.gltf", &flightHelmet);
-	flightHelmet.Position.x = -2 * offset;
-	flightHelmet.Scale = glm::vec3(5.0f);
+		Mesh* flightHelmet = new Mesh("FlightHelmet");
+		loader.LoadModel("Resources/Models/gltf/FlightHelmet/FlightHelmet.gltf", flightHelmet);
+		flightHelmet->Position.x = -2 * offset;
+		flightHelmet->Scale = glm::vec3(5.0f);
 
-	Mesh damagedHelmet("DamagedHelmet");
-	loader.LoadModel("Resources/Models/gltf/damagedHelmet/damagedHelmet.gltf", &damagedHelmet);
-	damagedHelmet.Rotation.x = 3.14f/2;
-	damagedHelmet.Position.y = 1.5f;
+		Mesh* damagedHelmet = new Mesh("DamagedHelmet");
+		loader.LoadModel("Resources/Models/gltf/damagedHelmet/damagedHelmet.gltf", damagedHelmet);
+		damagedHelmet->Rotation.x = 3.14f / 2;
+		damagedHelmet->Position.y = 1.5f;
 
-	Mesh boomBox("BoomBox");
-	loader.LoadModel("Resources/Models/gltf/BoomBox/BoomBox.gltf", &boomBox);
-	boomBox.Position.x = 2 * offset;
-	boomBox.Position.y = 1.5f;
-	boomBox.Rotation.y = 3.14f;
-	boomBox.Scale = glm::vec3(80.0f);
+		Mesh* boomBox = new Mesh("BoomBox");
+		loader.LoadModel("Resources/Models/gltf/BoomBox/BoomBox.gltf", boomBox);
+		boomBox->Position.x = 2 * offset;
+		boomBox->Position.y = 1.5f;
+		boomBox->Rotation.y = 3.14f;
+		boomBox->Scale = glm::vec3(80.0f);
 
-	Scene scene;
-	scene.AddChild(&groupMesh);
-	scene.AddChild(&sponza);
-	scene.AddChild(&flightHelmet);
-	scene.AddChild(&damagedHelmet);
-	scene.AddChild(&boomBox);
+		m_Scene->AddChild(groupMesh);
+		m_Scene->AddChild(sponza);
+		m_Scene->AddChild(flightHelmet);
+		m_Scene->AddChild(damagedHelmet);
+		m_Scene->AddChild(boomBox);
 
-	// Point lights
-	PointLight redPointLight = PointLight("Red", glm::vec3(1.0f, 0.0f, 0.0f));
-	redPointLight.Position.y = 1.0f;
-	PointLight greenPointLight = PointLight("Green", glm::vec3(0.0f, 1.0f, 0.0f));
-	greenPointLight.Position.y = 2.0f;
-	PointLight bluePointLight = PointLight("Blue", glm::vec3(0.0f, 0.0f, 1.0f));
-	bluePointLight.Position.y = 3.0f;
+		// Point lights
+		PointLight* redPointLight = new PointLight("Red", glm::vec3(1.0f, 0.0f, 0.0f));
+		redPointLight->Position.y = 1.0f;
+		PointLight* greenPointLight = new PointLight("Green", glm::vec3(0.0f, 1.0f, 0.0f));
+		greenPointLight->Position.y = 2.0f;
+		PointLight* bluePointLight = new PointLight("Blue", glm::vec3(0.0f, 0.0f, 1.0f));
+		bluePointLight->Position.y = 3.0f;
 
-	scene.AddChild(&redPointLight);
-	scene.AddChild(&greenPointLight);
-	scene.AddChild(&bluePointLight);
+		m_Scene->AddChild(redPointLight);
+		m_Scene->AddChild(greenPointLight);
+		m_Scene->AddChild(bluePointLight);
 
-	// Directional light
-	DirectionalLight directionalLight = DirectionalLight("Directional");
-	directionalLight.Position = glm::vec3(0.3f, 1.0f, -0.2f);
-	scene.AddChild(&directionalLight);
+		// Directional light
+		DirectionalLight* directionalLight = new DirectionalLight("Directional");
+		directionalLight->Position = glm::vec3(0.3f, 1.0f, -0.2f);
+		m_Scene->AddChild(directionalLight);
 
-	Camera camera = Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.5f, 3.5f));
+		m_Camera = new Camera(_WIDTH, _HEIGHT, glm::vec3(0.0f, 1.5f, 3.5f));
+	}
 
-	// Main window loop
-    while (!window.ShouldClose())
-    {
-		// Input polling and processing
-        processInput(window.GetWindow(), camera);
-		
-		// Rendering commands
-		renderer.Clear();
-		window.Update();
+	void Run()
+	{
+		while (!m_Window->ShouldClose())
+		{
+			// Input polling and processing
+			processInput(m_Window->GetWindow(), *m_Camera);
 
-		float dt = (float)glfwGetTime();
+			// Rendering commands
+			m_Renderer->Clear();
+			m_Window->Update();
+			m_Scene->Update();
 
-		redPointLight.Position.x	= 2 * (offset + 1.0f) * cos(dt);
-		redPointLight.Position.z	= 1.0f + sin(dt);
+			// Render objects
+			m_Renderer->Draw(*m_Scene, *m_Camera);
 
-		greenPointLight.Position.x	= 2 * (offset + 1.0f) * sin(dt);
-		greenPointLight.Position.z	= -1.0f - cos(dt);
-
-		bluePointLight.Position.x	= 2 * (offset + 1.0f) * cos(dt * 2);
-		bluePointLight.Position.z	= 1.0f + cos(dt / 2);
-
-		scene.Update();
-		
-		// Render objects
-		renderer.Draw(scene, camera);
-		
 
 #pragma region ImGUI
-		ImGui::ShowDemoWindow();
+			ImGui::Begin("Scene Settings");
+			{
+				m_Scene->OnGui();
+			}
+			ImGui::DragFloat("Gamma", (float*)&(*m_Renderer).Gamma, 0.05f, 0.0f, 2.2f);
+			ImGui::Text("%.2f ms %.2f FPS", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
-		ImGui::Begin("Scene Settings");
-		{
-			scene.OnGui();
-		}
-		ImGui::DragFloat("Gamma", (float*)&renderer.Gamma, 0.05f, 0.0f, 2.2f);
-		ImGui::Text("%.2f ms %.2f FPS", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+			ImGui::End();
 
-		ImGui::End();
 
-		
 #pragma endregion
 
-        window.PostUpdate();
-    }
+			m_Window->PostUpdate();
+		}
+	}
+};
 
-
-	// Cleanup after stopping loop
-    renderer.Shutdown();
-    window.Destroy();
-    return 0;
+int main()
+{
+	RendererApplication* application = new RendererApplication();
+	application->Init();
+	application->Run();
+	delete application;
 }
 
 // Process Input from keyboard

@@ -9,6 +9,7 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+	m_MeshRoot.Destroy();
 }
 
 void Scene::AddChild(Mesh* mesh)

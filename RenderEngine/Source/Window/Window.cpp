@@ -26,6 +26,7 @@ Window::Window(unsigned int width, unsigned int height, const char* title)
 
 Window::~Window()
 {
+	Destroy();
 }
 
 void Window::Update()

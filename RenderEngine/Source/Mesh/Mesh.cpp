@@ -131,6 +131,12 @@ void Mesh::Destroy()
 	m_VAO.Delete();
 	m_VBO.Delete();
 	m_IBO.Delete();
+
+	for (Mesh* child : children)
+	{
+		child->Destroy();
+		delete child; // TODO: Change later
+	}
 }
 
 void Mesh::AddChild(Mesh* mesh)
