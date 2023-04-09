@@ -21,7 +21,7 @@ Window::Window(unsigned int width, unsigned int height, const char* title)
 
 	// Initialize Window
 	m_Window = glfwCreateWindow(m_Width, m_Height, m_Title, NULL, NULL);
-	
+	glfwSetWindowUserPointer(m_Window, this);
 }
 
 Window::~Window()
@@ -41,7 +41,7 @@ bool Window::ShouldClose()
 	return glfwWindowShouldClose(m_Window);
 }
 
-bool Window::Init(GLFWframebuffersizefun callback)
+bool Window::Init()
 {
 	if (m_Window == NULL)
 	{
@@ -52,7 +52,6 @@ bool Window::Init(GLFWframebuffersizefun callback)
 
 	glfwMakeContextCurrent(m_Window); // Makes the created window the openGL context to work with
 	glfwSwapInterval(1);
-	glfwSetFramebufferSizeCallback(m_Window, callback);
 
 	// Initializes openGL functions with glad
 	int version = gladLoadGL(glfwGetProcAddress);
@@ -71,6 +70,13 @@ bool Window::Init(GLFWframebuffersizefun callback)
 	ImGui::StyleColorsDark();
 
 	glViewport(0, 0, m_Width, m_Height);
+
+	auto func = [](GLFWwindow* w, int width, int height)
+	{
+		static_cast<Window*>(glfwGetWindowUserPointer(w))->ResizeCallback(width, height);
+	};
+	glfwSetFramebufferSizeCallback(m_Window, func);
+
 	return true;
 }
 
@@ -84,6 +90,12 @@ void Window::Destroy()
 
 }
 
+void Window::ResizeCallback(unsigned int width, unsigned height)
+{
+	std::cout << width << " x " << height << std::endl;
+	glViewport(0, 0, width, height);
+}
+
 void Window::PostUpdate()
 {
 	ImGui::Render();
@@ -93,4 +105,3 @@ void Window::PostUpdate()
 	glfwSwapBuffers(m_Window);
 	glfwPollEvents();
 }
-

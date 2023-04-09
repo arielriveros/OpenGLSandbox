@@ -31,7 +31,7 @@ public:
 		m_Height = height;
 		// Window context setup
 		m_Window = new Window(m_Width, m_Height, "Sandbox");
-		if (!m_Window->Init(OnResize))
+		if (!m_Window->Init())
 			std::cout << "Application Error" << std::endl;
 
 		m_Renderer = new Renderer();
@@ -220,10 +220,12 @@ public:
 			m_Camera->speed = 0.05f;
 	}
 
-	static void OnResize(GLFWwindow* window, int width, int height)
+	void OnResize(unsigned int width, unsigned int height)
 	{
+		// TODO: Need to pass this function to the m_Window instance
 		// camera.OnReize(width, height);
-		glViewport(0, 0, width, height);
+		//std::cout << width << " x " << height << std::endl;
+		//glViewport(0, 0, width, height);
 	}
 };
 

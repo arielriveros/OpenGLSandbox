@@ -18,9 +18,11 @@ public:
 
 	void Update();
 	bool ShouldClose();
-	bool Init(GLFWframebuffersizefun callback);
+	bool Init();
 	void Destroy();
 	void PostUpdate();
+
+	void ResizeCallback(unsigned int width, unsigned height);
 	
 	GLFWwindow* GetWindow() { return m_Window; }
 
