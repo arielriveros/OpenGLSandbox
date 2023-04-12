@@ -11,49 +11,50 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Buffers\Frambuffer.cpp" />
+    <ClCompile Include="Source\Graphics\Buffers\Frambuffer.cpp" />
     <ClCompile Include="Source\Camera\Camera.cpp" />
-    <ClCompile Include="Source\Buffers\IndexBuffer.cpp" />
-    <ClCompile Include="Source\Buffers\VertexBuffer.cpp" />
+    <ClCompile Include="Source\Graphics\Buffers\IndexBuffer.cpp" />
+    <ClCompile Include="Source\Graphics\Buffers\VertexBuffer.cpp" />
     <ClCompile Include="Source\GUI\Editor.cpp" />
-    <ClCompile Include="Source\Lighting\DirectionalLight.cpp" />
-    <ClCompile Include="Source\Lighting\Light.cpp" />
+    <ClCompile Include="Source\Graphics\Lighting\DirectionalLight.cpp" />
+    <ClCompile Include="Source\Graphics\Lighting\Light.cpp" />
     <ClCompile Include="Source\Loaders\ModelLoader.cpp" />
-    <ClCompile Include="Source\PostProcess\PostProcess.cpp" />
+    <ClCompile Include="Source\Graphics\PostProcess\PostProcess.cpp" />
     <ClCompile Include="Source\Scene\Scene.cpp" />
-    <ClCompile Include="Source\Sprite\Sprite.cpp" />
+    <ClCompile Include="Source\Graphics\Sprite\Sprite.cpp" />
     <ClCompile Include="ThirdParty\include\stb\stb_image.cpp" />
-    <ClCompile Include="Source\Lighting\PointLight.cpp" />
-    <ClCompile Include="Source\Mesh\Mesh.cpp" />
-    <ClCompile Include="Source\Renderer\Renderer.cpp" />
-    <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\Shader\Shader.cpp" />
-    <ClCompile Include="Source\Texture\Texture.cpp" />
-    <ClCompile Include="Source\VertexArray\VertexArray.cpp" />
+    <ClCompile Include="Source\Graphics\Lighting\PointLight.cpp" />
+    <ClCompile Include="Source\Graphics\Mesh\Mesh.cpp" />
+    <ClCompile Include="Source\Graphics\Renderer\Renderer.cpp" />
+    <ClCompile Include="Source\Graphics\Shader\Shader.cpp" />
+    <ClCompile Include="Source\Graphics\Texture\Texture.cpp" />
+    <ClCompile Include="Source\Graphics\VertexArray\VertexArray.cpp" />
     <ClCompile Include="Source\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resources\Misc\Geometries.h" />
     <ClInclude Include="Resources\Misc\Materials.h" />
-    <ClInclude Include="Source\Buffers\Framebuffer.h" />
+    <ClInclude Include="Source\Graphics\Buffers\Framebuffer.h" />
     <ClInclude Include="Source\Camera\Camera.h" />
-    <ClInclude Include="Source\Buffers\IndexBuffer.h" />
-    <ClInclude Include="Source\Buffers\VertexBuffer.h" />
-    <ClInclude Include="Source\Buffers\VertexBufferLayout.h" />
+    <ClInclude Include="Source\Graphics\Buffers\IndexBuffer.h" />
+    <ClInclude Include="Source\Graphics\Buffers\VertexBuffer.h" />
+    <ClInclude Include="Source\Graphics\Buffers\VertexBufferLayout.h" />
     <ClInclude Include="Source\GUI\Editor.h" />
-    <ClInclude Include="Source\Lighting\DirectionalLight.h" />
-    <ClInclude Include="Source\Lighting\Light.h" />
-    <ClInclude Include="Source\Lighting\PointLight.h" />
-    <ClInclude Include="Source\Mesh\Mesh.h" />
+    <ClInclude Include="Source\Graphics\Lighting\DirectionalLight.h" />
+    <ClInclude Include="Source\Graphics\Lighting\Light.h" />
+    <ClInclude Include="Source\Graphics\Lighting\PointLight.h" />
+    <ClInclude Include="Source\Graphics\Mesh\Mesh.h" />
     <ClInclude Include="Source\Loaders\ModelLoader.h" />
-    <ClInclude Include="Source\PostProcess\PostProcess.h" />
-    <ClInclude Include="Source\Renderer\Renderer.h" />
+    <ClInclude Include="Source\Graphics\PostProcess\PostProcess.h" />
+    <ClInclude Include="Source\RenderEngine.h" />
+    <ClInclude Include="Source\RenderEngineCore.h" />
+    <ClInclude Include="Source\Graphics\Renderer\Renderer.h" />
     <ClInclude Include="Source\Scene\Scene.h" />
-    <ClInclude Include="Source\Shader\Shader.h" />
-    <ClInclude Include="Source\Sprite\Sprite.h" />
-    <ClInclude Include="Source\Texture\Texture.h" />
-    <ClInclude Include="Source\Transform\Transform.h" />
-    <ClInclude Include="Source\VertexArray\VertexArray.h" />
+    <ClInclude Include="Source\Graphics\Shader\Shader.h" />
+    <ClInclude Include="Source\Graphics\Sprite\Sprite.h" />
+    <ClInclude Include="Source\Graphics\Texture\Texture.h" />
+    <ClInclude Include="Source\Graphics\Transform\Transform.h" />
+    <ClInclude Include="Source\Graphics\VertexArray\VertexArray.h" />
     <ClInclude Include="Source\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -95,13 +96,13 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -120,12 +121,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>$(ProjectDir)ThirdParty\lib\$(Configuration);$(SolutionDir)ThirdParty\GLFW\bin\$(Configuration);$(SolutionDir)ThirdParty\glad\bin\$(Configuration);$(SolutionDir)ThirdParty\imgui\bin\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LibraryPath>$(ProjectDir)ThirdParty\lib\$(Configuration);$(SolutionDir)ThirdParty\GLFW\bin\$(Configuration);$(SolutionDir)ThirdParty\glad\bin\$(Configuration);$(SolutionDir)ThirdParty\imgui\bin\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
@@ -143,6 +142,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>GLFW.lib;opengl32.lib;Glad.lib;ImGui.lib;assimp-vc143-mt.lib;zlibstatic.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalDependencies>GLFW.lib;opengl32.lib;Glad.lib;ImGui.lib;assimp-vc143-mt.lib;zlibstatic.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)ThirdParty\lib\$(Configuration);$(SolutionDir)ThirdParty\GLFW\bin\$(Configuration);$(SolutionDir)ThirdParty\glad\bin\$(Configuration);$(SolutionDir)ThirdParty\imgui\bin\$(Configuration);$(LibraryPath)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -162,6 +165,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>GLFW.lib;opengl32.lib;Glad.lib;ImGui.lib;assimp-vc143-mt.lib;zlibstatic.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalDependencies>GLFW.lib;opengl32.lib;Glad.lib;ImGui.lib;assimp-vc143-mt.lib;zlibstatic.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)ThirdParty\lib\$(Configuration);$(SolutionDir)ThirdParty\GLFW\bin\$(Configuration);$(SolutionDir)ThirdParty\glad\bin\$(Configuration);$(SolutionDir)ThirdParty\imgui\bin\$(Configuration);$(LibraryPath)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

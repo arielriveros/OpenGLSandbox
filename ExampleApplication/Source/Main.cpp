@@ -1,23 +1,19 @@
-#include "Window/Window.h"
-#include "Renderer/Renderer.h"
 #include "../Resources/Misc/Geometries.h"
 #include "../Resources/Misc/Materials.h"
-#include "Loaders/ModelLoader.h"
-#include <imgui.h>
+#include <RenderEngineCore.h>
 #include <iostream>
-#include "Scene/Scene.h"
-
-
+#include <imgui.h>
+#include <glm/glm.hpp>
 
 class RendererApplication
 {
 private:
-	Window*		m_Window	= nullptr;
-	Renderer*	m_Renderer	= nullptr;
-	Scene*		m_Scene		= nullptr;
-	Camera*		m_Camera	= nullptr;
+	Window* m_Window = nullptr;
+	Renderer* m_Renderer = nullptr;
+	Scene* m_Scene = nullptr;
+	Camera* m_Camera = nullptr;
 
-	unsigned int m_Width= 1280;
+	unsigned int m_Width = 1280;
 	unsigned int m_Height = 720;
 
 	bool m_FirstMouse = true;
@@ -148,7 +144,7 @@ public:
 			m_Window->PostUpdate();
 		}
 	}
-	
+
 	void Terminate()
 	{
 		// Cleanup

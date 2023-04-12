@@ -1,5 +1,5 @@
 #pragma once
-#include "../Window/Window.h"
+
 #include "../Shader/Shader.h"
 #include "../Buffers/VertexBuffer.h"
 #include "../Buffers/IndexBuffer.h"
@@ -7,12 +7,13 @@
 #include "../VertexArray/VertexArray.h"
 #include "../Texture/Texture.h"
 #include "../Mesh/Mesh.h"
-#include "../Camera/Camera.h"
 #include "../Lighting/PointLight.h"
 #include "../Lighting/DirectionalLight.h"
 #include "../PostProcess/PostProcess.h"
+#include "../../Camera/Camera.h"
+#include "../../Scene/Scene.h"
+#include "../../Window/Window.h"
 #include <vector>
-#include "../Scene/Scene.h"
 
 class Renderer
 {

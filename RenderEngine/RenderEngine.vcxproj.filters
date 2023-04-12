@@ -74,58 +74,55 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Main.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Shader\Shader.cpp">
+    <ClCompile Include="Source\Graphics\Shader\Shader.cpp">
       <Filter>Source\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Buffers\VertexBuffer.cpp">
+    <ClCompile Include="Source\Graphics\Buffers\VertexBuffer.cpp">
       <Filter>Source\Buffers</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Buffers\IndexBuffer.cpp">
+    <ClCompile Include="Source\Graphics\Buffers\IndexBuffer.cpp">
       <Filter>Source\Buffers</Filter>
     </ClCompile>
-    <ClCompile Include="Source\VertexArray\VertexArray.cpp">
+    <ClCompile Include="Source\Graphics\VertexArray\VertexArray.cpp">
       <Filter>Source\VertexArray</Filter>
     </ClCompile>
     <ClCompile Include="ThirdParty\include\stb\stb_image.cpp">
       <Filter>Source\External</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Texture\Texture.cpp">
+    <ClCompile Include="Source\Graphics\Texture\Texture.cpp">
       <Filter>Source\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Mesh\Mesh.cpp">
+    <ClCompile Include="Source\Graphics\Mesh\Mesh.cpp">
       <Filter>Source\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Lighting\PointLight.cpp">
+    <ClCompile Include="Source\Graphics\Lighting\PointLight.cpp">
       <Filter>Source\Lighting</Filter>
     </ClCompile>
     <ClCompile Include="Source\Camera\Camera.cpp">
       <Filter>Source\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Lighting\DirectionalLight.cpp">
+    <ClCompile Include="Source\Graphics\Lighting\DirectionalLight.cpp">
       <Filter>Source\Lighting</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Buffers\Frambuffer.cpp">
+    <ClCompile Include="Source\Graphics\Buffers\Frambuffer.cpp">
       <Filter>Source\Buffers</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Lighting\Light.cpp">
+    <ClCompile Include="Source\Graphics\Lighting\Light.cpp">
       <Filter>Source\Lighting</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Renderer\Renderer.cpp">
+    <ClCompile Include="Source\Graphics\Renderer\Renderer.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Source\Loaders\ModelLoader.cpp">
       <Filter>Source\Loaders</Filter>
     </ClCompile>
-    <ClCompile Include="Source\PostProcess\PostProcess.cpp">
+    <ClCompile Include="Source\Graphics\PostProcess\PostProcess.cpp">
       <Filter>Source\PostProcess</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene\Scene.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Sprite\Sprite.cpp">
+    <ClCompile Include="Source\Graphics\Sprite\Sprite.cpp">
       <Filter>Source\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="Source\Window\Window.cpp">
@@ -136,58 +133,58 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Shader\Shader.h">
+    <ClInclude Include="Source\Graphics\Shader\Shader.h">
       <Filter>Source\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Buffers\VertexBuffer.h">
+    <ClInclude Include="Source\Graphics\Buffers\VertexBuffer.h">
       <Filter>Source\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Buffers\IndexBuffer.h">
+    <ClInclude Include="Source\Graphics\Buffers\IndexBuffer.h">
       <Filter>Source\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="Source\VertexArray\VertexArray.h">
+    <ClInclude Include="Source\Graphics\VertexArray\VertexArray.h">
       <Filter>Source\VertexArray</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Buffers\VertexBufferLayout.h">
+    <ClInclude Include="Source\Graphics\Buffers\VertexBufferLayout.h">
       <Filter>Source\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Texture\Texture.h">
+    <ClInclude Include="Source\Graphics\Texture\Texture.h">
       <Filter>Source\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Mesh\Mesh.h">
+    <ClInclude Include="Source\Graphics\Mesh\Mesh.h">
       <Filter>Source\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Lighting\PointLight.h">
+    <ClInclude Include="Source\Graphics\Lighting\PointLight.h">
       <Filter>Source\Lighting</Filter>
     </ClInclude>
     <ClInclude Include="Source\Camera\Camera.h">
       <Filter>Source\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Lighting\DirectionalLight.h">
+    <ClInclude Include="Source\Graphics\Lighting\DirectionalLight.h">
       <Filter>Source\Lighting</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Buffers\Framebuffer.h">
+    <ClInclude Include="Source\Graphics\Buffers\Framebuffer.h">
       <Filter>Source\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Lighting\Light.h">
+    <ClInclude Include="Source\Graphics\Lighting\Light.h">
       <Filter>Source\Lighting</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Renderer\Renderer.h">
+    <ClInclude Include="Source\Graphics\Renderer\Renderer.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Source\Loaders\ModelLoader.h">
       <Filter>Source\Loaders</Filter>
     </ClInclude>
-    <ClInclude Include="Source\PostProcess\PostProcess.h">
+    <ClInclude Include="Source\Graphics\PostProcess\PostProcess.h">
       <Filter>Source\PostProcess</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene\Scene.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Sprite\Sprite.h">
+    <ClInclude Include="Source\Graphics\Sprite\Sprite.h">
       <Filter>Source\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Transform\Transform.h">
+    <ClInclude Include="Source\Graphics\Transform\Transform.h">
       <Filter>Source\Transform</Filter>
     </ClInclude>
     <ClInclude Include="Source\Window\Window.h">
@@ -202,6 +199,8 @@
     <ClInclude Include="Source\GUI\Editor.h">
       <Filter>Source\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\RenderEngine.h" />
+    <ClInclude Include="Source\RenderEngineCore.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\default.fs">

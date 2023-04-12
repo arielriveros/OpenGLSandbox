@@ -3,8 +3,8 @@
 #include "../Buffers/IndexBuffer.h"
 #include "../Shader/Shader.h"
 #include "../Texture/Texture.h"
-#include "../Camera/Camera.h"
 #include "../Transform/Transform.h"
+#include "../../Camera/Camera.h"
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>

@@ -1,7 +1,7 @@
 #pragma once
-#include "../Mesh/Mesh.h"
-#include "../Lighting/DirectionalLight.h"
-#include "../Lighting/PointLight.h"
+#include "../Graphics/Mesh/Mesh.h"
+#include "../Graphics/Lighting/DirectionalLight.h"
+#include "../Graphics/Lighting/PointLight.h"
 #include <vector>
 
 class Scene

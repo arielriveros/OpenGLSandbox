@@ -1,6 +1,6 @@
 #pragma once
-#include "../Shader/Shader.h"
-#include "../Mesh/Mesh.h"
+#include "../Graphics/Shader/Shader.h"
+#include "../Graphics/Mesh/Mesh.h"
 #include "../Camera/Camera.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>

@@ -1,8 +1,8 @@
 #pragma once
 #include <glm/glm.hpp>
 #include "Light.h"
-#include "../Camera/Camera.h"
 #include "../Sprite/Sprite.h"
+#include "../../Camera/Camera.h"
 
 class PointLight : public Light
 {

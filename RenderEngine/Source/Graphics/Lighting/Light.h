@@ -1,7 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
-#include "../Camera/Camera.h"
 #include "../Sprite/Sprite.h"
+#include "../../Camera/Camera.h"
 
 class Light
 {

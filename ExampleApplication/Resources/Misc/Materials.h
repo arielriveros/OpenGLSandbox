@@ -1,7 +1,8 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include "../../Source/Mesh/Mesh.h"
+
+struct Material;
 
 namespace Materials
 {

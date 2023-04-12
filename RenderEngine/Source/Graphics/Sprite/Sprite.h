@@ -3,8 +3,8 @@
 #include "../VertexArray/VertexArray.h"
 #include "../Buffers/IndexBuffer.h"
 #include "../Shader/Shader.h"
-#include "../Camera/Camera.h"
 #include "../Texture/Texture.h"
+#include "../../Camera/Camera.h"
 
 class Sprite
 {

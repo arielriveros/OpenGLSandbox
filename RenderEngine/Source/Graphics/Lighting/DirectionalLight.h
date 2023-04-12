@@ -1,7 +1,7 @@
 #pragma once
 #include "Light.h"
-#include "../Camera/Camera.h"
 #include "../Sprite/Sprite.h"
+#include "../../Camera/Camera.h"
 #include <glm/glm.hpp>
 
 class DirectionalLight: public Light

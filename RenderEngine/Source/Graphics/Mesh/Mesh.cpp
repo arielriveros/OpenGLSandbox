@@ -1,7 +1,7 @@
 #include "Mesh.h"
 #include <string>
 #include <imgui.h>
-#include "../GUI/Editor.h"
+#include "../../GUI/Editor.h"
 
 const float PI = 3.1415926535f;
 

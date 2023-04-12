@@ -1,8 +1,7 @@
 #pragma once
 
+#include <RenderEngineCore.h>
 #include <vector>
-#include <glm/glm.hpp>
-#include "../../Source/Mesh/Mesh.h"
 
 std::vector<Vertex> square_vertices
 {

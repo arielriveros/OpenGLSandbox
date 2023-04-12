@@ -1,6 +1,6 @@
 #include "Light.h"
 #include <imgui.h>
-#include "../GUI/Editor.h"
+#include "../../GUI/Editor.h"
 
 Light::Light(std::string name, glm::vec3 color)
 {
